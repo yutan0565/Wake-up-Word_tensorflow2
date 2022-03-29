@@ -1,5 +1,5 @@
 # Wake-up-word-Tensorflow
-MFCCs(Mel-Frequency Cepstral Coefficients) based Weak-Up Word Detection 
+MFCCs(Mel-Frequency Cepstral Coefficients) based Wake-Up Word Detection 
 
 Build basic model on pyhton and tensorflow2.
 
