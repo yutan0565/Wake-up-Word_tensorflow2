@@ -4,12 +4,12 @@ from keras.layers import Conv2D, MaxPooling2D, Flatten
 from keras.models import Model
 
 class MyModel(Model):
-    def __init__(self, sample_shape):
+    def __init__(self):  #, sample_shape):
         super(MyModel, self).__init__()
 
-        self.sample_shape = sample_shape
+        #self.sample_shape = sample_shape
 
-        self.conv1 = Conv2D(32, (2, 2), activation='relu', input_shape= self.sample_shape)
+        self.conv1 = Conv2D(32, (2, 2), activation='relu') #, input_shape= self.sample_shape)
         self.maxpool1 = MaxPooling2D(pool_size=(2, 2))
         self.conv2 = Conv2D(64, (2, 2), activation='relu')
         self.maxpool2 = MaxPooling2D(pool_size=(2, 2))
@@ -39,9 +39,10 @@ class MyModel(Model):
         x = self.dense4(x)
         return x
 
-    def summary(self):
-        inputs = Input( self.sample_shape)
-        Model(inputs, self.call(inputs)).summary()
+    # def summary(self):
+    #     inputs = Input( self.sample_shape)
+    #     Model(inputs, self.call(inputs)).summary()
 
-model = MyModel((20, 38, 1))
-model.summary()
+
+if __name__ == "__main__":
+	my_model = MyModel()
