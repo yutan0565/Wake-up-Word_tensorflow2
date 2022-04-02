@@ -1,5 +1,7 @@
 # Wakeup Word Detection & Speaker Recognition
 A tensorflow2.x implementatino of Wake-up Word Detection and Sepaaker Recognition
+- Detect Wake-up Word by light-weight acoustic detection model 
+- Recognize Speaker by cnn based classification model 
 
 ### Configuration
 1. configuration.py
@@ -16,7 +18,7 @@ A tensorflow2.x implementatino of Wake-up Word Detection and Sepaaker Recognitio
 
 ### Convert tensorflow to tflite
 path : ./tflite_converter
-1. org_tflite.py
+1. orig_tflite.py
 2. quantization_tflite.py
 3. pruning_tflite.py
 4. tflite_evaluate.py (all tflite model evaluate)

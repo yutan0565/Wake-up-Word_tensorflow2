@@ -50,6 +50,7 @@ def minus_sound(data, end_path,  count, sr=16000):
     return temp_numpy
 
 for user in Config.user_list:
+    print(user+ "start augmentation")
     for index, type in enumerate(Config.target_list):
       # 데이터 보내줄 곳
       start_path = '/'.join([Config.aug_dataset_path,user, type])

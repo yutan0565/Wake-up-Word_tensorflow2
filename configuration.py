@@ -37,7 +37,7 @@ class Config:
 
     target_list = ['hey_tantan', 'hi_byeonghyeon', 'hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'no']
 
-    user_list = ['user_01', 'user_02']
+    user_list = ['user_01', 'user_02', 'user_03']
 
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 16000
