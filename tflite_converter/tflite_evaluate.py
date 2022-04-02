@@ -10,6 +10,18 @@ import tempfile
 from configuration import Config
 
 np.random.seed(77)
+
+feature_sets = np.load( Config.base_path + "mfcc_set.npz")
+
+# 저장되어 있는 mfcc feature 들 불러 오기
+
+x_train = feature_sets['x_train']
+y_train = feature_sets['y_train']
+x_val = feature_sets['x_val']
+y_val = feature_sets['y_val']
+x_test = feature_sets['x_test']
+y_test = feature_sets['y_test']
+
 # tflite 모델 평가에서 사용되는 실행 함수
 def run_tflite_model(tflite_file, test_image_indices):
     global x_test
@@ -78,6 +90,7 @@ def evaluate_tflite_model(tflite_file, model_type):
   print('Test Precision: ',metrics.precision_score( y_test,predictions))
   print('Test Recall: ',metrics.recall_score( y_test,predictions ))
   print('Test F1 score: ',metrics.f1_score(y_test,predictions ))
+  print("Train 에서 1의 비율 : {}%".format(  round(list(y_train).count(1) / len(y_train)*100 , 2 )))
   print("Val 에서 1의 비율 : {}%".format(  round(list(y_val).count(1) / len(y_val)*100 , 2 )))
   print("Test 에서 1의 비율 : {}%".format(  round(list(y_test).count(1) / len(y_test)*100 , 2 )))
 
@@ -88,7 +101,7 @@ def get_gzipped_model_size(file):
   _, zipped_file = tempfile.mkstemp('.zip')
   with zipfile.ZipFile(zipped_file, 'w', compression=zipfile.ZIP_DEFLATED) as f:
     f.write(file)
-  print(os.path.getsize(zipped_file))
+  print("File_size : {:.2f} KB".format(float(os.path.getsize(zipped_file))/1024))
 
 
 evaluate_tflite_model(Config.tflite_file_path, model_type="Float")
@@ -99,5 +112,6 @@ get_gzipped_model_size(Config.quant_tflite_file_path)
 
 evaluate_tflite_model(Config.prun_tflite_file_path, model_type="Pruning")
 get_gzipped_model_size(Config.prun_tflite_file_path)
+
 # 세로 - True
 # 가로 - Prediction

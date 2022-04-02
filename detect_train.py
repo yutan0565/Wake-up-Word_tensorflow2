@@ -36,6 +36,9 @@ x_val = feature_sets['x_val']
 y_val = feature_sets['y_val']
 x_test = feature_sets['x_test']
 y_test = feature_sets['y_test']
+print(len(x_train))
+print(len(x_val))
+print(len(x_test))
 
 sample_shape = x_test.shape[1:]
 print(sample_shape)
@@ -104,5 +107,6 @@ print('Test Accureacy: ',metrics.accuracy_score( y_test,predictions))
 print('Test Precision: ',metrics.precision_score( y_test,predictions))
 print('Test Recall: ',metrics.recall_score( y_test,predictions ))
 print('Test F1 score: ',metrics.f1_score(y_test,predictions ))
-print("Val 에서 1의 비율 : {}%".format(  round(list(y_val).count(1) / len(y_val)*100 , 2 )))
-print("Test 에서 1의 비율 : {}%".format(  round(list(y_test).count(1) / len(y_test)*100 , 2 )))
+print("Train 에서 1의 비율 : {}%".format(round(list(y_train).count(1) / len(y_train) * 100, 2)))
+print("Val 에서 1의 비율 : {}%".format(round(list(y_val).count(1) / len(y_val) * 100, 2)))
+print("Test 에서 1의 비율 : {}%".format(round(list(y_test).count(1) / len(y_test) * 100, 2)))

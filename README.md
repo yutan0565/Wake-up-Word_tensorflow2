@@ -1,4 +1,8 @@
 # Wakeup Word Detection & Speaker Recognition
+A tensorflow2.x implementatino of Wake-up Word Detection and Sepaaker Recognition
+
+### Configuration
+1. configuration.py
 
 ### Data setting
 1. change_name.py

@@ -1,4 +1,3 @@
-
 from tensorflow.keras.models import load_model
 import tensorflow_model_optimization as tfmot
 from tensorflow import lite
