@@ -1,8 +1,11 @@
+from os import listdir
+from os.path import isdir, join
+
 class Config:
 
     # 코랩 또는 그냥 컴퓨터
     # base_path = "/content/drive/MyDrive/"
-    base_path = "./"
+    base_path = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/"
     
     #Augmentation을 적용할 폴더 이름
     for_aug_dataset = 'custum_dataset'
@@ -15,9 +18,12 @@ class Config:
     
     # augmentation을 진행 할 곳
     aug_dataset_path = base_path + for_aug_dataset
-    
+
     # 학습에 사용할 데이터셋 경로
     dataset_path =  base_path + dataset_type
+
+    print(aug_dataset_path)
+
 
     # 데이터 나누는 비율
     val_ratio = 0.1
@@ -28,7 +34,11 @@ class Config:
     
     # 내가 신경 안쓸 class
     non_target_list = ['_background_noise_', '.ipynb_checkpoints' ]
-    
+
+    target_list = ['hey_tantan', 'hi_byeonghyeon', 'hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'no']
+
+    user_list = ['user_01', 'user_02']
+
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 16000
     # 내가 잘라내고 싶은 총 시간
@@ -63,11 +73,11 @@ class Config:
     label = ["other", "hi_yutan"]
     
     #기본 tfltie 파일 저장 
-    tflite_file_path = base_path + 'tflite_model/ori_wake_word_hi_yutan_lite.tflite'
+    tflite_file_path = base_path + 'tflite_converter/tflite_model/ori_detection_hi_yutan_lite.tflite'
     #Quantization tflite 파일 저장
-    quant_tflite_file_path = base_path + 'tflite_model/quant_wake_word_hi_yutan_lite.tflite'
+    quant_tflite_file_path = base_path + 'tflite_converter/tflite_model/quant_detection_hi_yutan_lite.tflite'
     #Pruning tflite 파일 저장
-    prun_tflite_file_path = base_path + 'tflite_model/prun_wake_word_hi_yutan_lite.tflite'
+    prun_tflite_file_path = base_path + 'tflite_converter/tflite_model/prun_detection_hi_yutan_lite.tflite'
     
     #Pruning 관련
     batch_size_prun = 16
