@@ -40,7 +40,7 @@ class Config:
     user_list = ['user_01', 'user_02', 'user_03']
 
     # 음향 파일 불러올떄 1초당 sample 개수
-    sample_rate = 16000
+    sample_rate = 32000
     # 내가 잘라내고 싶은 총 시간
     wav_time = 1.2 #초단위
     #sample rate 고려한 자르는 시작점
@@ -48,23 +48,23 @@ class Config:
     # 클릭 시간
     click = int(sample_rate*0.1)
     # frame 몇개로 할지 선정
-    num_mfcc=20 
+    num_mfcc=40
     #
     n_fft=2048
     hop_length=512
-    len_mfcc = 38
+    len_mfcc = 76
     
     
     # 학습 관련
     epoch_original = 300
-    batch_size_original = 16
+    batch_size_original = 128
     
-    early_stop_aptience = 50
+    early_stop_aptience = 30
     # baes model Checkpoint 경로
     best_model_path = base_path+ "best_model/wake_up_word_model"
-    lr_factor = 0.5
-    lr_patience = 5
-    start_lr = 0.00001
+    lr_factor = 0.7
+    lr_patience = 10
+    start_lr = 0.0001
     
     # 기동어 정답 나누는 기준
     thres_hold = 0.5
