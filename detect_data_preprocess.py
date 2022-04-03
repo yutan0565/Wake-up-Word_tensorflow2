@@ -91,9 +91,10 @@ print("Test 잃은거{}".format(prob_test / len(y_orig_test)))
 
 wake_word_index = Config.target_list.index(Config.wake_word)
 
-y_train = np.equal(y_train, wake_word_index).astype('float64')
-y_val = np.equal(y_val, wake_word_index).astype('float64')
-y_test = np.equal(y_test, wake_word_index).astype('float64')
+# y_train = np.equal(y_train, wake_word_index).astype('float64')
+# y_val = np.equal(y_val, wake_word_index).astype('float64')
+# y_test = np.equal(y_test, wake_word_index).astype('float64')
+
 
 # CNN 에 넣기 이전에 Channel을 1로 만들어주기
 
@@ -121,7 +122,7 @@ print(x_train.shape)
 print(x_val.shape)
 print(x_test.shape)
 
-np.savez(Config.base_path +"mfcc_set.npz",
+np.savez(Config.base_path +"mfcc_set_multi.npz",
          x_train=x_train,
          y_train=y_train,
          x_val=x_val,

@@ -1,28 +1,6 @@
-from os import listdir
-from os.path import isdir, join
 import librosa
-import random
 import numpy as np
-import matplotlib.pyplot as plt
-# import python_speech_features
 import librosa.display
-import seaborn as sns
-from sklearn import metrics
-#from playsound import playsound
-
-import tensorflow as tf
-from tensorflow.keras import models
-
-from tensorflow import keras
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, CSVLogger, TensorBoard
-import tensorflow_model_optimization as tfmot
-from tensorflow import lite
-
-from tensorflow.keras import layers
-from keras.layers import Dense, Activation, Dropout, Input, Masking, TimeDistributed, LSTM, Conv1D
-from keras.layers import GRU, Bidirectional, BatchNormalization, Reshape, Conv2D, MaxPooling2D, Flatten
-
-from keras.models import Model, load_model, Sequential
 from configuration import Config
 
 
@@ -35,7 +13,6 @@ MFCCs_list = []
 
 def get_librosa_mfcc(path):
     sig, sr = librosa.core.load(path, Config.sample_rate)
-    print("여기까지")
     signal = sig[-Config.sample_cut - Config.click:-Config.click]
     #     print('sr:', sr, ', sig shape:', sig.shape)
     #     print('length:', sig.shape[0]/float(sr), 'secs')

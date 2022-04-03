@@ -104,15 +104,18 @@ while (True):
     interpreter.set_tensor(input_details[0]['index'], input_tensor)
     interpreter.invoke()
     output_data = interpreter.get_tensor(output_details[0]['index'])
-    val = output_data[0][0]
-    print("{:.03f}".format(val))
-    print(len(data))
+    val = output_data[0]
+    print("{:.03f}".format(val[3]))
+    # print(len(data))
     sf.write("./test.wav", data, RATE)
-    if val > Config.thres_hold:
+    # if val > Config.thres_hold:
+    if val[3] > Config.thres_hold:
         print("감지!!")
         print(len(data))
         sf.write("./test.wav", data, RATE)
-        plt.imshow(detection_image)
+        fig = plt.figure()
+        plt.imshow(mfccs, cmap='inferno', origin='lower')
+        # plt.imshow(detection_image)
         # plot_time_series(data, "short")
         plt.gcf().canvas.mpl_connect('key_press_event', close_figure)
         plt.show()

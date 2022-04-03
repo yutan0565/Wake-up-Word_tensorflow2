@@ -16,12 +16,10 @@ def cnn_wuw_detection_binary_model_01(sample_shape):
         Flatten(),
         Dense(256, activation='relu'),
         Dense(256, activation='relu'),
-        Dense(64, activation='relu'),
         Dropout(0.5),
+        Dense(64, activation='relu'),
         Dense(1, activation="sigmoid")
     ])
-
-
     model = Sequential([conv_layer,
                         fc_layer
                         ])
@@ -65,9 +63,9 @@ def cnn_wuw_detection_multi_model(sample_shape):
         Flatten(),
         Dense(256, activation='relu'),
         Dense(256, activation='relu'),
-        Dense(64, activation='relu'),
         Dropout(0.5),
-        Dense(len(Config.target_list), activation="sofmax")
+        Dense(64, activation='relu'),
+        Dense(len(Config.target_list), activation="softmax")
     ])
 
 

@@ -11,7 +11,7 @@ import model
 from configuration import Config
 
 
-feature_sets = np.load( Config.base_path + "mfcc_set.npz")
+feature_sets = np.load( Config.base_path + "mfcc_set_multi.npz")
 
 # 저장되어 있는 mfcc feature 들 불러 오기
 x_train = feature_sets['x_train']
@@ -27,8 +27,12 @@ print(len(x_test))
 sample_shape = x_test.shape[1:]
 print(sample_shape)
 
-model = model.cnn_wuw_detection_binary_model_01(sample_shape)
-#model = model.cnn_wuw_detection_multi_model(sample_shape)
+y_train = tf.one_hot(y_train, len(Config.target_list))
+y_val = tf.one_hot(y_val, len(Config.target_list))
+y_test = tf.one_hot(y_test, len(Config.target_list))
+
+#model = model.cnn_wuw_detection_binary_model_01(sample_shape)
+model = model.cnn_wuw_detection_multi_model(sample_shape)
 model.summary()
 
 # Callback 함수 지정 해주기      학습하는 동안 설정해줄것
@@ -49,7 +53,7 @@ opt = tf.keras.optimizers.Adam(learning_rate=Config.start_lr)
 
 # optimizer, loss 함수를 정의하고,  학습 준비를 한다,  metrics 는 어떤 일이 발생하는지 보여줄 것들
 #model.compile(optimizer=opt, loss="binary_crossentropy", metrics=["accuracy"])
-model.compile(optimizer=opt, loss="binary_crossentropy", metrics=["accuracy"])
+model.compile(optimizer=opt, loss="categorical_crossentropy", metrics=["accuracy"])  #categorical_crossentropy   binary_crossentropy
 # 한번에 몇개의 데이터 학습하고 가중치 갱신할지
 history = model.fit(x_train, y_train,
           epochs= Config.epoch_original,
@@ -73,18 +77,22 @@ plt.show()
 
 Y_pred = model.predict(x_test)
 predictions = []
+# for result in Y_pred:
+#   if result > Config.thres_hold:
+#       predictions.append(1)
+#   else:
+#       predictions.append(0)
 for result in Y_pred:
-  if result > Config.thres_hold:
-      predictions.append(1)
-  else:
-      predictions.append(0)
+    a = np.array(result)
+    predictions.append(a.argmax())
 
+y_test = feature_sets['y_test']
 confusion_mtx = metrics.confusion_matrix(y_test,predictions)
 
 sns.heatmap(confusion_mtx,
             annot=True,
-            xticklabels = Config.label,
-            yticklabels = Config.label,
+            xticklabels = Config.target_list,#label,
+            yticklabels = Config.target_list,#label,
             cmap='Blues')
 plt.show()
 print("Thres - hold : {}".format(Config.thres_hold))

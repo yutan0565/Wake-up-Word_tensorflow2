@@ -35,7 +35,8 @@ class Config:
     # 내가 신경 안쓸 class
     non_target_list = ['_background_noise_', '.ipynb_checkpoints' ]
 
-    target_list = ['hey_tantan', 'hi_byeonghyeon', 'hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'no']
+    #target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo',   'hi_yutan', 'no'] #
+    target_list = ['hey_tantan', 'hi_byeonghyeon', 'hi_jeonglyul', 'hi_yutan', 'no']
 
     user_list = ['user_01', 'user_02', 'user_03']
 
@@ -48,7 +49,7 @@ class Config:
     # 클릭 시간
     click = int(sample_rate*0.1)
     # frame 몇개로 할지 선정
-    num_mfcc=40
+    num_mfcc=16
     #
     n_fft=2048
     hop_length=512
@@ -57,7 +58,7 @@ class Config:
     
     # 학습 관련
     epoch_original = 300
-    batch_size_original = 128
+    batch_size_original = 32
     
     early_stop_aptience = 30
     # baes model Checkpoint 경로
