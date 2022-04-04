@@ -73,7 +73,7 @@ class Config:
     start_lr = 0.0001
     
     # 기동어 정답 나누는 기준
-    thres_hold = 0.8
+    thres_hold = 0.98   # script 읽어 내리기
     
     # confusion matrix label
     label = ["other", "hi_yutan"]
