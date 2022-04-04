@@ -1,6 +1,7 @@
 from os import listdir
 import random
 import numpy as np
+import librosa
 
 from configuration import Config
 import sys
@@ -70,7 +71,8 @@ def extract_features(in_files, in_y):
                 continue
 
             # Create MFCCs
-            mfccs = MFCC_maker.get_librosa_mfcc(path)
+            signal, sr = librosa.core.load(path, Config.sample_rate)
+            mfccs = MFCC_maker.mfcc_process(signal, sr)
 
             if mfccs.shape[1] == Config.len_mfcc:
                 out_x.append(mfccs)

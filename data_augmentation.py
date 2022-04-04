@@ -24,8 +24,6 @@ def adding_white_noise(data, end_path,  count, sr=16000, noise_rate=0.001):
     sig, sr = librosa.load(data, sr=16000)
     wn = np.random.randn(len(sig))
     data_wn = sig + noise_rate*wn
-
-
     sf.write( end_path, data_wn, sr)
     return data_wn
 
@@ -34,9 +32,6 @@ def adding_white_noise(data, end_path,  count, sr=16000, noise_rate=0.001):
 def stretch_sound(data, end_path,  count, sr=16000, rate=0.8):
     sig, sr = librosa.load(data, sr=16000)
     stretch_data = librosa.effects.time_stretch(sig, rate)
-
-
-
     sf.write( end_path, stretch_data, sr)
     return stretch_data
 
@@ -45,7 +40,6 @@ def stretch_sound(data, end_path,  count, sr=16000, rate=0.8):
 def minus_sound(data, end_path,  count, sr=16000):
     sig, sr = librosa.load(data, sr=16000)
     temp_numpy = (-1)*sig
-
     sf.write( end_path, temp_numpy, sr)
     return temp_numpy
 

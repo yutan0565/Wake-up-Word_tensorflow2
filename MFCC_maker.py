@@ -1,46 +1,33 @@
 import librosa
 import numpy as np
+
 import librosa.display
 from configuration import Config
 
 
-# MFCC
-ffts = []
-stfts = []
-f_ffts = []
-log_specs = []
-MFCCs_list = []
 
-def get_librosa_mfcc(path):
-    sig, sr = librosa.core.load(path, Config.sample_rate)
-    signal = sig[-Config.sample_cut - Config.click:-Config.click]
-    #     print('sr:', sr, ', sig shape:', sig.shape)
-    #     print('length:', sig.shape[0]/float(sr), 'secs')
-    #     plot_time_series(signal, "original")
+def mel_spectrogram_process(signal, sr):
+    # 정규화 만들기
+    signal = signal / max(np.abs(signal))
+    # 오디오 데이터에 대해서 window size만큼 stft 해주기, 그리고 모두 양수로 만들어 뒤집어 주기
+    S = librosa.core.stft(signal,
+                          n_fft=Config.n_fft,
+                          hop_length=Config.hop_length,
+                          win_length=Config.win_length)
+    D = np.abs(S) ** 2  # 모두 양수로 날려주기
+    # n_mels 필터의 모양을 나타낸다.
+    mel_basis = librosa.filters.mel(sr,
+                                    Config.n_fft,
+                                    n_mels=Config.n_mels)
+    mel_S = np.dot(mel_basis, D)
+    # 마지막에는 log로 반환 해좌야 scale이 맞는다
+    log_S = librosa.power_to_db(mel_S, ref=np.max)
+    return log_S
 
-    fft = np.fft.fft(signal)
-    magnitude = np.abs(fft)
-    frequency = np.linspace(0, Config.sample_rate, len(magnitude))
-    f_ffts.append([frequency, magnitude])
 
-    # calculate abs values on complex numbers to get magnitude
-    spectrum = np.abs(fft)
-
-    # half frequency variable
-    f = np.linspace(0, Config.sample_rate, len(spectrum))
-    left_spectrum = spectrum[:int(len(spectrum) / 2)]
-    left_f = f[:int(len(spectrum) / 2)]
-    ffts.append([left_f, left_spectrum])
-
-    # Short-time FT
-    stft = librosa.stft(signal, n_fft=Config.n_fft, hop_length=Config.hop_length)
-    spectrogram = np.abs(stft)
-    stfts.append([spectrogram, Config.sample_rate, Config.hop_length])
-    log_spectrogram = librosa.amplitude_to_db(spectrogram)
-    log_specs.append([log_spectrogram, Config.sample_rate, Config.hop_length])
-    MFCCs = librosa.feature.mfcc(signal, Config.sample_rate,
-                                 n_mfcc=Config.num_mfcc,
-                                 n_fft=Config.n_fft,
-                                 hop_length=Config.hop_length)
-    MFCCs_list.append([MFCCs, Config.sample_rate, Config.hop_length])
-    return MFCCs
+def mfcc_process(signal, sr):
+    # 보통 coefficent에서 13까지만 사용함
+    log_mel_spectrogram = mel_spectrogram_process(signal, sr)
+    mfcc = librosa.feature.mfcc(S=log_mel_spectrogram, n_mfcc=Config.num_mfcc)
+    delta2_mfcc = librosa.feature.delta(mfcc, order=2)
+    return delta2_mfcc

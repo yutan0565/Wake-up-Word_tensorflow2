@@ -43,16 +43,20 @@ class Config:
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 32000
     # 내가 잘라내고 싶은 총 시간
-    wav_time = 1.2 #초단위
+    wav_time = 1 #초단위
     #sample rate 고려한 자르는 시작점
     sample_cut = int(sample_rate*wav_time) 
     # 클릭 시간
-    click = int(sample_rate*0.1)
+    click = int(sample_rate*0.2)
     # frame 몇개로 할지 선정
-    num_mfcc=16
+    num_mfcc=13
     #
-    n_fft=2048
-    hop_length=512
+    n_fft = 1024
+    hop_length = 512
+    win_length = 1024
+
+    n_mels = 256
+
     len_mfcc = 76
     
     
