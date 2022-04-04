@@ -22,3 +22,11 @@ path : ./tflite_converter
 2. quantization_tflite.py
 3. pruning_tflite.py
 4. tflite_evaluate.py (all tflite model evaluate)
+
+### Get start real-time Wake-up Word Detection
+1. python realtime_wuw.opy
+
+
+### etc
+1. Spearker Recognition algorithm - Not yet 
+2. Need more user's sample
