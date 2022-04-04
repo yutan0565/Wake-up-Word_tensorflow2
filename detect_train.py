@@ -11,8 +11,8 @@ import model
 from configuration import Config
 
 
-feature_sets = np.load( Config.base_path + "mfcc_set_multi.npz")
-
+#feature_sets = np.load( Config.base_path + "mfcc_set_multi.npz")
+feature_sets = np.load( Config.base_path + "spec_set_multi.npz")
 # 저장되어 있는 mfcc feature 들 불러 오기
 x_train = feature_sets['x_train']
 y_train = feature_sets['y_train']
@@ -32,7 +32,8 @@ y_val = tf.one_hot(y_val, len(Config.target_list))
 y_test = tf.one_hot(y_test, len(Config.target_list))
 
 #model = model.cnn_wuw_detection_binary_model_01(sample_shape)
-model = model.cnn_wuw_detection_multi_model(sample_shape)
+#model = model.cnn_wuw_detection_multi_model(sample_shape)
+model = model.cnn_wuw_detection_multi_model_02(sample_shape)
 model.summary()
 
 # Callback 함수 지정 해주기      학습하는 동안 설정해줄것

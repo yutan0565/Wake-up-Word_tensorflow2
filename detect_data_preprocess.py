@@ -2,6 +2,7 @@ from os import listdir
 import random
 import numpy as np
 import librosa
+import MFCC_maker
 
 from configuration import Config
 import sys
@@ -49,7 +50,7 @@ for i in range(100):
     print(filenames_train[i],y_orig_train[i] )
 
 
-import MFCC_maker
+
 
 def extract_features(in_files, in_y):
     prob_cnt = 0
@@ -72,7 +73,10 @@ def extract_features(in_files, in_y):
 
             # Create MFCCs
             signal, sr = librosa.core.load(path, Config.sample_rate)
-            mfccs = MFCC_maker.mfcc_process(signal, sr)
+            signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
+            #mfccs = MFCC_maker.mfcc_process (signal, sr)
+            mfccs = MFCC_maker.mel_spectrogram_process(signal, sr)
+            print(mfccs.shape)
 
             if mfccs.shape[1] == Config.len_mfcc:
                 out_x.append(mfccs)
@@ -124,7 +128,7 @@ print(x_train.shape)
 print(x_val.shape)
 print(x_test.shape)
 
-np.savez(Config.base_path +"mfcc_set_multi.npz",
+np.savez(Config.base_path +"spec_set_multi.npz",
          x_train=x_train,
          y_train=y_train,
          x_val=x_val,

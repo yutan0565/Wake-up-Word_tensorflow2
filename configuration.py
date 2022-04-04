@@ -35,8 +35,8 @@ class Config:
     # 내가 신경 안쓸 class
     non_target_list = ['_background_noise_', '.ipynb_checkpoints' ]
 
-    #target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo',   'hi_yutan', 'no'] #
-    target_list = ['hey_tantan', 'hi_byeonghyeon', 'hi_jeonglyul', 'hi_yutan', 'no']
+    target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo',   'hi_yutan', 'no'] #
+    #target_list = ['hey_tantan', 'hi_byeonghyeon', 'hi_jeonglyul', 'hi_yutan', 'no']
 
     user_list = ['user_01', 'user_02', 'user_03']
 
@@ -56,8 +56,9 @@ class Config:
     win_length = 1024
 
     n_mels = 256
+    len_mfcc = 63
 
-    len_mfcc = 76
+    stride_rate = 4
     
     
     # 학습 관련
@@ -72,7 +73,7 @@ class Config:
     start_lr = 0.0001
     
     # 기동어 정답 나누는 기준
-    thres_hold = 0.5
+    thres_hold = 0.8
     
     # confusion matrix label
     label = ["other", "hi_yutan"]
@@ -89,10 +90,3 @@ class Config:
     epoch_prun = 300
     validation_split_prun = 0.2
 
-    
-    
-    
-    
-    
-
-    

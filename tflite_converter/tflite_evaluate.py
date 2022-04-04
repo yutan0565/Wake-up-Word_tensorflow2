@@ -11,7 +11,7 @@ from configuration import Config
 
 np.random.seed(77)
 
-feature_sets = np.load( Config.base_path + "mfcc_set.npz")
+feature_sets = np.load( Config.base_path + "mfcc_set_multi.npz")
 
 # 저장되어 있는 mfcc feature 들 불러 오기
 
@@ -107,11 +107,13 @@ def get_gzipped_model_size(file):
 evaluate_tflite_model(Config.tflite_file_path, model_type="Float")
 get_gzipped_model_size(Config.tflite_file_path)
 
+"""
 evaluate_tflite_model(Config.quant_tflite_file_path, model_type="Quantization")
 get_gzipped_model_size(Config.quant_tflite_file_path)
 
 evaluate_tflite_model(Config.prun_tflite_file_path, model_type="Pruning")
 get_gzipped_model_size(Config.prun_tflite_file_path)
+"""
 
 # 세로 - True
 # 가로 - Prediction
