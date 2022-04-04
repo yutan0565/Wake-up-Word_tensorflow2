@@ -1,18 +1,21 @@
 from os import listdir
 import random
 import numpy as np
+import librosa
+import MFCC_maker
 
 from configuration import Config
 import sys
 if not sys.warnoptions:
     import warnings
     warnings.simplefilter("ignore")
+
 ## 데이터 분리
 filenames = []
 y = []
 
-for user in Config.user_list:
-    for index, target in enumerate(Config.target_list):
+for target in Config.target_list:
+    for index , user in enumerate(Config.user_list):
         print('/'.join([Config.dataset_path, user, target]))  # class 에 맞는 폴더 이름 넣어주기
         filenames.append(listdir('/'.join([Config.dataset_path, user, target])))
         y.append(np.ones(len(filenames[index])) * index)
@@ -46,8 +49,6 @@ for i in range(100):
     print(filenames_train[i],y_orig_train[i] )
 
 
-import MFCC_maker
-
 def extract_features(in_files, in_y):
     prob_cnt = 0
     out_x = []
@@ -68,7 +69,11 @@ def extract_features(in_files, in_y):
                 continue
 
             # Create MFCCs
-            mfccs = MFCC_maker.get_librosa_mfcc(path)
+            signal, sr = librosa.core.load(path, Config.sample_rate)
+            signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
+            #mfccs = MFCC_maker.mfcc_process (signal, sr)
+            mfccs = MFCC_maker.mel_spectrogram_process(signal, sr)
+            print(mfccs.shape)
 
             if mfccs.shape[1] == Config.len_mfcc:
                 out_x.append(mfccs)
@@ -89,9 +94,10 @@ print("Test 잃은거{}".format(prob_test / len(y_orig_test)))
 
 wake_word_index = Config.target_list.index(Config.wake_word)
 
-y_train = np.equal(y_train, wake_word_index).astype('float64')
-y_val = np.equal(y_val, wake_word_index).astype('float64')
-y_test = np.equal(y_test, wake_word_index).astype('float64')
+# y_train = np.equal(y_train, wake_word_index).astype('float64')
+# y_val = np.equal(y_val, wake_word_index).astype('float64')
+# y_test = np.equal(y_test, wake_word_index).astype('float64')
+
 
 # CNN 에 넣기 이전에 Channel을 1로 만들어주기
 
@@ -119,17 +125,13 @@ print(x_train.shape)
 print(x_val.shape)
 print(x_test.shape)
 
-np.savez(Config.base_path +"mfcc_set.npz",
+np.savez(Config.base_path +"user_set_multi.npz",
          x_train=x_train,
          y_train=y_train,
          x_val=x_val,
          y_val=y_val,
          x_test=x_test,
          y_test=y_test)
-
-# input shape 설정 해주기
-sample_shape = x_test.shape[1:]
-print(sample_shape)
 
 
 # def plot_time_series(data, title):

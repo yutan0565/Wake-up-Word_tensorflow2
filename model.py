@@ -94,3 +94,24 @@ def cnn_wuw_detection_multi_model_02(sample_shape):
                         ])
     return model
 
+def recognition_multi_model(sample_shape):
+    conv_layer = Sequential([
+        Conv2D(32, (3, 3), activation='relu', input_shape=sample_shape ),
+        MaxPooling2D(pool_size=(3, 3)),
+        Conv2D(64, (3, 3), activation='relu', padding="same"),
+        MaxPooling2D(pool_size=(3, 3)),
+        Conv2D(128, (3, 3), activation='relu'),
+        MaxPooling2D(pool_size=(3, 3))
+    ])
+    fc_layer = Sequential([
+        Flatten(),
+        Dense(256, activation='relu'),
+        Dense(256, activation='relu'),
+        Dropout(0.5),
+        Dense(64, activation='relu'),
+        Dense(len(Config.user_list), activation="softmax")
+    ])
+    model = Sequential([conv_layer,
+                        fc_layer
+                        ])
+    return model

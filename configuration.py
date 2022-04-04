@@ -35,8 +35,8 @@ class Config:
     # 내가 신경 안쓸 class
     non_target_list = ['_background_noise_', '.ipynb_checkpoints' ]
 
-    target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo',   'hi_yutan', 'no'] #
-    #target_list = ['hey_tantan', 'hi_byeonghyeon', 'hi_jeonglyul', 'hi_yutan', 'no']
+    #target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo',   'hi_yutan', 'no'] #
+    target_list = ['hi_yutan']
 
     user_list = ['user_01', 'user_02', 'user_03']
 
@@ -68,6 +68,7 @@ class Config:
     early_stop_aptience = 30
     # baes model Checkpoint 경로
     best_model_path = base_path+ "best_model/wake_up_word_model"
+    best_model_path_recog = base_path+ "best_model/speaker_recognition_model"
     lr_factor = 0.7
     lr_patience = 10
     start_lr = 0.0001
@@ -84,6 +85,9 @@ class Config:
     quant_tflite_file_path = base_path + 'tflite_converter/tflite_model/quant_detection_hi_yutan_lite.tflite'
     #Pruning tflite 파일 저장
     prun_tflite_file_path = base_path + 'tflite_converter/tflite_model/prun_detection_hi_yutan_lite.tflite'
+
+    tflite_file_path_recog = base_path + 'tflite_converter/tflite_model/ori_recog_user_lite.tflite'
+
     
     #Pruning 관련
     batch_size_prun = 16
