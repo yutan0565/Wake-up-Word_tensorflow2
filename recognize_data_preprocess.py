@@ -15,10 +15,11 @@ filenames = []
 y = []
 
 for target in Config.target_list:
-    for index , user in enumerate(Config.user_list):
-        print('/'.join([Config.dataset_path, user, target]))  # class 에 맞는 폴더 이름 넣어주기
-        filenames.append(listdir('/'.join([Config.dataset_path, user, target])))
-        y.append(np.ones(len(filenames[index])) * index)
+    if target == 'hi_yutan':
+        for index , user in enumerate(Config.user_list):
+            print('/'.join([Config.dataset_path, user, target]))  # class 에 맞는 폴더 이름 넣어주기
+            filenames.append(listdir('/'.join([Config.dataset_path, user, target])))
+            y.append(np.ones(len(filenames[index])) * index)
 
 # 하나로 쭉 나열 하기
 filenames = [item for sublist in filenames for item in sublist]
@@ -58,7 +59,7 @@ def extract_features(in_files, in_y):
         for user in Config.user_list:
             # Create path from given filename and target item
 
-            if (user not in filename) or (Config.target_list[int(in_y[index])] not in filename):
+            if (user not in filename) or (Config.user_list[int(in_y[index])] not in filename):
                 continue
             path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])],
                              filename])
@@ -106,8 +107,6 @@ x_val =  np.array(x_val)
 x_test =  np.array(x_test)
 
 
-for i in range(100):
-    print(x_train[i],y_train[i] )
 
 x_train = x_train.reshape(x_train.shape[0],
                           x_train.shape[1],
