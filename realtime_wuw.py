@@ -37,7 +37,7 @@ input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
 
-tflite_model_path_recog = Config.tflite_file_path
+tflite_model_path_recog = Config.tflite_file_path_recog
 interpreter_recog = tflite.Interpreter(tflite_model_path_recog)
 interpreter_recog.allocate_tensors()
 input_details_recog = interpreter_recog.get_input_details()
@@ -100,7 +100,7 @@ while (True):
         output_data_recog = interpreter_recog.get_tensor(output_details_recog[0]['index'])
         val_recog = output_data_recog[0]
         print("User_01 : {:.03f}  User_02 : {:.03f}  User_03 : {:.03f}".format(val_recog[0], val_recog[1], val_recog[2]))
-        if val[0] > Config.thres_hold :
+        if val_recog[0] > Config.thres_hold_recog :
             print("검증 성공")
             # print(len(data))
             fig = plt.figure()

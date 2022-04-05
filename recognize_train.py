@@ -23,6 +23,9 @@ y_test = feature_sets['y_test']
 print(len(x_train))
 print(len(x_val))
 print(len(x_test))
+print(y_train)
+print(y_val)
+print(y_test)
 
 sample_shape = x_test.shape[1:]
 print(sample_shape)

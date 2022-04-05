@@ -56,13 +56,17 @@ def extract_features(in_files, in_y):
     out_y = []
 
     for index, filename in enumerate(in_files):
-        for user in Config.user_list:
+       # for user in Config.user_list:
             # Create path from given filename and target item
 
-            if (user not in filename) or (Config.user_list[int(in_y[index])] not in filename):
-                continue
-            path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])],
+            # if (user not in filename) or (Config.user_list[int(in_y[index])] not in filename):
+            #     continue
+            #path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])], filename])
+
+            path = "/".join([Config.dataset_path, Config.user_list[int(in_y[index])], "hi_yutan",
                              filename])
+
+            print(path)
             print(filename, in_y[index])
 
             # Check to make sure we're reading a .wav file
