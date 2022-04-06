@@ -19,9 +19,9 @@ def plot_time_series(data, title):
 
 # Whit Noise
 # 기존 소리에 잡음을 넣어줌
-def adding_white_noise(data, end_path,  count, sr=16000, noise_rate=0.001):
+def adding_white_noise(data, end_path,  count,  noise_rate=0.001):
     # noise 방식으로 일반적으로 쓰는 잡음 끼게 하는 겁니다.
-    sig, sr = librosa.load(data, sr=16000)
+    sig, sr = librosa.load(data, sr=Config.sample_rate)
     wn = np.random.randn(len(sig))
     data_wn = sig + noise_rate*wn
     sf.write( end_path, data_wn, sr)
@@ -29,19 +29,26 @@ def adding_white_noise(data, end_path,  count, sr=16000, noise_rate=0.001):
 
 #stretch_sound
 # 테이프 늘어진 것처럼 들린다.
-def stretch_sound(data, end_path,  count, sr=16000, rate=0.8):
-    sig, sr = librosa.load(data, sr=16000)
+def stretch_sound(data, end_path,  count,  rate=0.8):
+    sig, sr = librosa.load(data, sr=Config.sample_rate)
     stretch_data = librosa.effects.time_stretch(sig, rate)
     sf.write( end_path, stretch_data, sr)
     return stretch_data
 
 # minus_sound
 # x 축 기준으로 뒤집기 (사람에게는 똑같이 들림)
-def minus_sound(data, end_path,  count, sr=16000):
-    sig, sr = librosa.load(data, sr=16000)
+def minus_sound(data, end_path,  count):
+    sig, sr = librosa.load(data, sr=Config.sample_rate)
     temp_numpy = (-1)*sig
     sf.write( end_path, temp_numpy, sr)
     return temp_numpy
+
+def pitch_sound(data, end_path, pitch_factor=24):   # end_path, count,
+    sig, sr = librosa.load(data, sr=Config.sample_rate)
+    pitch_data = librosa.effects.pitch_shift(sig, sr, pitch_factor)
+    sf.write( end_path, pitch_data, sr)
+    return pitch_data
+
 
 for user in Config.user_list:
     print(user+ "start augmentation")
@@ -72,5 +79,10 @@ for user in Config.user_list:
         minus_name = 'minus_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
         minus_end_path = path + minus_name
         minus_sound(file_path, minus_end_path,  count)
+
+        pitch_name = 'pitch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+        pitch_end_path = path + pitch_name
+        pitch_sound(file_path, pitch_end_path, count)
+
         copy_tree(start_path, path )
         count += 1

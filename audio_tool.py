@@ -32,7 +32,7 @@ def mfcc_process(signal, sr):
     delta2_mfcc = librosa.feature.delta(mfcc, order=2)
     return delta2_mfcc
 
-def spectrogram_preprocess(spectrogram):
+def spec_regularization(spectrogram):
   revverse_spectrogram = -spectrogram
   cut_spectrogram = revverse_spectrogram[:][:-50]
   zero_spectrogram = np.where( cut_spectrogram > 60 , 0, cut_spectrogram)

@@ -57,4 +57,4 @@ pruning_6_eport = tfmot.sparsity.keras.strip_pruning(wake_pruning_6)
 converter = tf.lite.TFLiteConverter.from_keras_model(pruning_6_eport)
 pruning_6_tflite = converter.convert()
 
-open(Config.prun_tflite_file_path, "wb") .write(pruning_6_tflite)
+open(Config.prun_tflite_file_path_recog, "wb") .write(pruning_6_tflite)

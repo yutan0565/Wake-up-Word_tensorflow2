@@ -42,6 +42,14 @@ class Config:
 
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 32000
+    low_power_sample_rate = 4000
+
+    # 기동어 정답 나누는 기준
+    thres_hold = 0.98
+    thres_hold_recog = 0.8
+    thres_hold_low_power = 0.0333
+
+
     # 내가 잘라내고 싶은 총 시간
     wav_time = 1 #초단위
     #sample rate 고려한 자르는 시작점
@@ -73,21 +81,23 @@ class Config:
     lr_patience = 10
     start_lr = 0.0001
     
-    # 기동어 정답 나누는 기준
-    thres_hold = 0.98
-    thres_hold_recog = 0.8
+
     
     # confusion matrix label
     label = ["other", "hi_yutan"]
     
     #기본 tfltie 파일 저장 
-    tflite_file_path = base_path + 'tflite_converter/tflite_model/ori_detection_hi_yutan_lite.tflite'
+    tflite_file_path = base_path + 'tflite_converter/tflite_model/ori_detection.tflite'
     #Quantization tflite 파일 저장
-    quant_tflite_file_path = base_path + 'tflite_converter/tflite_model/quant_detection_hi_yutan_lite.tflite'
+    quant_tflite_file_path = base_path + 'tflite_converter/tflite_model/quant_detection.tflite'
     #Pruning tflite 파일 저장
-    prun_tflite_file_path = base_path + 'tflite_converter/tflite_model/prun_detection_hi_yutan_lite.tflite'
+    prun_tflite_file_path = base_path + 'tflite_converter/tflite_model/prun_detection.tflite'
 
-    tflite_file_path_recog = base_path + 'tflite_converter/tflite_model/ori_recog_user_lite.tflite'
+    tflite_file_path_recog = base_path + 'tflite_converter/tflite_model/ori_recognition.tflite'
+    #Quantization tflite 파일 저장
+    quant_tflite_file_path_recog = base_path + 'tflite_converter/tflite_model/quant_recognition.tflite'
+    #Pruning tflite 파일 저장
+    prun_tflite_file_path_recog = base_path + 'tflite_converter/tflite_model/prun_recognition.tflite'
 
     
     #Pruning 관련

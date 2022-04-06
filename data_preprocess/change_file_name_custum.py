@@ -2,7 +2,7 @@ import os
 from configuration import Config
 
 
-base_path = "./"
+base_path = "../"
 dataset_path = base_path + 'custum_dataset' # 'custum_dataset''augmentation_dataset'
 
 for user in Config.user_list:

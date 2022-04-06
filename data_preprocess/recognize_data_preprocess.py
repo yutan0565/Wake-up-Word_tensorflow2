@@ -2,7 +2,7 @@ from os import listdir
 import random
 import numpy as np
 import librosa
-import MFCC_maker
+import audio_tool as tool
 
 from configuration import Config
 import sys
@@ -77,14 +77,15 @@ def extract_features(in_files, in_y):
             signal, sr = librosa.core.load(path, Config.sample_rate)
             signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
             #mfccs = MFCC_maker.mfcc_process (signal, sr)
-            mfccs = MFCC_maker.mel_spectrogram_process(signal, sr)
-            print(mfccs.shape)
+            spectrogram = tool.mel_spectrogram_process(signal, sr)
+            regul_spectrogram = tool.spec_regularization(spectrogram)
+            print(regul_spectrogram.shape)
 
-            if mfccs.shape[1] == Config.len_mfcc:
-                out_x.append(mfccs)
+            if regul_spectrogram.shape[1] == Config.len_mfcc:
+                out_x.append(regul_spectrogram)
                 out_y.append(in_y[index])
             else:
-                print('Dropped:', index, mfccs.shape)
+                print('Dropped:', index, regul_spectrogram.shape)
                 prob_cnt += 1
 
     return out_x, out_y, prob_cnt

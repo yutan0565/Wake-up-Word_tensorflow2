@@ -10,10 +10,13 @@ model = tf.keras.models.load_model(Config.best_model_path_recog)
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
+
+# open(Config.tflite_file_path, 'wb').write(tflite_model)
 open(Config.tflite_file_path_recog, 'wb').write(tflite_model)
 
 # interpreter = tf.lite.Interpreter(model_path= Config.tflite_file_path)
 interpreter = tf.lite.Interpreter(model_path= Config.tflite_file_path_recog)
+
 interpreter.allocate_tensors()
 
 input_details = interpreter.get_input_details()

@@ -34,9 +34,7 @@ y_train = tf.one_hot(y_train, len(Config.user_list))
 y_val = tf.one_hot(y_val, len(Config.user_list))
 y_test = tf.one_hot(y_test, len(Config.user_list))
 
-#model = model.cnn_wuw_detection_binary_model_01(sample_shape)
-#model = model.cnn_wuw_detection_multi_model(sample_shape)
-model = model.recognition_multi_model(sample_shape)
+model = model.recog_model_02(sample_shape)
 model.summary()
 
 # Callback 함수 지정 해주기      학습하는 동안 설정해줄것
