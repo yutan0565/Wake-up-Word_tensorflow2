@@ -9,24 +9,8 @@ from tensorflow import lite
 import tempfile
 from configuration import Config
 
-np.random.seed(77)
-
-feature_sets = np.load( Config.base_path + "mfcc_set_multi.npz")
-
-# 저장되어 있는 mfcc feature 들 불러 오기
-
-x_train = feature_sets['x_train']
-y_train = feature_sets['y_train']
-x_val = feature_sets['x_val']
-y_val = feature_sets['y_val']
-x_test = feature_sets['x_test']
-y_test = feature_sets['y_test']
-
 # tflite 모델 평가에서 사용되는 실행 함수
-def run_tflite_model(tflite_file, test_image_indices):
-    global x_test
-    global y_test
-
+def run_tflite_model(tflite_file, test_image_indices, x_test, y_test):
     # Initialize the interpreter
     interpreter = tf.lite.Interpreter(model_path=str(tflite_file))
     interpreter.allocate_tensors()
@@ -54,45 +38,54 @@ def run_tflite_model(tflite_file, test_image_indices):
         end = time.time()
 
         fps[i] = (end - start)
-        # thres_hold 설정 해주기
 
-        if output > Config.thres_hold:
-            output = 1
-        else:
-            outut = 0
-
-        predictions[i] = output
+        predictions[i] = output.argmax()
 
     return predictions, fps
 
-def evaluate_tflite_model(tflite_file, model_type):
-  global x_test
-  global x_test
+def evaluate_tflite_model(target,t_list ,tflite_file, model_type,  x_test, y_test, model_name, x_train, y_train, x_val, y_val):
 
   test_image_indices = range(x_test.shape[0])
-  predictions, fps = run_tflite_model(tflite_file, test_image_indices)
+
+  predictions, fps = run_tflite_model(tflite_file, test_image_indices, x_test, y_test)
   accuracy = (np.sum(y_test.reshape(-1)== predictions) * 100) / len(x_test)
-
   confusion_mtx = tf.math.confusion_matrix(y_test, predictions)
-
-  print('%s model accuracy is %.4f%% (Number of test samples=%d)' % (model_type, accuracy, len(x_test)))
-
   sns.heatmap(confusion_mtx,
             annot=True,
-            xticklabels = Config.label,
-            yticklabels = Config.label,
+            xticklabels = t_list,
+            yticklabels = t_list,
             cmap='Blues')
+  plt.savefig(Config.base_path + 'model_evaluate/' + model_name)
   plt.show()
 
+
+  target_count = 0
+
+  def count_target(target, t_list, y_data):
+      count_result = []
+      for t in target:
+          count = 0
+
+          for c in y_data:
+              if t_list[int(c)] == t:
+                  count += 1
+          count_result.append(count)
+      return count_result
+  result = count_target(target, t_list, y_test)
+
+  print("-"*50)
+  print(model_name_detect)
+  print("target : ", target)
+  print("target의 개수 : ",result )
+  print("데이터 개수 : ",len(y_test))
   print("FPS : ", 1 / np.mean(fps))
-  print("Thres - hold : {}".format(Config.thres_hold))
-  print('Test Accureacy: ',metrics.accuracy_score( y_test,predictions))
-  print('Test Precision: ',metrics.precision_score( y_test,predictions))
-  print('Test Recall: ',metrics.recall_score( y_test,predictions ))
-  print('Test F1 score: ',metrics.f1_score(y_test,predictions ))
-  print("Train 에서 1의 비율 : {}%".format(  round(list(y_train).count(1) / len(y_train)*100 , 2 )))
-  print("Val 에서 1의 비율 : {}%".format(  round(list(y_val).count(1) / len(y_val)*100 , 2 )))
-  print("Test 에서 1의 비율 : {}%".format(  round(list(y_test).count(1) / len(y_test)*100 , 2 )))
+  # print("Thres - hold : {}".format(Config.thres_hold))
+  print('Test Accureacy: {:0.02f}% '.format(metrics.accuracy_score( y_test,predictions)*100))
+  # print('Test Precision: ',metrics.precision_score( y_test,predictions))
+  # print('Test Recall: ',metrics.recall_score( y_test,predictions ))
+  # print('Test F1 score: ',metrics.f1_score(y_test,predictions ))
+
+
 
 def get_gzipped_model_size(file):
   # Returns size of gzipped model, in bytes.
@@ -102,10 +95,47 @@ def get_gzipped_model_size(file):
   with zipfile.ZipFile(zipped_file, 'w', compression=zipfile.ZIP_DEFLATED) as f:
     f.write(file)
   print("File_size : {:.2f} KB".format(float(os.path.getsize(zipped_file))/1024))
+  print()
 
 
-evaluate_tflite_model(Config.tflite_file_path, model_type="Float")
+feature_sets_detect = np.load( Config.base_path + "spec_set_multi.npz")
+x_train_detect = feature_sets_detect['x_train']
+y_train_detect = feature_sets_detect['y_train']
+x_val_detect = feature_sets_detect['x_val']
+y_val_detect = feature_sets_detect['y_val']
+x_test_detect = feature_sets_detect['x_test']
+y_test_detect = feature_sets_detect['y_test']
+
+
+feature_sets_recog = np.load( Config.base_path + "user_set_multi.npz")
+x_train_recog = feature_sets_recog['x_train']
+y_train_recog = feature_sets_recog['y_train']
+x_val_recog = feature_sets_recog['x_val']
+y_val_recog = feature_sets_recog['y_val']
+x_test_recog = feature_sets_recog['x_test']
+y_test_recog = feature_sets_recog['y_test']
+
+
+model_name_detect = "tflite_orig_detect_wuw_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_wake_word, Config.target_list,
+                      Config.tflite_file_path, model_type,x_test_detect,
+                      y_test_detect, model_name_detect,
+                      x_train_detect, y_train_detect, x_val_detect, y_val_detect
+                      )
 get_gzipped_model_size(Config.tflite_file_path)
+
+model_name_recog = "tflite_orig_recog_user_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_user, Config.user_list,
+                      Config.tflite_file_path_recog, model_type, x_test_recog,
+                      y_test_recog, model_name_recog,
+                      x_train_recog, y_train_recog, x_val_recog, y_val_recog
+                      )
+get_gzipped_model_size(Config.tflite_file_path_recog)
+
+
+
 
 """
 evaluate_tflite_model(Config.quant_tflite_file_path, model_type="Quantization")

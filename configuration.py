@@ -13,9 +13,7 @@ class Config:
     # 학습에 사용할 데이터 셋
     dataset_type = "augmentation_dataset"
     
-    # 기동어 class 이름 - 폴더이름
-    wake_word = 'hi_yutan'
-    
+
     # augmentation을 진행 할 곳
     aug_dataset_path = base_path + for_aug_dataset
 
@@ -36,9 +34,12 @@ class Config:
     non_target_list = ['_background_noise_', '.ipynb_checkpoints' ]
 
     target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'no'] #
-    #target_list = ['hi_yutan']
 
     user_list = ['user_01', 'user_02', 'user_03']
+
+    # 기동어 class 이름 - 폴더이름
+    target_wake_word = ['hi_yutan']
+    target_user = ['user_01']
 
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 32000
@@ -80,12 +81,7 @@ class Config:
     lr_factor = 0.7
     lr_patience = 10
     start_lr = 0.0001
-    
 
-    
-    # confusion matrix label
-    label = ["other", "hi_yutan"]
-    
     #기본 tfltie 파일 저장 
     tflite_file_path = base_path + 'tflite_converter/tflite_model/ori_detection.tflite'
     #Quantization tflite 파일 저장

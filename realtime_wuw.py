@@ -43,13 +43,17 @@ output_details_recog = interpreter_recog.get_output_details()
 
 
 
-detection_image_path = Config.base_path +"show_image/Detection_image.png"
+detection_image_path = Config.base_path +"show_image/Detection.png"
 detection_image_pil = Image.open(detection_image_path)
 detection_image = np.array(detection_image_pil)
 
-speaker_image_path = Config.base_path +"show_image/Speaker_image.png"
-speaker_image_pil = Image.open(speaker_image_path)
-speaker_image = np.array(speaker_image_pil)
+speaker_valid_image_path = Config.base_path +"show_image/Valid.png"
+speaker_valid_image_pil = Image.open(speaker_valid_image_path)
+speaker_valid_image = np.array(speaker_valid_image_pil)
+
+speaker_invalid_image_path = Config.base_path +"show_image/Invalid.png"
+speaker_invalid_image_pil = Image.open(speaker_invalid_image_path)
+speaker_invalid_image = np.array(speaker_invalid_image_pil)
 
 
 def close_figure(event):
@@ -124,7 +128,7 @@ while (True):
         if val[4] > Config.thres_hold:
             print("감지!!")
             # print(len(data))
-            sf.write("./test.wav", data, Config.sample_rate)
+            # sf.write("./test.wav", data, Config.sample_rate)
             fig = plt.figure()
             #plt.imshow(mfccs, cmap='inferno', origin='lower')
             plt.imshow(detection_image)
@@ -144,12 +148,17 @@ while (True):
                 print("검증 성공 : 서버와 연결을 시작 합니다.")
                 # print(len(data))
                 fig = plt.figure()
-                plt.imshow(speaker_image)
+                plt.imshow(speaker_valid_image)
                 # plot_time_series(data, "short")
                 plt.gcf().canvas.mpl_connect('key_press_event', close_figure)
                 plt.show()
             else:
                 print("검증 실패 : 사용자 등록을 해주세요")
+                fig = plt.figure()
+                plt.imshow(speaker_invalid_image)
+                # plot_time_series(data, "short")
+                plt.gcf().canvas.mpl_connect('key_press_event', close_figure)
+                plt.show()
 
         else:
             print("000000000")  # 기동어 들을 준비 완료
