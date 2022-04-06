@@ -24,7 +24,8 @@ path : ./tflite_converter
 4. tflite_evaluate.py (all tflite model evaluate)
 
 ### Get start real-time Wake-up Word Detection
-1. python realtime_wuw.opy
+1. Download requeirments.txt file 
+2. python realtime_wuw.opy
 
 
 ### etc
