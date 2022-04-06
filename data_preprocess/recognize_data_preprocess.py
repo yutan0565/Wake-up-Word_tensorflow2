@@ -15,7 +15,7 @@ filenames = []
 y = []
 
 for target in Config.target_list:
-    if target == 'hi_yutan':
+    if target == Config.wake_word:
         for index , user in enumerate(Config.user_list):
             print('/'.join([Config.dataset_path, user, target]))  # class 에 맞는 폴더 이름 넣어주기
             filenames.append(listdir('/'.join([Config.dataset_path, user, target])))
@@ -56,19 +56,8 @@ def extract_features(in_files, in_y):
     out_y = []
 
     for index, filename in enumerate(in_files):
-       # for user in Config.user_list:
-            # Create path from given filename and target item
-
-            # if (user not in filename) or (Config.user_list[int(in_y[index])] not in filename):
-            #     continue
-            #path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])], filename])
-
             path = "/".join([Config.dataset_path, Config.user_list[int(in_y[index])], "hi_yutan",
                              filename])
-
-            print(path)
-            print(filename, in_y[index])
-
             # Check to make sure we're reading a .wav file
             if not path.endswith('.wav'):
                 continue
@@ -79,7 +68,6 @@ def extract_features(in_files, in_y):
             #mfccs = MFCC_maker.mfcc_process (signal, sr)
             spectrogram = tool.mel_spectrogram_process(signal, sr)
             regul_spectrogram = tool.spec_regularization(spectrogram)
-            print(regul_spectrogram.shape)
 
             if regul_spectrogram.shape[1] == Config.len_mfcc:
                 out_x.append(regul_spectrogram)

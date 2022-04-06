@@ -73,35 +73,36 @@ legend = ax[0].legend(loc='best', shadow = True)
 ax[1].plot(history.history['accuracy'], color = 'b', label = "Training accuracy")
 ax[1].plot(history.history['val_accuracy'], color = 'r', label = "Validation accuracy")
 legend = ax[1].legend(loc = 'best', shadow = True)
+plt.savefig(Config.base_path + 'model_evaluate/recog_user_acc_loss.jpg')
 plt.show()
 # 데이터 불균형으로 인해, val에 있는게 성능이 더 좋아보일 수도 있음
 
-
-Y_pred = model.predict(x_test)
-predictions = []
+#
+# Y_pred = model.predict(x_test)
+# predictions = []
+# # for result in Y_pred:
+# #   if result > Config.thres_hold:
+# #       predictions.append(1)
+# #   else:
+# #       predictions.append(0)
 # for result in Y_pred:
-#   if result > Config.thres_hold:
-#       predictions.append(1)
-#   else:
-#       predictions.append(0)
-for result in Y_pred:
-    a = np.array(result)
-    predictions.append(a.argmax())
-
-y_test = feature_sets['y_test']
-confusion_mtx = metrics.confusion_matrix(y_test,predictions)
-
-sns.heatmap(confusion_mtx,
-            annot=True,
-            xticklabels = Config.user_list,#label,
-            yticklabels = Config.user_list,#label,
-            cmap='Blues')
-plt.show()
-print("Thres - hold : {}".format(Config.thres_hold))
-print('Test Accureacy: ',metrics.accuracy_score( y_test,predictions))
-print('Test Precision: ',metrics.precision_score( y_test,predictions))
-print('Test Recall: ',metrics.recall_score( y_test,predictions ))
-print('Test F1 score: ',metrics.f1_score(y_test,predictions ))
-print("Train 에서 1의 비율 : {}%".format(round(list(y_train).count(1) / len(y_train) * 100, 2)))
-print("Val 에서 1의 비율 : {}%".format(round(list(y_val).count(1) / len(y_val) * 100, 2)))
-print("Test 에서 1의 비율 : {}%".format(round(list(y_test).count(1) / len(y_test) * 100, 2)))
+#     a = np.array(result)
+#     predictions.append(a.argmax())
+#
+# y_test = feature_sets['y_test']
+# confusion_mtx = metrics.confusion_matrix(y_test,predictions)
+#
+# sns.heatmap(confusion_mtx,
+#             annot=True,
+#             xticklabels = Config.user_list,#label,
+#             yticklabels = Config.user_list,#label,
+#             cmap='Blues')
+# plt.show()
+# print("Thres - hold : {}".format(Config.thres_hold))
+# print('Test Accureacy: ',metrics.accuracy_score( y_test,predictions))
+# print('Test Precision: ',metrics.precision_score( y_test,predictions))
+# print('Test Recall: ',metrics.recall_score( y_test,predictions ))
+# print('Test F1 score: ',metrics.f1_score(y_test,predictions ))
+# print("Train 에서 1의 비율 : {}%".format(round(list(y_train).count(1) / len(y_train) * 100, 2)))
+# print("Val 에서 1의 비율 : {}%".format(round(list(y_val).count(1) / len(y_val) * 100, 2)))
+# print("Test 에서 1의 비율 : {}%".format(round(list(y_test).count(1) / len(y_test) * 100, 2)))

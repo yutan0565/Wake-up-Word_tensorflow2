@@ -43,9 +43,14 @@ output_details_recog = interpreter_recog.get_output_details()
 
 
 
-detection_image_path = Config.base_path +"show_image/wuw_detection.jpg"
-image_pil = Image.open(detection_image_path)
-detection_image = np.array(image_pil)
+detection_image_path = Config.base_path +"show_image/Detection_image.png"
+detection_image_pil = Image.open(detection_image_path)
+detection_image = np.array(detection_image_pil)
+
+speaker_image_path = Config.base_path +"show_image/Speaker_image.png"
+speaker_image_pil = Image.open(speaker_image_path)
+speaker_image = np.array(speaker_image_pil)
+
 
 def close_figure(event):
     if event.key == ' ' or event.key == 'a':
@@ -78,7 +83,7 @@ while (True):
     temp_data = np.fromstring(stream_wuw.read(CHUNK), dtype=np.float32)
 
     # 기동어 감지 모델을 돌리고 있지 않는 상태
-    if np.mean(temp_data) < Config.thres_hold_low_power:
+    if np.mean(np.abs(temp_data)) < Config.thres_hold_low_power:
         if np.array(frame).shape[0] == Config.stride_rate:
             frame.pop(0)
             frame.append(temp_data)
@@ -88,7 +93,7 @@ while (True):
         else:
             frame.append(temp_data)
             print(np.array(frame).shape)
-        print("x")  # 기동어 인식 안하고 있는 상태
+        print("xx")  # 기동어 인식 안하고 있는 상태
         continue
 
     if np.array(frame).shape[0] == Config.stride_rate:
@@ -113,7 +118,7 @@ while (True):
         # print("탄탄 : {:.03f}  병현 : {:.03f}  정률 : {:.03f}  성우 : {:.03f}  유탄 : {:.03f}  no : {:.03f}".format(val[0],val[1],val[2],val[3], val[4], val[5]))
         # print(len(data))
 
-        sf.write("./test.wav", data, Config.sample_rate)
+        # sf.write("./test.wav", data, Config.sample_rate)
 
         # if val > Config.thres_hold:
         if val[4] > Config.thres_hold:
@@ -139,7 +144,7 @@ while (True):
                 print("검증 성공 : 서버와 연결을 시작 합니다.")
                 # print(len(data))
                 fig = plt.figure()
-                plt.imshow(detection_image)
+                plt.imshow(speaker_image)
                 # plot_time_series(data, "short")
                 plt.gcf().canvas.mpl_connect('key_press_event', close_figure)
                 plt.show()
@@ -147,7 +152,7 @@ while (True):
                 print("검증 실패 : 사용자 등록을 해주세요")
 
         else:
-            print("0")  # 기동어 들을 준비 완료
+            print("000000000")  # 기동어 들을 준비 완료
 
 
     else:

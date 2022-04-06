@@ -46,17 +46,14 @@ print(len(filenames_train), len(y_orig_train))
 print(len(filenames_val), len(y_orig_val))
 print(len(filenames_test), len(y_orig_test))
 
-for i in range(100):
-    print(filenames_train[i],y_orig_train[i] )
-
-
+# for i in range(100):
+#     print(filenames_train[i],y_orig_train[i] )
 
 
 def extract_features(in_files, in_y):
     prob_cnt = 0
     out_x = []
     out_y = []
-
     for index, filename in enumerate(in_files):
         for user in Config.user_list:
             # Create path from given filename and target item
@@ -65,7 +62,6 @@ def extract_features(in_files, in_y):
                 continue
             path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])],
                              filename])
-            print(filename, in_y[index])
 
             # Check to make sure we're reading a .wav file
             if not path.endswith('.wav'):
@@ -77,8 +73,6 @@ def extract_features(in_files, in_y):
             #mfccs = MFCC_maker.mfcc_process (signal, sr)
             spectrogram = tool.mel_spectrogram_process(signal, sr)
             regul_spectrogram = tool.spec_regularization(spectrogram)
-            print(regul_spectrogram.shape)
-
             if regul_spectrogram.shape[1] == Config.len_mfcc:
                 out_x.append(regul_spectrogram)
                 out_y.append(in_y[index])
@@ -96,7 +90,7 @@ print("Train 잃은거{}".format(prob_train / len(y_orig_train)))
 print("Valid 잃은거{}".format(prob_val / len(y_orig_val)))
 print("Test 잃은거{}".format(prob_test / len(y_orig_test)))
 
-wake_word_index = Config.target_list.index(Config.wake_word)
+#wake_word_index = Config.target_list.index(Config.wake_word)
 
 # y_train = np.equal(y_train, wake_word_index).astype('float64')
 # y_val = np.equal(y_val, wake_word_index).astype('float64')
@@ -137,9 +131,9 @@ np.savez(Config.base_path +"spec_set_multi.npz",
          x_test=x_test,
          y_test=y_test)
 
-# input shape 설정 해주기
-sample_shape = x_test.shape[1:]
-print(sample_shape)
+# # input shape 설정 해주기
+# sample_shape = x_test.shape[1:]
+# print(sample_shape)
 
 
 # def plot_time_series(data, title):

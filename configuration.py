@@ -47,7 +47,7 @@ class Config:
     # 기동어 정답 나누는 기준
     thres_hold = 0.98
     thres_hold_recog = 0.8
-    thres_hold_low_power = 0.0333
+    thres_hold_low_power = 0.0001
 
 
     # 내가 잘라내고 싶은 총 시간
