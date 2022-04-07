@@ -10,8 +10,6 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLRO
 import model
 from configuration import Config
 
-
-#feature_sets = np.load( Config.base_path + "mfcc_set_multi.npz")
 feature_sets = np.load( Config.base_path + "user_set_multi.npz")
 # 저장되어 있는 mfcc feature 들 불러 오기
 x_train = feature_sets['x_train']
@@ -54,8 +52,7 @@ reduce_lr  = ReduceLROnPlateau(monitor = 'val_loss',
 opt = tf.keras.optimizers.Adam(learning_rate=Config.start_lr)
 
 # optimizer, loss 함수를 정의하고,  학습 준비를 한다,  metrics 는 어떤 일이 발생하는지 보여줄 것들
-#model.compile(optimizer=opt, loss="binary_crossentropy", metrics=["accuracy"])
-model.compile(optimizer=opt, loss="categorical_crossentropy", metrics=["accuracy"])  #categorical_crossentropy   binary_crossentropy
+model.compile(optimizer=opt, loss="categorical_crossentropy", metrics=["accuracy"])
 # 한번에 몇개의 데이터 학습하고 가중치 갱신할지
 history = model.fit(x_train, y_train,
           epochs= Config.epoch_original,

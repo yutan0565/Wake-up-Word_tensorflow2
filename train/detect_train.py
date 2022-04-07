@@ -11,7 +11,6 @@ import model
 from configuration import Config
 
 
-#feature_sets = np.load( Config.base_path + "mfcc_set_multi.npz")
 feature_sets = np.load( Config.base_path + "spec_set_multi.npz")
 # 저장되어 있는 mfcc feature 들 불러 오기
 x_train = feature_sets['x_train']
@@ -72,6 +71,9 @@ ax[1].plot(history.history['val_accuracy'], color = 'r', label = "Validation acc
 legend = ax[1].legend(loc = 'best', shadow = True)
 plt.savefig(Config.base_path + 'model_evaluate/detec_wuw_acc_loss.jpg')
 plt.show()
+
+
+
 # 데이터 불균형으로 인해, val에 있는게 성능이 더 좋아보일 수도 있음
 
 #
