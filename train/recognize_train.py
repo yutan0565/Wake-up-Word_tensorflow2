@@ -37,7 +37,7 @@ model.summary()
 
 # Callback 함수 지정 해주기      학습하는 동안 설정해줄것
 early_stop = EarlyStopping(patience=Config.early_stop_aptience)
-mc = ModelCheckpoint(Config.best_model_path_recog,
+mc = ModelCheckpoint(Config.best_model_path_recog_02,
                      save_best_only=True,
                      monitor = 'val_loss',
                      verbose = 1,
@@ -70,7 +70,7 @@ legend = ax[0].legend(loc='best', shadow = True)
 ax[1].plot(history.history['accuracy'], color = 'b', label = "Training accuracy")
 ax[1].plot(history.history['val_accuracy'], color = 'r', label = "Validation accuracy")
 legend = ax[1].legend(loc = 'best', shadow = True)
-plt.savefig(Config.base_path + 'model_evaluate/recog_user_acc_loss.jpg')
+plt.savefig(Config.base_path + 'model_evaluate/recog_user_acc_loss_02.jpg')
 plt.show()
 # 데이터 불균형으로 인해, val에 있는게 성능이 더 좋아보일 수도 있음
 

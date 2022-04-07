@@ -81,6 +81,7 @@ class Config:
     # baes model Checkpoint 경로
     best_model_path = base_path+ "best_model/wake_up_word_model"
     best_model_path_recog = base_path+ "best_model/speaker_recognition_model"
+    best_model_path_recog_02 = base_path + "best_model/speaker_recognition_model_02"
 
     best_model_path_detect_pruning = base_path+ "best_model/detection_pruning_model"
     best_model_path_recog_pruning = base_path+ "best_model/recognition_pruning_model"
@@ -98,6 +99,8 @@ class Config:
     prun_tflite_file_path = base_path + tflite_model_path+ 'prun_detection.tflite'
 
     tflite_file_path_recog = base_path + tflite_model_path+ 'ori_recognition.tflite'
+
+    tflite_file_path_recog_02 = base_path + tflite_model_path + 'ori_recognition_02.tflite'
     #Quantization tflite 파일 저장
     quant_tflite_file_path_recog = base_path + tflite_model_path+ 'quant_recognition.tflite'
     #Pruning tflite 파일 저장

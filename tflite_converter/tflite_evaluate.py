@@ -142,17 +142,17 @@ print("-"*100)
 print()
 
 print("Recognition 관련")
-recog_model = tf.keras.models.load_model(Config.best_model_path_recog)
+recog_model = tf.keras.models.load_model(Config.best_model_path_recog_02)
 _, recog_keras_file = tempfile.mkstemp('.h5')
 tf.keras.models.save_model(recog_model, recog_keras_file, include_optimizer=False)
 get_gzipped_model_size(recog_keras_file)
-get_gzipped_model_size(Config.tflite_file_path_recog)
+get_gzipped_model_size(Config.tflite_file_path_recog_02)
 # get_gzipped_model_size(Config.prun_tflite_file_path_recog)
 
-model_name_recog = "tflite_orig_recog_user_matrix.jpg"
+model_name_recog = "tflite_orig_recog_user_matrix_02.jpg"
 model_type = "Float"
 evaluate_tflite_model(Config.target_user, Config.user_list,
-                      Config.tflite_file_path_recog, model_type, x_test_recog,
+                      Config.tflite_file_path_recog_02, model_type, x_test_recog,
                       y_test_recog, model_name_recog,
                       x_train_recog, y_train_recog, x_val_recog, y_val_recog
                       )

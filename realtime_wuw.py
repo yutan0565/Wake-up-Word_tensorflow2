@@ -30,7 +30,7 @@ interpreter_detect.allocate_tensors()
 input_details_detect = interpreter_detect.get_input_details()
 output_details_detect = interpreter_detect.get_output_details()
 
-tflite_model_path_recog = Config.tflite_file_path_recog
+tflite_model_path_recog = Config.tflite_file_path_recog_02
 interpreter_recog = tflite.Interpreter(tflite_model_path_recog)
 interpreter_recog.allocate_tensors()
 input_details_recog = interpreter_recog.get_input_details()
