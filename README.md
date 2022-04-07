@@ -24,7 +24,7 @@ Best model will be saved in ./best_model
 1. *_train.py
 2. test_all.py 
 
-### Convert tensorflow to tflite
+## Convert tensorflow to tflite
 1. orig_tflite.py
 2. quantization_tflite.py
 3. pruning_tflite.py
