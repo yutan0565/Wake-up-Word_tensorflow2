@@ -8,20 +8,20 @@ from configuration import Config
 def detection_model_01(sample_shape):
     model = Sequential([
         # conv layer 부분
-        Conv2D(32, (3, 3), activation='relu', input_shape=sample_shape),
+        Conv2D(32, (3, 3), activation='relu', input_shape=sample_shape, kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(3, 3)),
-        Conv2D(64, (3, 3), activation='relu', padding="same"),
+        Conv2D(64, (3, 3), activation='relu', padding="same", kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(3, 3)),
-        Conv2D(128, (3, 3), activation='relu'),
+        Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(3, 3)),
 
         # FC layer 부분
         Flatten(),
-        Dense(256, activation='relu'),
-        Dense(256, activation='relu'),
+        Dense(256, activation='relu', kernel_initializer='he_normal'),
+        Dense(256, activation='relu', kernel_initializer='he_normal'),
         Dropout(0.5),
         Dense(64, activation='relu'),
-        Dense(len(Config.target_list), activation="softmax")
+        Dense(len(Config.target_list), activation="softmax", kernel_initializer='he_normal')
     ])
 
     return model
@@ -31,17 +31,17 @@ def detection_model_01(sample_shape):
 def detection_model_02(sample_shape):
     model = Sequential([
         # conv layer 부분
-        Conv2D(32, (3, 3), activation=LeakyReLU(alpha=0.3), input_shape=sample_shape),
+        Conv2D(32, (3, 3), activation=LeakyReLU(alpha=0.3), input_shape=sample_shape, kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(3, 3)),
-        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3)),
+        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(3, 3)),
 
         # FC layer 부분
         Flatten(),
-        Dense(64, activation=LeakyReLU(alpha=0.3)),
+        Dense(64, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         Dropout(0.5),
-        Dense(64, activation=LeakyReLU(alpha=0.3)),
-        Dense(len(Config.target_list), activation="softmax")
+        Dense(64, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
+        Dense(len(Config.target_list), activation="softmax", kernel_initializer='he_normal')
     ])
     return model
 
@@ -52,23 +52,23 @@ def detection_model_02(sample_shape):
 def recog_model_01(sample_shape):
     model = Sequential([
         # conv layer 부분
-        Conv2D(32, (3, 3), activation=LeakyReLU(alpha=0.3), input_shape=sample_shape, ),
-        Conv2D(32, (3, 3), activation=LeakyReLU(alpha=0.3)),
+        Conv2D(32, (3, 3), activation=LeakyReLU(alpha=0.3), input_shape=sample_shape, kernel_initializer='he_normal'),
+        Conv2D(32, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(3, 3)),
-        Conv2D(64, (3, 3), activation=LeakyReLU(alpha=0.3), padding='same'),
-        Conv2D(64, (3, 3), activation=LeakyReLU(alpha=0.3)),
+        Conv2D(64, (3, 3), activation=LeakyReLU(alpha=0.3), padding='same', kernel_initializer='he_normal'),
+        Conv2D(64, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(3, 3)),
-        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), padding='same'),
-        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3)),
+        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), padding='same', kernel_initializer='he_normal'),
+        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(3, 3)),
 
         # FC layer 부분
         Flatten(),
-        Dense(256, activation=LeakyReLU(alpha=0.3)),
-        Dense(256, activation=LeakyReLU(alpha=0.3)),
+        Dense(256, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
+        Dense(256, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         Dropout(0.5),
-        Dense(64, activation=LeakyReLU(alpha=0.3)),
-        Dense(len(Config.user_list), activation="softmax")
+        Dense(64, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
+        Dense(len(Config.user_list), activation="softmax", kernel_initializer='he_normal')
     ])
     return model
 
@@ -76,22 +76,22 @@ def recog_model_01(sample_shape):
 def recog_model_02(sample_shape):
     model = Sequential([
         # conv layer 부분
-        Conv2D(32, (4, 2), activation=LeakyReLU(alpha=0.3), input_shape=sample_shape, ),
-        Conv2D(32, (4, 2), activation=LeakyReLU(alpha=0.3)),
+        Conv2D(32, (4, 2), activation=LeakyReLU(alpha=0.3), input_shape=sample_shape, kernel_initializer='he_normal' ),
+        Conv2D(32, (4, 2), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(4, 2)),
-        Conv2D(64, (4, 2), activation=LeakyReLU(alpha=0.3), padding='same'),
-        Conv2D(64, (4, 2), activation=LeakyReLU(alpha=0.3)),
+        Conv2D(64, (4, 2), activation=LeakyReLU(alpha=0.3), padding='same', kernel_initializer='he_normal'),
+        Conv2D(64, (4, 2), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(4, 2)),
-        Conv2D(128, (4, 2), activation=LeakyReLU(alpha=0.3), padding='same'),
-        Conv2D(128, (4, 2), activation=LeakyReLU(alpha=0.3)),
+        Conv2D(128, (4, 2), activation=LeakyReLU(alpha=0.3), padding='same', kernel_initializer='he_normal'),
+        Conv2D(128, (4, 2), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         MaxPooling2D(pool_size=(4, 2)),
 
         # FC layer 부분
         Flatten(),
-        Dense(256, activation=LeakyReLU(alpha=0.3)),
-        Dense(256, activation=LeakyReLU(alpha=0.3)),
+        Dense(256, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
+        Dense(256, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         Dropout(0.5),
-        Dense(64, activation=LeakyReLU(alpha=0.3)),
+        Dense(64, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         Dense(len(Config.user_list), activation="softmax")
     ])
     return model
