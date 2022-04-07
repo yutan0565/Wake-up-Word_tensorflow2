@@ -81,6 +81,9 @@ class Config:
     # baes model Checkpoint 경로
     best_model_path = base_path+ "best_model/wake_up_word_model"
     best_model_path_recog = base_path+ "best_model/speaker_recognition_model"
+
+    best_model_path_detect_pruning = base_path+ "best_model/detection_pruning_model"
+    best_model_path_recog_pruning = base_path+ "best_model/recognition_pruning_model"
     lr_factor = 0.7
     lr_patience = 10
     start_lr = 0.0001
@@ -100,7 +103,7 @@ class Config:
 
     
     #Pruning 관련
-    batch_size_prun = 16
+    batch_size_prun = 32
     epoch_prun = 300
-    validation_split_prun = 0.2
+    validation_split_prun = 0.1
 
