@@ -69,7 +69,7 @@ def extract_features(in_files, in_y):
 
             # Create MFCCs
             signal, sr = librosa.core.load(path, Config.sample_rate)
-            signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
+            #signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
             #mfccs = MFCC_maker.mfcc_process (signal, sr)
             spectrogram = tool.mel_spectrogram_process(signal, sr)
             regul_spectrogram = tool.spec_regularization(spectrogram)
