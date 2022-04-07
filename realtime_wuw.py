@@ -28,7 +28,7 @@ tflite_model_path_detect = Config.tflite_file_path
 interpreter_detect = tflite.Interpreter(tflite_model_path_detect)
 interpreter_detect.allocate_tensors()
 input_details_detect = interpreter_detect.get_input_details()
-output_details_detect = interpreter.get_output_details()
+output_details_detect = interpreter_detect.get_output_details()
 
 tflite_model_path_recog = Config.tflite_file_path_recog
 interpreter_recog = tflite.Interpreter(tflite_model_path_recog)
@@ -71,9 +71,9 @@ stream_low = p.open(format=pyaudio.paFloat32, channels=1, rate=Config.low_power_
 
 
 def make_ouput(input_tensor, interpreter, input_detail, output_detail):
-    interpreter.set_tensor(input_details[0]['index'], input_tensor)
+    interpreter.set_tensor(input_detail[0]['index'], input_tensor)
     interpreter.invoke()
-    output_data = interpreter.get_tensor(output_details[0]['index'])
+    output_data = interpreter.get_tensor(output_detail[0]['index'])
     return output_data[0]
 
 def close_figure(event):
