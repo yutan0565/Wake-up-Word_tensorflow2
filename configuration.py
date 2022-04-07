@@ -33,7 +33,7 @@ class Config:
     # 내가 신경 안쓸 class
     non_target_list = ['_background_noise_', '.ipynb_checkpoints' ]
 
-    target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'no'] #
+    target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'no', 'shift_sound'] #
 
     user_list = ['user_01', 'user_02', 'user_03']
 

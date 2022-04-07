@@ -53,6 +53,19 @@ def pitch_sound(file_path, end_path, pitch_factor=5):   # end_path, count,
     sf.write( end_path, pitch_data, sr)
     return pitch_data
 
+def shift_sound(file_path, end_path, shift_time, direct):
+    signal, sr = librosa.load(file_path, sr=Config.sample_rate)
+    sig = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
+    shift_len = int(sr * shift_time)
+    empty_sig = [0 for _ in range(shift_len)]
+    if direct == "right":
+        shift_right_data = np.concatenate([empty_sig, sig[:-shift_len]])
+        sf.write(end_path, shift_right_data, sr)
+        return shift_right_data
+    else:
+        shift_left_data = np.concatenate([sig[shift_len:], empty_sig])
+        sf.write(end_path, shift_left_data, sr)
+        return shift_left_data
 
 for user in Config.user_list:
     print(user+ "start augmentation")
@@ -72,30 +85,37 @@ for user in Config.user_list:
         file_path =  start_path +"/"+file_name
         path = Config.base_path + Config.dataset_type + '/' + user + '/' + type + '/'
 
-        # 기본 노이즈 추가
-        noise_name =  'noise_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        noise_end_path = path + noise_name
-        adding_white_noise(file_path, noise_end_path)
-
-        # 말 늘이기
-        stretch_name =  'stretch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        stretch_end_path = path + stretch_name
-        stretch_sound(file_path, stretch_end_path)
-
-        # 단순 뒤집기
-        minus_name = 'minus_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        minus_end_path = path + minus_name
-        minus_sound(file_path, minus_end_path)
-
-        # 음 높이기
-        pitch_name = 'pitch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        pitch_end_path = path + pitch_name
-        pitch_sound(file_path, pitch_end_path)
+        # # 기본 노이즈 추가
+        # noise_name =  'noise_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+        # noise_end_path = path + noise_name
+        # adding_white_noise(file_path, noise_end_path)
+        #
+        # # 말 늘이기
+        # stretch_name =  'stretch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+        # stretch_end_path = path + stretch_name
+        # stretch_sound(file_path, stretch_end_path)
+        #
+        # # 단순 뒤집기
+        # minus_name = 'minus_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+        # minus_end_path = path + minus_name
+        # minus_sound(file_path, minus_end_path)
+        #
+        # # 음 높이기
+        # pitch_name = 'pitch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+        # pitch_end_path = path + pitch_name
+        # pitch_sound(file_path, pitch_end_path)
 
         #shift 해주기
-        for
-
+        direct_list = ["left", "right"]
+        for direct in direct_list:
+            if direct == "left":
+                shift_time = 0.6
+            else:
+                shift_time = 0.4
+            shift_name = 'shift_' + direct + '_' +user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+            shift_end_path = path + shift_name
+            shift_sound(file_path, shift_end_path, shift_time, direct)
 
         # 원본도 같이 옮기기
-        copy_tree(start_path, path )
-        count += 1
+        # copy_tree(start_path, path )
+        # count += 1
