@@ -88,18 +88,20 @@ class Config:
     lr_patience = 10
     start_lr = 0.0001
 
-    #기본 tfltie 파일 저장 
-    tflite_file_path = base_path + 'tflite_converter/tflite_model/ori_detection.tflite'
-    #Quantization tflite 파일 저장
-    quant_tflite_file_path = base_path + 'tflite_converter/tflite_model/quant_detection.tflite'
-    #Pruning tflite 파일 저장
-    prun_tflite_file_path = base_path + 'tflite_converter/tflite_model/prun_detection.tflite'
+    tflite_model_path = 'tflite_converter/tflite_model/'
 
-    tflite_file_path_recog = base_path + 'tflite_converter/tflite_model/ori_recognition.tflite'
+    #기본 tfltie 파일 저장 
+    tflite_file_path = base_path + tflite_model_path + 'ori_detection.tflite'
     #Quantization tflite 파일 저장
-    quant_tflite_file_path_recog = base_path + 'tflite_converter/tflite_model/quant_recognition.tflite'
+    quant_tflite_file_path = base_path + tflite_model_path+ 'quant_detection.tflite'
     #Pruning tflite 파일 저장
-    prun_tflite_file_path_recog = base_path + 'tflite_converter/tflite_model/prun_recognition.tflite'
+    prun_tflite_file_path = base_path + tflite_model_path+ 'prun_detection.tflite'
+
+    tflite_file_path_recog = base_path + tflite_model_path+ 'ori_recognition.tflite'
+    #Quantization tflite 파일 저장
+    quant_tflite_file_path_recog = base_path + tflite_model_path+ 'quant_recognition.tflite'
+    #Pruning tflite 파일 저장
+    prun_tflite_file_path_recog = base_path + tflite_model_path+ 'prun_recognition.tflite'
 
     
     #Pruning 관련
