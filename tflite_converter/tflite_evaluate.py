@@ -92,7 +92,7 @@ def get_gzipped_model_size(file):
   with zipfile.ZipFile(zipped_file, 'w', compression=zipfile.ZIP_DEFLATED) as f:
     f.write(file)
   print("File_size : {:.2f} KB".format(float(os.path.getsize(zipped_file))/1024))
-  print()
+
 
 
 feature_sets_detect = np.load( Config.base_path + "spec_set_multi.npz")
@@ -116,9 +116,9 @@ print("detect 관련")
 detect_model = tf.keras.models.load_model(Config.best_model_path)
 _, detect_keras_file = tempfile.mkstemp('.h5')
 tf.keras.models.save_model(detect_model, detect_keras_file, include_optimizer=False)
-print("Detection 기본 모델        : %.2f bytes" % (get_gzipped_model_size(detect_keras_file)))
-print("Detection 기본 tflite     : %.2f bytes" % (get_gzipped_model_size(Config.tflite_file_path)))
-print("Detection Pruning tflite : %.2f bytes" % (get_gzipped_model_size(Config.prun_tflite_file_path)))
+get_gzipped_model_size(detect_keras_file)
+get_gzipped_model_size(Config.tflite_file_path)
+# get_gzipped_model_size(Config.prun_tflite_file_path)
 
 model_name_detect = "tflite_orig_detect_wuw_matrix.jpg"
 model_type = "Float"
@@ -128,26 +128,26 @@ evaluate_tflite_model(Config.target_wake_word, Config.target_list,
                       x_train_detect, y_train_detect, x_val_detect, y_val_detect
                       )
 
-model_name_detect = "tflite_pruning_detect_wuw_matrix.jpg"
-model_type = "Float"
-evaluate_tflite_model(Config.target_wake_word, Config.target_list,
-                      Config.prun_tflite_file_path, model_type,x_test_detect,
-                      y_test_detect, model_name_detect,
-                      x_train_detect, y_train_detect, x_val_detect, y_val_detect
-                      )
+# model_name_detect = "tflite_pruning_detect_wuw_matrix.jpg"
+# model_type = "Float"
+# evaluate_tflite_model(Config.target_wake_word, Config.target_list,
+#                       Config.prun_tflite_file_path, model_type,x_test_detect,
+#                       y_test_detect, model_name_detect,
+#                       x_train_detect, y_train_detect, x_val_detect, y_val_detect
+#                       )
 
 
-print("0"*100)
-print("0"*100)
+print()
+print("-"*100)
 print()
 
 print("Recognition 관련")
 recog_model = tf.keras.models.load_model(Config.best_model_path_recog)
 _, recog_keras_file = tempfile.mkstemp('.h5')
 tf.keras.models.save_model(recog_model, recog_keras_file, include_optimizer=False)
-print("Recognition 기본 모델         : %.2f bytes" % (get_gzipped_model_size(recog_keras_file)))
-print("Recognition 기본 tflite      : %.2f bytes" % (get_gzipped_model_size(Config.tflite_file_path_recog)))
-print("Recognition  Pruning tflite : %.2f bytes" % (get_gzipped_model_size(Config.prun_tflite_file_path_recog)))
+get_gzipped_model_size(recog_keras_file)
+get_gzipped_model_size(Config.tflite_file_path_recog)
+# get_gzipped_model_size(Config.prun_tflite_file_path_recog)
 
 model_name_recog = "tflite_orig_recog_user_matrix.jpg"
 model_type = "Float"
@@ -158,13 +158,13 @@ evaluate_tflite_model(Config.target_user, Config.user_list,
                       )
 
 
-model_name_recog = "tflite_pruning_recog_user_matrix.jpg"
-model_type = "Float"
-evaluate_tflite_model(Config.target_user, Config.user_list,
-                      Config.tflite_file_path_recog, model_type, x_test_recog,
-                      y_test_recog, model_name_recog,
-                      x_train_recog, y_train_recog, x_val_recog, y_val_recog
-                      )
+# model_name_recog = "tflite_pruning_recog_user_matrix.jpg"
+# model_type = "Float"
+# evaluate_tflite_model(Config.target_user, Config.user_list,
+#                       Config.tflite_file_path_recog, model_type, x_test_recog,
+#                       y_test_recog, model_name_recog,
+#                       x_train_recog, y_train_recog, x_val_recog, y_val_recog
+#                       )
 
 
 

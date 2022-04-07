@@ -2,12 +2,12 @@ import os
 from configuration import Config
 
 
-base_path = "../"
-dataset_path = base_path + 'custum_dataset' # 'custum_dataset''augmentation_dataset'
+
+dataset_path = Config.base_path + 'custum_dataset' # 'custum_dataset''augmentation_dataset'
 
 for user in Config.user_list:
     for type in Config.target_list:
-        file_path = './custum_dataset/' + user+ '/' + type
+        file_path = dataset_path +'/' + user+ '/' + type
         file_names = os.listdir(file_path)
         i = 1
         for name in file_names:

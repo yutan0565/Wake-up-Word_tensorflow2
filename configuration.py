@@ -33,7 +33,7 @@ class Config:
     # 내가 신경 안쓸 class
     non_target_list = ['_background_noise_', '.ipynb_checkpoints' ]
 
-    target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'no', 'shift_sound'] #
+    target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'other'] #, 'shift_sound'
 
     user_list = ['user_01', 'user_02', 'user_03']
 
@@ -41,8 +41,8 @@ class Config:
     target_wake_word = ['hi_yutan', 'hi_sungwoo']
     target_user = ['user_01', 'user_02']
 
-    target_wake_word_index = [4]
-    target_user_index = [0]
+    target_wake_word_index = [3, 4]
+    target_user_index = [0, 1]
 
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 32000
@@ -59,7 +59,7 @@ class Config:
     #sample rate 고려한 자르는 시작점
     sample_cut = int(sample_rate*wav_time) 
     # 클릭 시간
-    click = int(sample_rate*0.2)
+    click = int(sample_rate*0.1)
     # frame 몇개로 할지 선정
     num_mfcc=13
     #

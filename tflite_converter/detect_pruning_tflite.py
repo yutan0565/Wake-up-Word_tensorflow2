@@ -29,7 +29,7 @@ y_val_one_hot = tf.one_hot(y_val, len(Config.target_list))
 y_test_one_hot = tf.one_hot(y_test, len(Config.target_list))
 
 
-#model = tf.keras.models.load_model(Config.best_model_path_recog)
+model = tf.keras.models.load_model(Config.best_model_path)
 
 _, keras_file = tempfile.mkstemp('.h5')
 tf.keras.models.save_model(model, keras_file, include_optimizer=False)

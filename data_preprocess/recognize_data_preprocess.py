@@ -15,7 +15,8 @@ filenames = []
 y = []
 
 for target in Config.target_list:
-    if target == Config.wake_word:
+    #if target == Config.wake_word:
+    if target in Config.target_wake_word:
         for index , user in enumerate(Config.user_list):
             print('/'.join([Config.dataset_path, user, target]))  # class 에 맞는 폴더 이름 넣어주기
             filenames.append(listdir('/'.join([Config.dataset_path, user, target])))
@@ -56,15 +57,22 @@ def extract_features(in_files, in_y):
     out_y = []
 
     for index, filename in enumerate(in_files):
-            path = "/".join([Config.dataset_path, Config.user_list[int(in_y[index])], "hi_yutan",
+        for target_word in Config.target_wake_word:
+
+            if (target_word not in filename) or (Config.user_list[int(in_y[index])] not in filename):
+                continue
+
+            path = "/".join([Config.dataset_path, Config.user_list[int(in_y[index])],target_word,
                              filename])
+            print(path)
+            print(int(in_y[index]))
             # Check to make sure we're reading a .wav file
             if not path.endswith('.wav'):
                 continue
 
             # Create MFCCs
             signal, sr = librosa.core.load(path, Config.sample_rate)
-            signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
+            #signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
             #mfccs = MFCC_maker.mfcc_process (signal, sr)
             spectrogram = tool.mel_spectrogram_process(signal, sr)
             regul_spectrogram = tool.spec_regularization(spectrogram)
@@ -85,8 +93,6 @@ x_test, y_test, prob_test = extract_features(filenames_test, y_orig_test)
 print("Train 잃은거{}".format(prob_train / len(y_orig_train)))
 print("Valid 잃은거{}".format(prob_val / len(y_orig_val)))
 print("Test 잃은거{}".format(prob_test / len(y_orig_test)))
-
-wake_word_index = Config.target_list.index(Config.wake_word)
 
 # y_train = np.equal(y_train, wake_word_index).astype('float64')
 # y_val = np.equal(y_val, wake_word_index).astype('float64')

@@ -17,7 +17,7 @@ y = []
 
 for user in Config.user_list:
     for index, target in enumerate(Config.target_list):
-        print('/'.join([Config.dataset_path, user, target]))  # class 에 맞는 폴더 이름 넣어주기
+        #print('/'.join([Config.dataset_path, user, target]))  # class 에 맞는 폴더 이름 넣어주기
         filenames.append(listdir('/'.join([Config.dataset_path, user, target])))
         y.append(np.ones(len(filenames[index])) * index)
 
@@ -25,11 +25,14 @@ for user in Config.user_list:
 filenames = [item for sublist in filenames for item in sublist]
 y = [item for sublist in y for item in sublist]
 
+
 # 여기부터 분배를 잘 해줘야함
 # file 모아둔거 한번 섞어 주기
 filenames_y = list(zip(filenames, y))
 random.shuffle(filenames_y)
 filenames, y = zip(*filenames_y)
+
+
 
 val_set_size = int(len(filenames) * Config.val_ratio)
 test_set_size = int(len(filenames) * Config.test_ratio)
@@ -41,6 +44,9 @@ filenames_train = filenames[(val_set_size + test_set_size):]
 y_orig_val = y[:val_set_size]
 y_orig_test = y[val_set_size:(val_set_size + test_set_size)]
 y_orig_train = y[(val_set_size + test_set_size):]
+
+for i in range(10):
+    print(filenames_train[i], y_orig_train[i])
 
 print(len(filenames_train), len(y_orig_train))
 print(len(filenames_val), len(y_orig_val))
@@ -57,11 +63,12 @@ def extract_features(in_files, in_y):
     for index, filename in enumerate(in_files):
         for user in Config.user_list:
             # Create path from given filename and target item
-
+            #
             if (user not in filename) or (Config.target_list[int(in_y[index])] not in filename):
                 continue
             path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])],
                              filename])
+            print(path)
 
             # Check to make sure we're reading a .wav file
             if not path.endswith('.wav'):
