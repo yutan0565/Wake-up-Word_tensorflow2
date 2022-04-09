@@ -68,12 +68,12 @@ def extract_features(in_files, in_y):
                 continue
             path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])],
                              filename])
-            print(path)
+            # print(path)
 
             # Check to make sure we're reading a .wav file
             if not path.endswith('.wav'):
                 continue
-
+            print(filename, int(in_y[index]))
             # Create MFCCs
             signal, sr = librosa.core.load(path, Config.sample_rate)
             #signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]

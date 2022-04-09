@@ -24,13 +24,14 @@ class Config:
 
     target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'other'] #, 'shift_sound'
     user_list = ['user_01', 'user_02', 'user_03',]
+    # [김유탄, 성우, 병현]
 
     # 기동어 class 이름 - 폴더이름
     target_wake_word = ['hi_yutan']
-    target_user = ['user_01', 'user_02']
+    target_user = ['user_03']
 
     target_wake_word_index = [4]
-    target_user_index = [0, 1]
+    target_user_index = [2]
 
     # 기동어 정답 나누는 기준
     thres_hold_detect = 0.98
@@ -43,7 +44,7 @@ class Config:
 
     wav_time = 1
     sample_cut = int(sample_rate*wav_time)
-    click = int(sample_rate*0.1)
+    click = int(sample_rate*0.2)
 
     n_fft = 1024
     hop_length = 512
@@ -57,7 +58,7 @@ class Config:
     
     # 학습 관련
     epoch_original = 300
-    batch_size_original = 32
+    batch_size_original = 64
     early_stop_aptience = 30
     lr_factor = 0.7
     lr_patience = 10

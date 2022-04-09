@@ -64,8 +64,7 @@ def extract_features(in_files, in_y):
 
             path = "/".join([Config.dataset_path, Config.user_list[int(in_y[index])],target_word,
                              filename])
-            print(path)
-            print(int(in_y[index]))
+            print(filename, int(in_y[index]))
             # Check to make sure we're reading a .wav file
             if not path.endswith('.wav'):
                 continue

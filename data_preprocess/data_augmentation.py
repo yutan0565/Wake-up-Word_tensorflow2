@@ -33,7 +33,7 @@ def adding_white_noise(data, end_path,  noise_rate=0.002):
 def stretch_sound(file_path, end_path,  rate=0.8):
     signal, sr = librosa.load(file_path, sr=Config.sample_rate)
     sig = librosa.effects.time_stretch(signal, rate)
-    stretch_data = sig[int(-Config.sample_cut - 3*Config.click)  :   int(-3*Config.click + 1)]
+    stretch_data = sig[int(-Config.sample_cut - 2*Config.click)  :   int(-2*Config.click + 1)]
     sf.write( end_path, stretch_data, sr)
     return stretch_data
 

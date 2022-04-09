@@ -127,7 +127,6 @@ while (True):
 
         for index_detect in Config.target_wake_word_index:
             if val_detect[index_detect] > Config.thres_hold_detect:
-                print(val_detect)
                 print("hey_tantan : {:.02f}  hi_byeonghyeon : {:.02f}  hi_jeonglyul : {:.02f}".format(val_detect[0],
                                                                                                       val_detect[1],
                                                                                                       val_detect[2]))
@@ -135,6 +134,7 @@ while (True):
                                                                                                       val_detect[4],
                                                                                                       val_detect[5]))
                 print("{} 감지!!".format(Config.target_list[index_detect]))
+
                 show_result_image(detection_image)
                 val_recog = make_ouput(input_tensor, interpreter_recog, input_details_recog, output_details_recog)
                 print("User_01 : {:.02f}  User_02 : {:.02f}  User_03 : {:.02f}".format(val_recog[0], val_recog[1], val_recog[2]))
