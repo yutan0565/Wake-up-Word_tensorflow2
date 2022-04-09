@@ -70,7 +70,7 @@ def shift_sound(file_path, end_path, shift_time, direct):
         sf.write(end_path, shift_left_data, sr)
         return shift_left_data
 
-for user in Config.user_list:
+for user in ["user_04"]: #Config.user_list:
     print(user+ "start augmentation")
     for index, type in enumerate(Config.target_list):
       # 데이터 보내줄 곳
@@ -108,17 +108,17 @@ for user in Config.user_list:
         pitch_end_path = path + pitch_name
         pitch_sound(file_path, pitch_end_path)
 
-        #shift 해주기
-        direct_list = ["left", "right"]
-        for direct in direct_list:
-            if direct == "left":
-                shift_time = 0.6
-            else:
-                shift_time = 0.6
-            shift_name = 'shift_' + direct + '_' +user + '_' + '{0:04d}'.format(count) + '_' + type +'_' +'other.wav'
-            shift_end_path =  Config.base_path + Config.dataset_type + '/' + user + '/other/' + shift_name
-
-            shift_sound(file_path, shift_end_path, shift_time, direct)
+        # #shift 해주기
+        # direct_list = ["left", "right"]
+        # for direct in direct_list:
+        #     if direct == "left":
+        #         shift_time = 0.6
+        #     else:
+        #         shift_time = 0.6
+        #     shift_name = 'shift_' + direct + '_' +user + '_' + '{0:04d}'.format(count) + '_' + type +'_' +'other.wav'
+        #     shift_end_path =  Config.base_path + Config.dataset_type + '/' + user + '/other/' + shift_name
+        #
+        #     shift_sound(file_path, shift_end_path, shift_time, direct)
 
         end_path = path + 'ori' + "_" + user + "_" + '{0:04d}'.format(count) + "_" + type + '.wav'
         print(end_path)

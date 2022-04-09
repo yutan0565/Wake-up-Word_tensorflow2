@@ -137,7 +137,7 @@ while (True):
 
                 show_result_image(detection_image)
                 val_recog = make_ouput(input_tensor, interpreter_recog, input_details_recog, output_details_recog)
-                print("User_01 : {:.02f}  User_02 : {:.02f}  User_03 : {:.02f}".format(val_recog[0], val_recog[1], val_recog[2]))
+                print("User_01 : {:.02f}  User_02 : {:.02f}  User_03 : {:.02f}  User_04 : {:.02f}".format(val_recog[0], val_recog[1], val_recog[2], val_recog[3]))
                 flag= True
                 for index_recog in Config.target_user_index:
                     if val_recog[index_recog] > Config.thres_hold_recog:

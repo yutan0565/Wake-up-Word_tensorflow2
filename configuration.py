@@ -23,20 +23,20 @@ class Config:
     aug_rate = 0.9
 
     target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'other'] #, 'shift_sound'
-    user_list = ['user_01', 'user_02', 'user_03',]
-    # [김유탄, 성우, 병현]
+    user_list = ['user_01', 'user_02', 'user_03', 'user_04']
 
+    # [김유탄, 성우, 병현]
     # 기동어 class 이름 - 폴더이름
     target_wake_word = ['hi_yutan']
-    target_user = ['user_03']
+    target_user = ['user_01']
 
     target_wake_word_index = [4]
-    target_user_index = [2]
+    target_user_index = [0]
 
     # 기동어 정답 나누는 기준
     thres_hold_detect = 0.98
-    thres_hold_recog = 0.8
-    thres_hold_low_power = 0.0001
+    thres_hold_recog = 0.92
+    thres_hold_low_power = 0.002
 
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 32000
