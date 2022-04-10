@@ -22,8 +22,8 @@ class Config:
     # Augmentation 종류 별, 본래 클래스 비율
     aug_rate = 0.9
 
-    target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'other'] #, 'shift_sound'
-    user_list = ['user_01', 'user_02', 'user_03', 'user_04']
+    target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'other', 'other_google_speech'] #, 'shift_sound'
+    user_list = ['user_01', 'user_02', 'user_03', 'user_04', 'user_05']
 
     # [김유탄, 성우, 병현]
     # 기동어 class 이름 - 폴더이름
@@ -35,11 +35,13 @@ class Config:
 
     # 기동어 정답 나누는 기준
     thres_hold_detect = 0.98
-    thres_hold_recog = 0.92
+    thres_hold_recog = 0.90
     thres_hold_low_power = 0.002
 
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 32000
+    stride_rate = 8
+
     low_power_sample_rate = 4000
 
     wav_time = 1
@@ -52,7 +54,7 @@ class Config:
 
     n_mels = 256
     len_mfcc = 63
-    stride_rate = 4
+
 
     num_mfcc=13
     
@@ -73,9 +75,15 @@ class Config:
     best_model_path_recog = base_path+ "best_model/speaker_recognition_model"
     best_model_path_recog_02 = base_path + "best_model/speaker_recognition_model_02"
 
-    best_model_path_detect_pruning = base_path+ "best_model/detection_pruning_model"
-    best_model_path_recog_pruning = base_path+ "best_model/recognition_pruning_model"
-    best_model_path_recog_pruning_02 = base_path + "best_model/recognition_pruning_model_02"
+    best_model_path_detect_pruning_02 = base_path+ "best_model/detection_pruning_02_model"
+    best_model_path_detect_pruning_04 = base_path+ "best_model/detection_pruning_04_model"
+    best_model_path_detect_pruning_06 = base_path+ "best_model/detection_pruning_06_model"
+    best_model_path_detect_pruning_08 = base_path+ "best_model/detection_pruning_08_model"
+
+    best_model_path_recog_pruning_02_02 = base_path + "best_model/recognition_pruning_model_02_02"
+    best_model_path_recog_pruning_04_02 = base_path + "best_model/recognition_pruning_model_04_02"
+    best_model_path_recog_pruning_06_02 = base_path + "best_model/recognition_pruning_model_06_02"
+    best_model_path_recog_pruning_08_02 = base_path + "best_model/recognition_pruning_model_08_02"
 
 
 
@@ -86,13 +94,28 @@ class Config:
     # Detect
     tflite_file_path = base_path + tflite_model_path + 'ori_detection.tflite'
     quant_tflite_file_path = base_path + tflite_model_path+ 'quant_detection.tflite'
-    prun_tflite_file_path = base_path + tflite_model_path+ 'prun_detection.tflite'
+
+    prun_02_tflite_file_path = base_path + tflite_model_path+ 'prun_02_detection.tflite'
+    prun_04_tflite_file_path = base_path + tflite_model_path + 'prun_04_detection.tflite'
+    prun_06_tflite_file_path = base_path + tflite_model_path + 'prun_06_detection.tflite'
+    prun_08_tflite_file_path = base_path + tflite_model_path + 'prun_08_detection.tflite'
+
 
     # Recog
-    tflite_file_path_recog = base_path + tflite_model_path+ 'ori_recognition.tflite'
+    # tflite_file_path_recog = base_path + tflite_model_path+ 'ori_recognition.tflite'
     tflite_file_path_recog_02 = base_path + tflite_model_path + 'ori_recognition_02.tflite'
     quant_tflite_file_path_recog = base_path + tflite_model_path+ 'quant_recognition.tflite'
-    prun_tflite_file_path_recog = base_path + tflite_model_path+ 'prun_recognition.tflite'
+
+    prun_02_tflite_file_path_recog = base_path + tflite_model_path+ 'prun_02_recognition.tflite'
+    prun_04_tflite_file_path_recog = base_path + tflite_model_path + 'prun_04_recognition.tflite'
+    prun_06_tflite_file_path_recog = base_path + tflite_model_path + 'prun_06_recognition.tflite'
+    prun_08_tflite_file_path_recog = base_path + tflite_model_path + 'prun_08_recognition.tflite'
+
+
+
+
+
+
 
     
 

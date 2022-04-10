@@ -28,92 +28,106 @@ y_train_one_hot = tf.one_hot(y_train, len(Config.target_list))
 y_val_one_hot = tf.one_hot(y_val, len(Config.target_list))
 y_test_one_hot = tf.one_hot(y_test, len(Config.target_list))
 
-
-###### 추가
-# 첫번쨰꺼 제외하고 진행 해줘야함, layer별 이름 확인 해보기
-def check_layers_name(model):
-    for n in range(len(model.layers)):
-        print(model.layers[n].name)
-
-
-
-prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
-
-end_step = np.ceil(x_train.shape[0]  / Config.batch_size_prun).astype(np.int32) * Config.epoch_prun
-
-# Sparsity = 0.6,   pruning하고 다시 학습 시키기
-pruning_params= {
-      'pruning_schedule': tfmot.sparsity.keras.PolynomialDecay(initial_sparsity=0.50,
-                                                               final_sparsity=0.80,
-                                                               begin_step=0,
-                                                               end_step=end_step
-                                                               )
-}
-
-# 첫번째랑, 마지막 부분은 제외하고 Pruning 진행 할거임
-def custum_pruning_apply(layer):
-    if layer.name != "첫번재 이름" or layer.name != "마지막 이름":
-        return prune_low_magnitude(layer, **pruning_params)
-    return layer
-
-# 원래 모델
 model = tf.keras.models.load_model(Config.best_model_path)
-model.summary()
 
-model_for_pruning = tf.keras.models.clone_model(
-    model,
-    clone_function = custum_pruning_apply
-)
-model_for_pruning.summary()
+best_model_path_list = [Config.best_model_path_detect_pruning_02, Config.best_model_path_detect_pruning_04, Config.best_model_path_detect_pruning_06, Config.best_model_path_detect_pruning_08 ]
+tflite_path_list = [Config.prun_02_tflite_file_path, Config.prun_04_tflite_file_path, Config.prun_06_tflite_file_path, Config.prun_08_tflite_file_path]
+initial_list =  [ 0.00, 0.20, 0.40, 0.60 ]
+final_list = [ 0.20, 0.40, 0.60, 0.80 ]
 
+for i in range(4):
+    best_model_path = best_model_path_list[i]
+    tflite_path = tflite_path_list[i]
+    initial = initial_list[i]
+    final = final_list[i]
 
+    prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
+    end_step = np.ceil(x_train.shape[0]  / Config.batch_size_prun).astype(np.int32) * Config.epoch_prun
 
-opt = tf.keras.optimizers.Adam(learning_rate=Config.start_lr)
-model_for_pruning.compile(optimizer=opt, loss="categorical_crossentropy", metrics=["accuracy"])
-# logdir = tempfile.mkdtemp()
+    pruning_params= {
+          'pruning_schedule': tfmot.sparsity.keras.PolynomialDecay(initial_sparsity=initial,
+                                                                   final_sparsity=final,
+                                                                   begin_step=0,
+                                                                   end_step=end_step
+                                                                   )
+    }
 
+    def check_layers_name(model):
+        for n in range(len(model.layers)):
+            print(model.layers[n].name)
 
-early_stop = EarlyStopping(patience=Config.early_stop_aptience)
-mc = ModelCheckpoint(Config.best_model_path_detect_pruning,
-                     save_best_only=True,
-                     monitor = 'val_loss',
-                     verbose = 1,
-                     mode = 'min')
+    # 첫번째랑, 마지막 부분은 제외하고 Pruning 진행 할거임
+    # def custum_pruning_apply(layer):
+    #     if tf.keras.layer.name != "conv2d" or tf.keras.layer.name != "dense_3":
+    #         return prune_low_magnitude(layer, **pruning_params)
+    #     return layer
 
-reduce_lr  = ReduceLROnPlateau(monitor = 'val_loss',
-                               factor=Config.lr_factor,
-                               patience=Config.lr_patience
-                               )
+    def custum_pruning_apply(layer):
+        if layer.name != "conv2d" or layer.name != "dense_3":
+            return prune_low_magnitude(layer, **pruning_params)
+        return layer
 
-callbacks = [
-  tfmot.sparsity.keras.UpdatePruningStep(),
-  # tfmot.sparsity.keras.PruningSummaries(log_dir=logdir),
-  early_stop,
-  mc,
-  reduce_lr
-]
+    # 원래 모델
+    model.summary()
+    check_layers_name(model)
 
-model_for_pruning.fit(x_train, y_train,
-                  batch_size=Config.batch_size_prun,
-                  epochs=Config.epoch_prun,
-                  verbose = 1,
-                  validation_data = (x_val, y_val_one_hot),
-                  callbacks=callbacks)
-
-
-
-
-baseline_model_accuracy = model.evaluate(x_test, y_test_one_hot, verbose=0)
-
-_, model_for_pruning_accuracy = model_for_pruning.evaluate(x_test, y_test_one_hot, verbose=0)
-
-print('Baseline test accuracy:', baseline_model_accuracy)
-print('Pruned test accuracy:', model_for_pruning_accuracy)
+    model_for_pruning = tf.keras.models.clone_model(
+        model,
+        clone_function = custum_pruning_apply
+    )
+    model_for_pruning.summary()
 
 
-pruning_export = tfmot.sparsity.keras.strip_pruning(model_for_pruning)
 
-converter = tf.lite.TFLiteConverter.from_keras_model(pruning_export)
-pruning_tflite = converter.convert()
+    opt = tf.keras.optimizers.Adam(learning_rate=Config.start_lr)
+    model_for_pruning.compile(optimizer=opt, loss="categorical_crossentropy", metrics=["accuracy"])
+    # logdir = tempfile.mkdtemp()
 
-open(Config.prun_tflite_file_path, "wb") .write(pruning_tflite)
+
+
+
+    early_stop = EarlyStopping(patience=Config.early_stop_aptience)
+    mc = ModelCheckpoint(best_model_path,
+                         save_best_only=True,
+                         monitor = 'val_loss',
+                         verbose = 1,
+                         mode = 'min')
+
+    reduce_lr  = ReduceLROnPlateau(monitor = 'val_loss',
+                                   factor=Config.lr_factor,
+                                   patience=Config.lr_patience
+                                   )
+
+    callbacks = [
+      tfmot.sparsity.keras.UpdatePruningStep(),
+      # tfmot.sparsity.keras.PruningSummaries(log_dir=logdir),
+      early_stop,
+      mc,
+      reduce_lr
+    ]
+
+    model_for_pruning.fit(x_train, y_train_one_hot,
+                      batch_size=Config.batch_size_prun,
+                      epochs=Config.epoch_prun,
+                      verbose = 1,
+                      validation_data = (x_val, y_val_one_hot),
+                      callbacks=callbacks)
+
+
+
+
+    baseline_model_accuracy = model.evaluate(x_test, y_test_one_hot, verbose=0)
+
+    _, model_for_pruning_accuracy = model_for_pruning.evaluate(x_test, y_test_one_hot, verbose=0)
+
+    print('Baseline test accuracy:', baseline_model_accuracy)
+    print('Pruned test accuracy:', model_for_pruning_accuracy)
+
+
+    pruning_export = tfmot.sparsity.keras.strip_pruning(model_for_pruning)
+
+    converter = tf.lite.TFLiteConverter.from_keras_model(pruning_export)
+    pruning_tflite = converter.convert()
+
+
+    open(tflite_path, "wb") .write(pruning_tflite)

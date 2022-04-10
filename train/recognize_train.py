@@ -18,12 +18,6 @@ x_val = feature_sets['x_val']
 y_val = feature_sets['y_val']
 x_test = feature_sets['x_test']
 y_test = feature_sets['y_test']
-print(len(x_train))
-print(len(x_val))
-print(len(x_test))
-print(y_train)
-print(y_val)
-print(y_test)
 
 sample_shape = x_test.shape[1:]
 print(sample_shape)

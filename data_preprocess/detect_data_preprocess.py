@@ -66,6 +66,10 @@ def extract_features(in_files, in_y):
             #
             if (user not in filename) or (Config.target_list[int(in_y[index])] not in filename):
                 continue
+            if Config.target_list[int(in_y[index])] != 'other_google_speech':
+                if (Config.target_list[int(in_y[index])] != 'other') and ('other' in filename ):
+                    continue
+
             path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])],
                              filename])
             # print(path)

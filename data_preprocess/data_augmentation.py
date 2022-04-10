@@ -70,7 +70,7 @@ def shift_sound(file_path, end_path, shift_time, direct):
         sf.write(end_path, shift_left_data, sr)
         return shift_left_data
 
-for user in ["user_04"]: #Config.user_list:
+for user in ["user_05"]: #Config.user_list:
     print(user+ "start augmentation")
     for index, type in enumerate(Config.target_list):
       # 데이터 보내줄 곳
