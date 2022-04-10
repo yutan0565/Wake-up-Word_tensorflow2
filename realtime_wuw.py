@@ -130,9 +130,10 @@ while (True):
                 print("hey_tantan : {:.02f}  hi_byeonghyeon : {:.02f}  hi_jeonglyul : {:.02f}".format(val_detect[0],
                                                                                                       val_detect[1],
                                                                                                       val_detect[2]))
-                print("hi_sungwoo : {:.02f}  hi_yutan : {:.02f}  other : {:.02f}".format(val_detect[3],
-                                                                                                      val_detect[4],
-                                                                                                      val_detect[5]))
+                print("hi_sungwoo : {:.02f}  hi_yutan : {:.02f}".format(val_detect[3],
+                                                                        val_detect[4],
+                                                                         ))
+
                 print("{} 감지!!".format(Config.target_list[index_detect]))
 
                 show_result_image(detection_image)

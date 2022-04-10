@@ -3,6 +3,7 @@ from configuration import Config
 
 def convert_tflite(model_path, tflite_path ):
     model = tf.keras.models.load_model(model_path)
+    model.summary()
     converter = tf.lite.TFLiteConverter.from_keras_model(model)
     tflite_model = converter.convert()
     open(tflite_path, 'wb').write(tflite_model)
