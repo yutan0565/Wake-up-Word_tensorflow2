@@ -6,7 +6,7 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLRO
 import tensorflow as tf
 from configuration import Config
 import numpy as np
-
+import matplotlib.pyplot as plt
 import tempfile
 
 
@@ -30,8 +30,12 @@ y_test_one_hot = tf.one_hot(y_test, len(Config.target_list))
 
 model = tf.keras.models.load_model(Config.best_model_path)
 
-best_model_path_list = [Config.best_model_path_detect_pruning_02, Config.best_model_path_detect_pruning_04, Config.best_model_path_detect_pruning_06, Config.best_model_path_detect_pruning_08 ]
-tflite_path_list = [Config.prun_02_tflite_file_path, Config.prun_04_tflite_file_path, Config.prun_06_tflite_file_path, Config.prun_08_tflite_file_path]
+best_model_path_list = [Config.best_model_path_detect_pruning_02, Config.best_model_path_detect_pruning_04,
+                        Config.best_model_path_detect_pruning_06, Config.best_model_path_detect_pruning_08 ]
+tflite_path_list = [Config.prun_02_tflite_file_path, Config.prun_04_tflite_file_path,
+                    Config.prun_06_tflite_file_path, Config.prun_08_tflite_file_path]
+image_name = ['detect_wuw_prun_02_acc_loss', 'detect_wuw_prun_04_acc_loss',
+              'detect_wuw_prun_06_acc_loss','detect_wuw_prun_08_acc_loss']
 initial_list =  [ 0.00, 0.20, 0.40, 0.60 ]
 final_list = [ 0.20, 0.40, 0.60, 0.80 ]
 
@@ -78,13 +82,9 @@ for i in range(4):
     model_for_pruning.summary()
 
 
-
     opt = tf.keras.optimizers.Adam(learning_rate=Config.start_lr)
-    model_for_pruning.compile(optimizer=opt, loss="categorical_crossentropy", metrics=["accuracy"])
-    # logdir = tempfile.mkdtemp()
-
-
-
+    model_for_pruning.compile(optimizer=opt, loss="categorical_crossentropy",
+                              metrics=["accuracy"])
 
     early_stop = EarlyStopping(patience=Config.early_stop_aptience)
     mc = ModelCheckpoint(best_model_path,
@@ -106,28 +106,25 @@ for i in range(4):
       reduce_lr
     ]
 
-    model_for_pruning.fit(x_train, y_train_one_hot,
+    history = model_for_pruning.fit(x_train, y_train_one_hot,
                       batch_size=Config.batch_size_prun,
                       epochs=Config.epoch_prun,
                       verbose = 1,
                       validation_data = (x_val, y_val_one_hot),
                       callbacks=callbacks)
 
+    fig, ax = plt.subplots(2, 1)
+    ax[0].plot(history.history['loss'], color='b', label="Training loss")
+    ax[0].plot(history.history['val_loss'], color='r', label="validation loss", axes=ax[0])
+    legend = ax[0].legend(loc='best', shadow=True)
 
-
-
-    baseline_model_accuracy = model.evaluate(x_test, y_test_one_hot, verbose=0)
-
-    _, model_for_pruning_accuracy = model_for_pruning.evaluate(x_test, y_test_one_hot, verbose=0)
-
-    print('Baseline test accuracy:', baseline_model_accuracy)
-    print('Pruned test accuracy:', model_for_pruning_accuracy)
-
+    ax[1].plot(history.history['accuracy'], color='b', label="Training accuracy")
+    ax[1].plot(history.history['val_accuracy'], color='r', label="Validation accuracy")
+    legend = ax[1].legend(loc='best', shadow=True)
+    plt.savefig(Config.base_path + 'model_evaluate/'+ image_name[i]+'.jpg')
+    plt.show()
 
     pruning_export = tfmot.sparsity.keras.strip_pruning(model_for_pruning)
-
     converter = tf.lite.TFLiteConverter.from_keras_model(pruning_export)
     pruning_tflite = converter.convert()
-
-
     open(tflite_path, "wb") .write(pruning_tflite)

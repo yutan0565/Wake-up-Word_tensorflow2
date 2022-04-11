@@ -4,7 +4,8 @@ from os.path import isdir, join
 class Config:
 
     # base_path = "/content/drive/MyDrive/"
-    base_path = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/"
+    #base_path = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/"
+    base_path = "C:/Users/yutankim/Desktop/Wake-up-Word_tensorflow2/"
 
     for_aug_dataset = 'custum_dataset'  #Augmentation을 적용할 폴더 이름
     dataset_type = "augmentation_dataset"      # 학습에 사용할 데이터 셋
@@ -36,7 +37,10 @@ class Config:
     # 기동어 정답 나누는 기준
     thres_hold_detect = 0.98
     thres_hold_recog = 0.90
-    thres_hold_low_power = 0.002
+
+    # thres_hold_low_power = 0.002
+    thres_hold_low_power = 0.03
+
 
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 32000
