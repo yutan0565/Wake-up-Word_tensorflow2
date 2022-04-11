@@ -39,14 +39,12 @@ class Config:
     thres_hold_recog = 0.80
 
     # thres_hold_low_power = 0.002
-    thres_hold_low_power = 0.001
+    thres_hold_low_power = 0.03
 
 
     # 음향 파일 불러올떄 1초당 sample 개수
     sample_rate = 32000
     stride_rate = 8
-
-    low_power_sample_rate = 4000
 
     wav_time = 1
     sample_cut = int(sample_rate*wav_time)
