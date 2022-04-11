@@ -101,6 +101,9 @@ def recog_model_02(sample_shape):
     ])
     return model
 
+
+#https://ballentain.tistory.com/31
+# rcnn 만들어 보기
 def recog_model_03(sample_shape):
     model = Sequential([
         # conv layer 부분
