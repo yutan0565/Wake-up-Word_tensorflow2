@@ -62,6 +62,9 @@ def extract_features(in_files, in_y):
 
             if (target_word not in filename) or (Config.user_list[int(in_y[index])] not in filename):
                 continue
+            if "stretch" in filename:
+                print("스트레치 패스")
+                continue
 
             path = "/".join([Config.dataset_path, Config.user_list[int(in_y[index])],target_word,
                              filename])

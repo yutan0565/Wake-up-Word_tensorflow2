@@ -28,29 +28,30 @@ y_train_one_hot = tf.one_hot(y_train, len(Config.user_list))
 y_val_one_hot = tf.one_hot(y_val, len(Config.user_list))
 y_test_one_hot = tf.one_hot(y_test, len(Config.user_list))
 
-model = tf.keras.models.load_model(Config.best_model_path_recog_02)
+best_model_path_list = [Config.best_model_path_recog_pruning_06_02, Config.best_model_path_recog_pruning_08_02,
+                        Config.best_model_path_recog_pruning_09_02, Config.best_model_path_recog_pruning_95_02,
+                        Config.best_model_path_recog_pruning_98_02, Config.best_model_path_recog_pruning_99_02]
 
-best_model_path_list = [Config.best_model_path_recog_pruning_02_02, Config.best_model_path_recog_pruning_04_02,
-                        Config.best_model_path_recog_pruning_06_02, Config.best_model_path_recog_pruning_08_02,
-                        Config.best_model_path_recog_pruning_09_02, Config.best_model_path_recog_pruning_95_02]
-
-tflite_path_list = [Config.prun_02_tflite_file_path_recog, Config.prun_04_tflite_file_path_recog,
-                    Config.prun_06_tflite_file_path_recog, Config.prun_08_tflite_file_path_recog,
-                    Config.prun_09_tflite_file_path_recog, Config.prun_95_tflite_file_path_recog]
+tflite_path_list = [Config.prun_06_tflite_file_path_recog, Config.prun_08_tflite_file_path_recog,
+                    Config.prun_09_tflite_file_path_recog, Config.prun_95_tflite_file_path_recog,
+                    Config.prun_98_tflite_file_path_recog, Config.prun_99_tflite_file_path_recog]
 
 
-image_name = ['recog_user_prun_02_acc_loss', 'recog_user_prun_04_acc_loss',
-              'recog_user_prun_06_acc_loss','recog_user_prun_08_acc_loss',
-              'recog_user_prun_09_acc_loss','recog_user_prun_95_acc_loss']
+image_name = ['recog_user_prun_06_acc_loss','recog_user_prun_08_acc_loss',
+              'recog_user_prun_09_acc_loss','recog_user_prun_95_acc_loss',
+              'recog_user_prun_98_acc_loss', 'recog_user_prun_99_acc_loss',
+              ]
 
-initial_list =  [ 0.00, 0.20, 0.40, 0.60, 0.70, 0.75 ]
-final_list = [ 0.20, 0.40, 0.60, 0.80, 0.90, 0.95 ]
+initial_list =  [ 0.40, 0.60, 0.70, 0.75 , 0.78, 0.79 ]
+final_list = [ 0.60, 0.80, 0.9, 0.95 , 0.98, 0.99]
 
-for i in range( 4, len(best_model_path_list)):
+for i in range( len(best_model_path_list)):
     best_model_path = best_model_path_list[i]
     tflite_path = tflite_path_list[i]
     initial = initial_list[i]
     final = final_list[i]
+
+    model = tf.keras.models.load_model(Config.best_model_path_recog_02)
 
     prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
     end_step = np.ceil(x_train.shape[0]  / Config.batch_size_prun).astype(np.int32) * Config.epoch_prun
@@ -132,6 +133,7 @@ for i in range( 4, len(best_model_path_list)):
     ax[1].plot(history.history['accuracy'], color='b', label="Training accuracy")
     ax[1].plot(history.history['val_accuracy'], color='r', label="Validation accuracy")
     legend = ax[1].legend(loc='best', shadow=True)
+    plt.suptitle(image_name[i])
     plt.savefig(Config.base_path + 'model_evaluate/'+ image_name[i]+'.jpg')
     plt.show()
 

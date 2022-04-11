@@ -36,10 +36,10 @@ class Config:
 
     # 기동어 정답 나누는 기준
     thres_hold_detect = 0.98
-    thres_hold_recog = 0.90
+    thres_hold_recog = 0.80
 
     # thres_hold_low_power = 0.002
-    thres_hold_low_power = 0.03
+    thres_hold_low_power = 0.001
 
 
     # 음향 파일 불러올떄 1초당 sample 개수
@@ -79,19 +79,21 @@ class Config:
     best_model_path_recog = base_path+ "best_model/speaker_recognition_model"
     best_model_path_recog_02 = base_path + "best_model/speaker_recognition_model_02"
 
-    best_model_path_detect_pruning_02 = base_path+ "best_model/detection_pruning_02_model"
-    best_model_path_detect_pruning_04 = base_path+ "best_model/detection_pruning_04_model"
+
     best_model_path_detect_pruning_06 = base_path+ "best_model/detection_pruning_06_model"
     best_model_path_detect_pruning_08 = base_path+ "best_model/detection_pruning_08_model"
     best_model_path_detect_pruning_09 = base_path+ "best_model/detection_pruning_09_model"
     best_model_path_detect_pruning_95 = base_path+ "best_model/detection_pruning_95_model"
+    best_model_path_detect_pruning_98 = base_path+ "best_model/detection_pruning_98_model"
+    best_model_path_detect_pruning_99 = base_path+ "best_model/detection_pruning_99_model"
 
-    best_model_path_recog_pruning_02_02 = base_path + "best_model/recognition_pruning_model_02_02"
-    best_model_path_recog_pruning_04_02 = base_path + "best_model/recognition_pruning_model_04_02"
+
     best_model_path_recog_pruning_06_02 = base_path + "best_model/recognition_pruning_model_06_02"
     best_model_path_recog_pruning_08_02 = base_path + "best_model/recognition_pruning_model_08_02"
     best_model_path_recog_pruning_09_02 = base_path + "best_model/recognition_pruning_model_09_02"
     best_model_path_recog_pruning_95_02 = base_path + "best_model/recognition_pruning_model_95_02"
+    best_model_path_recog_pruning_98_02 = base_path + "best_model/recognition_pruning_model_98_02"
+    best_model_path_recog_pruning_99_02 = base_path + "best_model/recognition_pruning_model_99_02"
 
 
 
@@ -102,12 +104,13 @@ class Config:
     tflite_file_path = base_path + tflite_model_path + 'ori_detection.tflite'
     quant_tflite_file_path = base_path + tflite_model_path+ 'quant_detection.tflite'
 
-    prun_02_tflite_file_path = base_path + tflite_model_path+ 'prun_02_detection.tflite'
-    prun_04_tflite_file_path = base_path + tflite_model_path + 'prun_04_detection.tflite'
+
     prun_06_tflite_file_path = base_path + tflite_model_path + 'prun_06_detection.tflite'
     prun_08_tflite_file_path = base_path + tflite_model_path + 'prun_08_detection.tflite'
     prun_09_tflite_file_path = base_path + tflite_model_path + 'prun_09_detection.tflite'
     prun_95_tflite_file_path = base_path + tflite_model_path + 'prun_95_detection.tflite'
+    prun_98_tflite_file_path = base_path + tflite_model_path + 'prun_98_detection.tflite'
+    prun_99_tflite_file_path = base_path + tflite_model_path + 'prun_99_detection.tflite'
 
 
     # Recog
@@ -115,12 +118,13 @@ class Config:
     tflite_file_path_recog_02 = base_path + tflite_model_path + 'ori_recognition_02.tflite'
     quant_tflite_file_path_recog = base_path + tflite_model_path+ 'quant_recognition.tflite'
 
-    prun_02_tflite_file_path_recog = base_path + tflite_model_path+ 'prun_02_recognition.tflite'
-    prun_04_tflite_file_path_recog = base_path + tflite_model_path + 'prun_04_recognition.tflite'
+
     prun_06_tflite_file_path_recog = base_path + tflite_model_path + 'prun_06_recognition.tflite'
     prun_08_tflite_file_path_recog = base_path + tflite_model_path + 'prun_08_recognition.tflite'
     prun_09_tflite_file_path_recog = base_path + tflite_model_path + 'prun_09_recognition.tflite'
     prun_95_tflite_file_path_recog = base_path + tflite_model_path + 'prun_95_recognition.tflite'
+    prun_98_tflite_file_path_recog = base_path + tflite_model_path + 'prun_98_recognition.tflite'
+    prun_99_tflite_file_path_recog = base_path + tflite_model_path + 'prun_99_recognition.tflite'
 
 
 

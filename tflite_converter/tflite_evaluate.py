@@ -56,6 +56,7 @@ def evaluate_tflite_model(target,t_list ,tflite_file, model_type,  x_test, y_tes
             xticklabels = t_list,
             yticklabels = t_list,
             cmap="Reds")
+  plt.suptitle(model_name)
   plt.savefig(Config.base_path + 'model_evaluate/' + model_name)
   plt.show()
 
@@ -119,32 +120,18 @@ _, detect_keras_file = tempfile.mkstemp('.h5')
 tf.keras.models.save_model(detect_model, detect_keras_file, include_optimizer=False)
 get_gzipped_model_size(detect_keras_file)
 get_gzipped_model_size(Config.tflite_file_path)
-get_gzipped_model_size(Config.prun_02_tflite_file_path)
-get_gzipped_model_size(Config.prun_04_tflite_file_path)
 get_gzipped_model_size(Config.prun_06_tflite_file_path)
 get_gzipped_model_size(Config.prun_08_tflite_file_path)
+get_gzipped_model_size(Config.prun_09_tflite_file_path)
+get_gzipped_model_size(Config.prun_95_tflite_file_path)
+get_gzipped_model_size(Config.prun_98_tflite_file_path)
+get_gzipped_model_size(Config.prun_99_tflite_file_path)
 
 
 model_name_detect = "tflite_orig_detect_wuw_matrix.jpg"
 model_type = "Float"
 evaluate_tflite_model(Config.target_wake_word, Config.target_list,
                       Config.tflite_file_path, model_type,x_test_detect,
-                      y_test_detect, model_name_detect,
-                      x_train_detect, y_train_detect, x_val_detect, y_val_detect
-                      )
-
-model_name_detect = "tflite_pruning_02_detect_wuw_matrix.jpg"
-model_type = "Float"
-evaluate_tflite_model(Config.target_wake_word, Config.target_list,
-                      Config.prun_02_tflite_file_path, model_type,x_test_detect,
-                      y_test_detect, model_name_detect,
-                      x_train_detect, y_train_detect, x_val_detect, y_val_detect
-                      )
-
-model_name_detect = "tflite_pruning_04_detect_wuw_matrix.jpg"
-model_type = "Float"
-evaluate_tflite_model(Config.target_wake_word, Config.target_list,
-                      Config.prun_04_tflite_file_path, model_type,x_test_detect,
                       y_test_detect, model_name_detect,
                       x_train_detect, y_train_detect, x_val_detect, y_val_detect
                       )
@@ -165,6 +152,37 @@ evaluate_tflite_model(Config.target_wake_word, Config.target_list,
                       x_train_detect, y_train_detect, x_val_detect, y_val_detect
                       )
 
+model_name_detect = "tflite_pruning_09_detect_wuw_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_wake_word, Config.target_list,
+                      Config.prun_09_tflite_file_path, model_type,x_test_detect,
+                      y_test_detect, model_name_detect,
+                      x_train_detect, y_train_detect, x_val_detect, y_val_detect
+                      )
+
+model_name_detect = "tflite_pruning_96_detect_wuw_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_wake_word, Config.target_list,
+                      Config.prun_95_tflite_file_path, model_type,x_test_detect,
+                      y_test_detect, model_name_detect,
+                      x_train_detect, y_train_detect, x_val_detect, y_val_detect
+                      )
+
+model_name_detect = "tflite_pruning_98_detect_wuw_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_wake_word, Config.target_list,
+                      Config.prun_98_tflite_file_path, model_type,x_test_detect,
+                      y_test_detect, model_name_detect,
+                      x_train_detect, y_train_detect, x_val_detect, y_val_detect
+                      )
+
+model_name_detect = "tflite_pruning_99_detect_wuw_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_wake_word, Config.target_list,
+                      Config.prun_99_tflite_file_path, model_type,x_test_detect,
+                      y_test_detect, model_name_detect,
+                      x_train_detect, y_train_detect, x_val_detect, y_val_detect
+                      )
 
 print()
 print("-"*100)
@@ -178,10 +196,12 @@ tf.keras.models.save_model(recog_model, recog_keras_file, include_optimizer=Fals
 get_gzipped_model_size(recog_keras_file)
 get_gzipped_model_size(Config.tflite_file_path_recog_02)
 
-get_gzipped_model_size(Config.prun_02_tflite_file_path_recog)
-get_gzipped_model_size(Config.prun_04_tflite_file_path_recog)
 get_gzipped_model_size(Config.prun_06_tflite_file_path_recog)
 get_gzipped_model_size(Config.prun_08_tflite_file_path_recog)
+get_gzipped_model_size(Config.prun_09_tflite_file_path_recog)
+get_gzipped_model_size(Config.prun_95_tflite_file_path_recog)
+get_gzipped_model_size(Config.prun_98_tflite_file_path_recog)
+get_gzipped_model_size(Config.prun_99_tflite_file_path_recog)
 
 
 model_name_recog = "tflite_orig_recog_user_matrix_02.jpg"
@@ -192,22 +212,6 @@ evaluate_tflite_model(Config.target_user, Config.user_list,
                       x_train_recog, y_train_recog, x_val_recog, y_val_recog
                       )
 
-
-model_name_recog = "tflite_pruning_02_recog_user_matrix.jpg"
-model_type = "Float"
-evaluate_tflite_model(Config.target_user, Config.user_list,
-                      Config.prun_02_tflite_file_path_recog, model_type, x_test_recog,
-                      y_test_recog, model_name_recog,
-                      x_train_recog, y_train_recog, x_val_recog, y_val_recog
-                      )
-
-model_name_recog = "tflite_pruning_04_recog_user_matrix.jpg"
-model_type = "Float"
-evaluate_tflite_model(Config.target_user, Config.user_list,
-                      Config.prun_04_tflite_file_path_recog, model_type, x_test_recog,
-                      y_test_recog, model_name_recog,
-                      x_train_recog, y_train_recog, x_val_recog, y_val_recog
-                      )
 
 model_name_recog = "tflite_pruning_06_recog_user_matrix.jpg"
 model_type = "Float"
@@ -225,7 +229,37 @@ evaluate_tflite_model(Config.target_user, Config.user_list,
                       x_train_recog, y_train_recog, x_val_recog, y_val_recog
                       )
 
+model_name_recog = "tflite_pruning_09_recog_user_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_user, Config.user_list,
+                      Config.prun_09_tflite_file_path_recog, model_type, x_test_recog,
+                      y_test_recog, model_name_recog,
+                      x_train_recog, y_train_recog, x_val_recog, y_val_recog
+                      )
 
+model_name_recog = "tflite_pruning_95_recog_user_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_user, Config.user_list,
+                      Config.prun_95_tflite_file_path_recog, model_type, x_test_recog,
+                      y_test_recog, model_name_recog,
+                      x_train_recog, y_train_recog, x_val_recog, y_val_recog
+                      )
+
+model_name_recog = "tflite_pruning_98_recog_user_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_user, Config.user_list,
+                      Config.prun_98_tflite_file_path_recog, model_type, x_test_recog,
+                      y_test_recog, model_name_recog,
+                      x_train_recog, y_train_recog, x_val_recog, y_val_recog
+                      )
+
+model_name_recog = "tflite_pruning_99_recog_user_matrix.jpg"
+model_type = "Float"
+evaluate_tflite_model(Config.target_user, Config.user_list,
+                      Config.prun_99_tflite_file_path_recog, model_type, x_test_recog,
+                      y_test_recog, model_name_recog,
+                      x_train_recog, y_train_recog, x_val_recog, y_val_recog
+                      )
 
 
 

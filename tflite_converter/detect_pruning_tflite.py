@@ -28,28 +28,30 @@ y_train_one_hot = tf.one_hot(y_train, len(Config.target_list))
 y_val_one_hot = tf.one_hot(y_val, len(Config.target_list))
 y_test_one_hot = tf.one_hot(y_test, len(Config.target_list))
 
-model = tf.keras.models.load_model(Config.best_model_path)
 
-best_model_path_list = [Config.best_model_path_detect_pruning_02, Config.best_model_path_detect_pruning_04,
-                        Config.best_model_path_detect_pruning_06, Config.best_model_path_detect_pruning_08,
-                        Config.best_model_path_detect_pruning_09, Config.best_model_path_detect_pruning_95]
 
-tflite_path_list = [Config.prun_02_tflite_file_path, Config.prun_04_tflite_file_path,
-                    Config.prun_06_tflite_file_path, Config.prun_08_tflite_file_path,
-                    Config.prun_09_tflite_file_path, Config.prun_95_tflite_file_path]
+best_model_path_list = [Config.best_model_path_detect_pruning_06, Config.best_model_path_detect_pruning_08,
+                        Config.best_model_path_detect_pruning_09, Config.best_model_path_detect_pruning_95,
+                        Config.best_model_path_detect_pruning_98, Config.best_model_path_detect_pruning_99  ]
 
-image_name = ['detect_wuw_prun_02_acc_loss', 'detect_wuw_prun_04_acc_loss',
-              'detect_wuw_prun_06_acc_loss','detect_wuw_prun_08_acc_loss',
-              'detect_wuw_prun_09_acc_loss','detect_wuw_prun_95_acc_loss']
-initial_list =  [ 0.00, 0.20, 0.40, 0.60, 0.70, 0.75 ]
-final_list = [ 0.20, 0.40, 0.60, 0.80, 0.90, 0.95 ]
+tflite_path_list = [Config.prun_06_tflite_file_path, Config.prun_08_tflite_file_path,
+                    Config.prun_09_tflite_file_path, Config.prun_95_tflite_file_path,
+                    Config.prun_98_tflite_file_path, Config.prun_99_tflite_file_path ]
 
-for i in range( 4, len(best_model_path_list)):
+image_name = ['detect_wuw_prun_06_acc_loss','detect_wuw_prun_08_acc_loss',
+              'detect_wuw_prun_09_acc_loss','detect_wuw_prun_95_acc_loss',
+              'detect_wuw_prun_98_acc_loss', 'detect_wuw_prun_99_acc_loss']
+initial_list =  [ 0.40, 0.60, 0.70, 0.75 , 0.78, 0.79 ]
+final_list = [ 0.60, 0.80, 0.9, 0.95 , 0.98, 0.99]
+
+for i in range( len(best_model_path_list)):
     best_model_path = best_model_path_list[i]
     tflite_path = tflite_path_list[i]
     initial = initial_list[i]
     final = final_list[i]
 
+
+    model = tf.keras.models.load_model(Config.best_model_path)
     prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
     end_step = np.ceil(x_train.shape[0]  / Config.batch_size_prun).astype(np.int32) * Config.epoch_prun
 
@@ -119,6 +121,7 @@ for i in range( 4, len(best_model_path_list)):
                       callbacks=callbacks)
 
     fig, ax = plt.subplots(2, 1)
+
     ax[0].plot(history.history['loss'], color='b', label="Training loss")
     ax[0].plot(history.history['val_loss'], color='r', label="validation loss", axes=ax[0])
     legend = ax[0].legend(loc='best', shadow=True)
@@ -126,6 +129,7 @@ for i in range( 4, len(best_model_path_list)):
     ax[1].plot(history.history['accuracy'], color='b', label="Training accuracy")
     ax[1].plot(history.history['val_accuracy'], color='r', label="Validation accuracy")
     legend = ax[1].legend(loc='best', shadow=True)
+    plt.suptitle(image_name[i])
     plt.savefig(Config.base_path + 'model_evaluate/'+ image_name[i]+'.jpg')
     plt.show()
 

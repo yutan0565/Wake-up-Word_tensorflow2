@@ -28,7 +28,8 @@ interpreter_detect.allocate_tensors()
 input_details_detect = interpreter_detect.get_input_details()
 output_details_detect = interpreter_detect.get_output_details()
 
-tflite_model_path_recog = Config.prun_08_tflite_file_path_recog ###
+# tflite_model_path_recog = Config.prun_09_tflite_file_path_recog ###
+tflite_model_path_recog = Config.tflite_file_path_recog_02 ###
 interpreter_recog = tflite.Interpreter(tflite_model_path_recog)
 interpreter_recog.allocate_tensors()
 input_details_recog = interpreter_recog.get_input_details()
@@ -133,7 +134,13 @@ while (True):
 
                 show_result_image(detection_image)
                 val_recog = make_ouput(input_tensor, interpreter_recog, input_details_recog, output_details_recog)
-                print("User_01 : {:.02f}  User_02 : {:.02f}  User_03 : {:.02f}  User_04 : {:.02f}  User_05 : {:.02f}".format(val_recog[0], val_recog[1], val_recog[2], val_recog[3], val_recog[4]) )
+                print("User_01 : {:.02f}  User_02 : {:.02f}  User_03 : {:.02f}  "
+                      "User_04 : {:.02f}  User_05 : {:.02f}"
+                      .format(val_recog[0], val_recog[1], val_recog[2], val_recog[3], val_recog[4]) )
+
+                # print("User_01 : {:.02f}  User_02 : {:.02f}  User_03 : {:.02f} "
+                #       .format(val_recog[0], val_recog[1], val_recog[2]))
+
                 flag= True
                 for index_recog in Config.target_user_index:
                     if val_recog[index_recog] > Config.thres_hold_recog:
