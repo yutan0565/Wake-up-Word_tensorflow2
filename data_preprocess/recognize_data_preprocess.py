@@ -10,6 +10,7 @@ if not sys.warnoptions:
     import warnings
     warnings.simplefilter("ignore")
 
+
 ## 데이터 분리
 filenames = []
 y = []

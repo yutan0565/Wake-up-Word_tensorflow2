@@ -1,4 +1,5 @@
 import pyaudio
+import playsound
 
 from configuration import Config
 import audio_tool as tool
@@ -46,7 +47,8 @@ speaker_invalid_image_path = Config.base_path +"show_image/Invalid.png"
 speaker_invalid_image_pil = Image.open(speaker_invalid_image_path)
 speaker_invalid_image = np.array(speaker_invalid_image_pil)
 
-
+speaker_valid_sound_path = Config.base_path + 'show_image/검증_성공.mp3'
+speaker_invalid_sound_path = Config.base_path + 'show_image/검증_실패.mp3'
 
 
 def plot_time_series(data, title):
@@ -136,11 +138,13 @@ while (True):
                 for index_recog in Config.target_user_index:
                     if val_recog[index_recog] > Config.thres_hold_recog:
                         if flag:
+                            playsound.playsound(speaker_valid_sound_path)
                             print("검증 성공 : 안녕하세요. {} 님!!!".format(Config.user_list[index_recog]))
                             show_result_image(speaker_valid_image)
                         break
                     else:
                         if flag:
+                            playsound.playsound(speaker_invalid_sound_path)
                             print("검증 실패 : 사용자 등록을 해주세요")
                             show_result_image(speaker_invalid_image)
                         flag = False
