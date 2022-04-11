@@ -44,6 +44,6 @@ model_name_detect = "detect_wuw_matrix.jpg"
 model_detect = tf.keras.models.load_model(Config.best_model_path)
 evaluate(model_detect,x_test_detect, y_test_detect, model_name_detect, Config.target_list)
 
-model_name_recog = "recog_user_matrix.jpg"
-model_recog = tf.keras.models.load_model(Config.best_model_path_recog)
+model_name_recog = "recog_user_matrix_02.jpg"
+model_recog = tf.keras.models.load_model(Config.best_model_path_recog_02)
 evaluate(model_recog, x_test_recog, y_test_recog, model_name_recog, Config.user_list)
