@@ -31,15 +31,20 @@ y_test_one_hot = tf.one_hot(y_test, len(Config.target_list))
 model = tf.keras.models.load_model(Config.best_model_path)
 
 best_model_path_list = [Config.best_model_path_detect_pruning_02, Config.best_model_path_detect_pruning_04,
-                        Config.best_model_path_detect_pruning_06, Config.best_model_path_detect_pruning_08 ]
-tflite_path_list = [Config.prun_02_tflite_file_path, Config.prun_04_tflite_file_path,
-                    Config.prun_06_tflite_file_path, Config.prun_08_tflite_file_path]
-image_name = ['detect_wuw_prun_02_acc_loss', 'detect_wuw_prun_04_acc_loss',
-              'detect_wuw_prun_06_acc_loss','detect_wuw_prun_08_acc_loss']
-initial_list =  [ 0.00, 0.20, 0.40, 0.60 ]
-final_list = [ 0.20, 0.40, 0.60, 0.80 ]
+                        Config.best_model_path_detect_pruning_06, Config.best_model_path_detect_pruning_08,
+                        Config.best_model_path_detect_pruning_09, Config.best_model_path_detect_pruning_95]
 
-for i in range(4):
+tflite_path_list = [Config.prun_02_tflite_file_path, Config.prun_04_tflite_file_path,
+                    Config.prun_06_tflite_file_path, Config.prun_08_tflite_file_path,
+                    Config.prun_09_tflite_file_path, Config.prun_95_tflite_file_path]
+
+image_name = ['detect_wuw_prun_02_acc_loss', 'detect_wuw_prun_04_acc_loss',
+              'detect_wuw_prun_06_acc_loss','detect_wuw_prun_08_acc_loss',
+              'detect_wuw_prun_09_acc_loss','detect_wuw_prun_95_acc_loss']
+initial_list =  [ 0.00, 0.20, 0.40, 0.60, 0.70, 0.75 ]
+final_list = [ 0.20, 0.40, 0.60, 0.80, 0.90, 0.95 ]
+
+for i in range( 4, len(best_model_path_list)):
     best_model_path = best_model_path_list[i]
     tflite_path = tflite_path_list[i]
     initial = initial_list[i]

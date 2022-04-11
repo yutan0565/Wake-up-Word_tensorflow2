@@ -30,14 +30,23 @@ y_test_one_hot = tf.one_hot(y_test, len(Config.user_list))
 
 model = tf.keras.models.load_model(Config.best_model_path_recog_02)
 
-best_model_path_list = [Config.best_model_path_recog_pruning_02_02, Config.best_model_path_recog_pruning_04_02, Config.best_model_path_recog_pruning_06_02, Config.best_model_path_recog_pruning_08_02]
-tflite_path_list = [Config.prun_02_tflite_file_path_recog, Config.prun_04_tflite_file_path_recog, Config.prun_06_tflite_file_path_recog, Config.prun_08_tflite_file_path_recog]
-image_name = ['recog_user_prun_02_acc_loss', 'recog_user_prun_04_acc_loss',
-              'recog_user_prun_06_acc_loss','recog_user_prun_08_acc_loss']
-initial_list =  [ 0.00, 0.20, 0.40, 0.60 ]
-final_list = [ 0.20, 0.40, 0.60, 0.80 ]
+best_model_path_list = [Config.best_model_path_recog_pruning_02_02, Config.best_model_path_recog_pruning_04_02,
+                        Config.best_model_path_recog_pruning_06_02, Config.best_model_path_recog_pruning_08_02,
+                        Config.best_model_path_recog_pruning_09_02, Config.best_model_path_recog_pruning_95_02]
 
-for i in range(4):
+tflite_path_list = [Config.prun_02_tflite_file_path_recog, Config.prun_04_tflite_file_path_recog,
+                    Config.prun_06_tflite_file_path_recog, Config.prun_08_tflite_file_path_recog,
+                    Config.prun_09_tflite_file_path_recog, Config.prun_95_tflite_file_path_recog]
+
+
+image_name = ['recog_user_prun_02_acc_loss', 'recog_user_prun_04_acc_loss',
+              'recog_user_prun_06_acc_loss','recog_user_prun_08_acc_loss',
+              'recog_user_prun_09_acc_loss','recog_user_prun_95_acc_loss']
+
+initial_list =  [ 0.00, 0.20, 0.40, 0.60, 0.70, 0.75 ]
+final_list = [ 0.20, 0.40, 0.60, 0.80, 0.90, 0.95 ]
+
+for i in range( 4, len(best_model_path_list)):
     best_model_path = best_model_path_list[i]
     tflite_path = tflite_path_list[i]
     initial = initial_list[i]
