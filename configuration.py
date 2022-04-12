@@ -76,6 +76,7 @@ class Config:
     best_model_path = base_path+ "best_model/wake_up_word_model"
     best_model_path_recog = base_path+ "best_model/speaker_recognition_model"
     best_model_path_recog_02 = base_path + "best_model/speaker_recognition_model_02"
+    best_model_path_recog_LSTM = base_path + "best_model/speaker_recognition_model_LSTM"
 
 
     best_model_path_detect_pruning_06 = base_path+ "best_model/detection_pruning_06_model"

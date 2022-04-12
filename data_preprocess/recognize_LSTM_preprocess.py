@@ -110,15 +110,18 @@ x_test =  np.array(x_test)
 
 x_train = x_train.reshape(x_train.shape[0],
                           x_train.shape[1],
-                          x_train.shape[2]
+                          x_train.shape[2],
+                          1
                           )
 x_val =  x_val.reshape(x_val.shape[0],
                       x_val.shape[1],
-                      x_val.shape[2]
+                      x_val.shape[2],
+                       1
                       )
 x_test =  x_test.reshape(x_test.shape[0],
                         x_test.shape[1],
-                        x_test.shape[2]
+                        x_test.shape[2],
+                         1
                         )
 print(x_train.shape)
 print(x_val.shape)
