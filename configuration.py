@@ -4,8 +4,8 @@ from os.path import isdir, join
 class Config:
 
     # base_path = "/content/drive/MyDrive/"
-    #base_path = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/"
-    base_path = "C:/Users/yutankim/Desktop/Wake-up-Word_tensorflow2/"
+    base_path = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/"
+    #base_path = "C:/Users/yutankim/Desktop/Wake-up-Word_tensorflow2/"
 
     for_aug_dataset = 'custum_dataset'  #Augmentation을 적용할 폴더 이름
     dataset_type = "augmentation_dataset"      # 학습에 사용할 데이터 셋
