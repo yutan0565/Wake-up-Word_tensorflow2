@@ -102,6 +102,7 @@ frame.append(initiate_frame)
 print("프로그램 시작!!")
 while (True):
     temp_data = np.fromstring(stream_wuw.read(CHUNK), dtype=np.float32)
+    print(np.mean(np.abs(temp_data)))
 
     # 기동어 감지 모델을 돌리고 있지 않는 상태
     if np.mean(np.abs(temp_data)) < Config.thres_hold_low_power:

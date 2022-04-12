@@ -38,8 +38,8 @@ class Config:
     thres_hold_detect = 0.98
     thres_hold_recog = 0.80
 
-    # thres_hold_low_power = 0.002
-    thres_hold_low_power = 0.03
+    thres_hold_low_power = 0.002
+    #thres_hold_low_power = 0.03
 
 
     # 음향 파일 불러올떄 1초당 sample 개수
