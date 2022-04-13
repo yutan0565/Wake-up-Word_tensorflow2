@@ -17,7 +17,7 @@ y = []
 
 for user in Config.user_list:
     for index, target in enumerate(Config.target_list):
-        #print('/'.join([Config.dataset_path, user, target]))  # class 에 맞는 폴더 이름 넣어주기
+        # 폴더 추가 해야함
         filenames.append(listdir('/'.join([Config.dataset_path, user, target])))
         y.append(np.ones(len(filenames[index])) * index)
 
@@ -69,6 +69,8 @@ def extract_features(in_files, in_y):
             if Config.target_list[int(in_y[index])] != 'other_google_speech':
                 if (Config.target_list[int(in_y[index])] != 'other') and ('other' in filename ):
                     continue
+
+
 
             path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])],
                              filename])

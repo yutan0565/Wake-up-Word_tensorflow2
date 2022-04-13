@@ -17,4 +17,4 @@ def show_input_output_type(tflite_path):
     print(output_details)
 
 convert_tflite(Config.best_model_path, Config.tflite_file_path)
-convert_tflite(Config.best_model_path_recog_02, Config.tflite_file_path_recog_02)
+#convert_tflite(Config.best_model_path_recog_02, Config.tflite_file_path_recog_02)
