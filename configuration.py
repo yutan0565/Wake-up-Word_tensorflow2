@@ -6,7 +6,7 @@ class Config:
     # base_path = "/content/drive/MyDrive/"
     #base_path = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/"
     base_path = "C:/Users/yutankim/Desktop/Wake-up-Word_tensorflow2/"
-    base_path = "C:/Users/yutankim/Desktop/Wake-up-Word_tensorflow2/detection_recognitino/"
+
 
     original_dataset = 'custum_dataset'  #Augmentation을 적용할 폴더 이름
     original_dataset_path = base_path + original_dataset   # augmentation을 진행 할 곳
@@ -33,6 +33,7 @@ class Config:
     # [김유탄, 성우, 병현]
     # 기동어 class 이름 - 폴더이름
     target_wake_word = 'hi_yutan'
+    target_wake_word_index = 0
 
 
 
@@ -40,7 +41,7 @@ class Config:
     thres_hold_detect = 0.98
 
     #thres_hold_low_power = 0.002
-    thres_hold_low_power = 0.03
+    thres_hold_low_power = 0.01
 
 
     # 음향 파일 불러올떄 1초당 sample 개수
@@ -74,36 +75,30 @@ class Config:
     batch_size_prun = 32
 
 
-    type = "user_01_only"
-    # type = "user_01_only_aug"
-    # type = "user_all"
-    # type = "user_all_aug"
-
-
     # baes model Checkpoint 경로
-    best_model_path = base_path+ "best_model/detection_model_" + type
+    best_model_path = base_path+ "best_model/detection_model"
 
-    best_model_path_detect_pruning_06 = base_path+ "best_model/detection_pruning_06_model_" + type
-    best_model_path_detect_pruning_08 = base_path+ "best_model/detection_pruning_08_model_" + type
-    best_model_path_detect_pruning_09 = base_path+ "best_model/detection_pruning_09_model_" + type
-    best_model_path_detect_pruning_95 = base_path+ "best_model/detection_pruning_95_model_" + type
-    best_model_path_detect_pruning_98 = base_path+ "best_model/detection_pruning_98_model_" + type
-    best_model_path_detect_pruning_99 = base_path+ "best_model/detection_pruning_99_model_" + type
+    best_model_path_detect_pruning_06 = base_path+ "best_model/detection_pruning_06_model"
+    best_model_path_detect_pruning_08 = base_path+ "best_model/detection_pruning_08_model"
+    best_model_path_detect_pruning_09 = base_path+ "best_model/detection_pruning_09_model"
+    best_model_path_detect_pruning_95 = base_path+ "best_model/detection_pruning_95_model"
+    best_model_path_detect_pruning_98 = base_path+ "best_model/detection_pruning_98_model"
+    best_model_path_detect_pruning_99 = base_path+ "best_model/detection_pruning_99_model"
 
 
     #기본 tfltie 파일 저장
     tflite_model_path = 'tflite_converter/tflite_model/'
 
     # Detect
-    tflite_file_path = base_path + tflite_model_path + 'ori_detection_' + type + '.tflite'
-    quant_tflite_file_path = base_path + tflite_model_path+ 'quant_detection_' + type + '.tflite'
+    tflite_file_path = base_path + tflite_model_path + 'ori_detection.tflite'
+    quant_tflite_file_path = base_path + tflite_model_path+ 'quant_detection.tflite'
 
-    prun_06_tflite_file_path = base_path + tflite_model_path + 'prun_06_detection_' + type + '.tflite'
-    prun_08_tflite_file_path = base_path + tflite_model_path + 'prun_08_detection_' + type + '.tflite'
-    prun_09_tflite_file_path = base_path + tflite_model_path + 'prun_09_detection_' + type + '.tflite'
-    prun_95_tflite_file_path = base_path + tflite_model_path + 'prun_95_detection_' + type + '.tflite'
-    prun_98_tflite_file_path = base_path + tflite_model_path + 'prun_98_detection_' + type + '.tflite'
-    prun_99_tflite_file_path = base_path + tflite_model_path + 'prun_99_detection_' + type + '.tflite'
+    prun_06_tflite_file_path = base_path + tflite_model_path + 'prun_06_detection.tflite'
+    prun_08_tflite_file_path = base_path + tflite_model_path + 'prun_08_detection.tflite'
+    prun_09_tflite_file_path = base_path + tflite_model_path + 'prun_09_detection.tflite'
+    prun_95_tflite_file_path = base_path + tflite_model_path + 'prun_95_detection.tflite'
+    prun_98_tflite_file_path = base_path + tflite_model_path + 'prun_98_detection.tflite'
+    prun_99_tflite_file_path = base_path + tflite_model_path + 'prun_99_detection.tflite'
 
 
 

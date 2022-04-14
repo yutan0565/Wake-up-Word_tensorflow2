@@ -24,7 +24,7 @@ def detection_model_01(sample_shape):
         Dense(256, activation='relu', kernel_initializer='he_normal'),
         Dropout(0.5),
         Dense(64, activation='relu'),
-        Dense(1, activation="sigmoid", kernel_initializer='he_normal')
+        Dense(len(Config.target_list), activation="softmax", kernel_initializer='he_normal')
     ])
 
     return model
@@ -44,16 +44,11 @@ def detection_model_02(sample_shape):
         Dense(64, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
         Dropout(0.5),
         Dense(64, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
-        Dense(1, activation="sigmoid", kernel_initializer='he_normal')
+        Dense(len(Config.target_list), activation="softmax", kernel_initializer='he_normal')
     ])
     return model
 
 
-
-
-
-
-"""
 # 인식 전용 모델
 #######
 # Trainable params: 565,731
@@ -155,4 +150,30 @@ def recog_model_04(sample_shape):
         Dense(len(Config.user_list), activation="softmax")
     ])
     return model
-"""
+
+
+# def recog_model_04(sample_shape):
+#     model = Sequential([
+#         # conv layer 부분
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), input_shape=sample_shape, kernel_initializer='he_normal',
+#              return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(100, activation=LeakyReLU(alpha=0.3), return_sequences=True),
+#         LSTM(3),
+#         Dense(256, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
+#         Dense(256, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
+#         Dropout(0.5),
+#         Dense(64, activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal'),
+#         Dense(len(Config.user_list), activation="softmax")
+#     ])
+#     return model
