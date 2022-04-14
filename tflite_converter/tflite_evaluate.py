@@ -106,13 +106,13 @@ x_test_detect = feature_sets_detect['x_test']
 y_test_detect = feature_sets_detect['y_test']
 
 
-feature_sets_recog = np.load( Config.base_path + "user_set_multi.npz")
-x_train_recog = feature_sets_recog['x_train']
-y_train_recog = feature_sets_recog['y_train']
-x_val_recog = feature_sets_recog['x_val']
-y_val_recog = feature_sets_recog['y_val']
-x_test_recog = feature_sets_recog['x_test']
-y_test_recog = feature_sets_recog['y_test']
+# feature_sets_recog = np.load( Config.base_path + "user_set_multi.npz")
+# x_train_recog = feature_sets_recog['x_train']
+# y_train_recog = feature_sets_recog['y_train']
+# x_val_recog = feature_sets_recog['x_val']
+# y_val_recog = feature_sets_recog['y_val']
+# x_test_recog = feature_sets_recog['x_test']
+# y_test_recog = feature_sets_recog['y_test']
 
 print("detect 관련")
 detect_model = tf.keras.models.load_model(Config.best_model_path)
@@ -183,7 +183,7 @@ evaluate_tflite_model(Config.target_wake_word, Config.target_list,
                       y_test_detect, model_name_detect,
                       x_train_detect, y_train_detect, x_val_detect, y_val_detect
                       )
-
+"""
 print()
 print("-"*100)
 print()
@@ -261,16 +261,12 @@ evaluate_tflite_model(Config.target_user, Config.user_list,
                       x_train_recog, y_train_recog, x_val_recog, y_val_recog
                       )
 
-
-
-
-"""
 evaluate_tflite_model(Config.quant_tflite_file_path, model_type="Quantization")
 get_gzipped_model_size(Config.quant_tflite_file_path)
 
 evaluate_tflite_model(Config.prun_tflite_file_path, model_type="Pruning")
 get_gzipped_model_size(Config.prun_tflite_file_path)
-"""
 
+"""
 # 세로 - True
 # 가로 - Prediction

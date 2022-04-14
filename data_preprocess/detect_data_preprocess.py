@@ -18,7 +18,7 @@ y = []
 for user in Config.user_list:
     for index, target in enumerate(Config.target_list):
         # 폴더 추가 해야함
-        filenames.append(listdir('/'.join([Config.dataset_path, user, target])))
+        filenames.append(listdir('/'.join([Config.aug_dataset_path, user, target])))
         y.append(np.ones(len(filenames[index])) * index)
 
 # 하나로 쭉 나열 하기
@@ -45,15 +45,12 @@ y_orig_val = y[:val_set_size]
 y_orig_test = y[val_set_size:(val_set_size + test_set_size)]
 y_orig_train = y[(val_set_size + test_set_size):]
 
-for i in range(10):
-    print(filenames_train[i], y_orig_train[i])
-
 print(len(filenames_train), len(y_orig_train))
 print(len(filenames_val), len(y_orig_val))
 print(len(filenames_test), len(y_orig_test))
 
-# for i in range(100):
-#     print(filenames_train[i],y_orig_train[i] )
+for i in range(100):
+    print(filenames_train[i],y_orig_train[i] )
 
 
 def extract_features(in_files, in_y):
@@ -72,9 +69,8 @@ def extract_features(in_files, in_y):
 
 
 
-            path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])],
+            path = "/".join([Config.aug_dataset_path, user,Config.target_list[int(in_y[index])],
                              filename])
-            # print(path)
 
             # Check to make sure we're reading a .wav file
             if not path.endswith('.wav'):
@@ -82,6 +78,10 @@ def extract_features(in_files, in_y):
             print(filename, int(in_y[index]))
             # Create MFCCs
             signal, sr = librosa.core.load(path, Config.sample_rate)
+            if len(signal) < 32000:
+                print('Dropped:', index, regul_spectrogram.shape)
+                prob_cnt += 1
+                continue
             #signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
             #mfccs = MFCC_maker.mfcc_process (signal, sr)
             spectrogram = tool.mel_spectrogram_process(signal, sr)

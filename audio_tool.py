@@ -4,7 +4,9 @@ import numpy as np
 import librosa.display
 from configuration import Config
 
-
+def max_scaler(signal):
+    sig = signal / max(max(signal), max(np.abs(signal)))
+    return sig
 
 def mel_spectrogram_process(signal, sr):
     """

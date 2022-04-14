@@ -7,7 +7,7 @@ import numpy as np
 import shutil
 from distutils.dir_util import copy_tree
 import matplotlib.pyplot as plt
-
+import audio_tool
 from configuration import Config
 
 def plot_time_series(data, title):
@@ -17,18 +17,18 @@ def plot_time_series(data, title):
     plt.plot(np.linspace(0, 5, len(data)), data)
     plt.show()
 
-def min_max_scaler(signal):
-    signal = np.abs(signal)
-    min_value = np.min(signal)
-    max_value = np.max(signal)
-    min_max_scale_signal =  (signal - min_value) / (max_value - min_value)
-    return min_max_scale_signal
+max_scaler = audio_tool.max_scaler
+
+# def max_scaler(signal):
+#     sig = signal / max(max(signal), max(np.abs(signal)))
+#     return sig
 
 # Whit Noise
 # 기존 소리에 잡음을 넣어줌
-def adding_white_noise(data, end_path,  noise_rate=0.002):
+def adding_white_noise(file_path, end_path,  noise_rate=0.002):
     # noise 방식으로 일반적으로 쓰는 잡음 끼게 하는 겁니다.
-    signal, sr = librosa.load(data, sr=Config.sample_rate)
+    signal, sr = librosa.load(file_path, sr=Config.sample_rate)
+    signal = max_scaler(signal)
     sig = signal[int(-Config.sample_cut - Config.click): int(-Config.click+1)]
     wn = np.random.randn(len(sig))
     data_wn = sig + noise_rate*wn
@@ -39,6 +39,7 @@ def adding_white_noise(data, end_path,  noise_rate=0.002):
 # 테이프 늘어진 것처럼 들린다.
 def stretch_sound(file_path, end_path,  rate=0.8):
     signal, sr = librosa.load(file_path, sr=Config.sample_rate)
+    signal = max_scaler(signal)
     sig = librosa.effects.time_stretch(signal, rate)
     stretch_data = sig[int(-Config.sample_cut - 2*Config.click)  :   int(-2*Config.click + 1)]
     sf.write( end_path, stretch_data, sr)
@@ -48,14 +49,16 @@ def stretch_sound(file_path, end_path,  rate=0.8):
 # x 축 기준으로 뒤집기 (사람에게는 똑같이 들림)
 def minus_sound(file_path, end_path):
     signal, sr = librosa.load(file_path, sr=Config.sample_rate)
+    signal = max_scaler(signal)
     sig = signal[int(-Config.sample_cut - Config.click): int(-Config.click+1)]
     temp_numpy = (-1)*sig
-
+    print( max(max(signal), max(np.abs(signal))))
     sf.write( end_path, temp_numpy, sr)
     return temp_numpy
 
 def pitch_sound(file_path, end_path, pitch_factor=5):   # end_path, count,
     signal, sr = librosa.load(file_path, sr=Config.sample_rate)
+    signal = max_scaler(signal)
     sig = signal[int(-Config.sample_cut - Config.click): int(-Config.click+1)]
     pitch_data = librosa.effects.pitch_shift(sig, sr, pitch_factor)
 
@@ -64,6 +67,7 @@ def pitch_sound(file_path, end_path, pitch_factor=5):   # end_path, count,
 
 def shift_sound(file_path, end_path, shift_time, direct):
     signal, sr = librosa.load(file_path, sr=Config.sample_rate)
+    signal = max_scaler(signal)
     sig = signal[int(-Config.sample_cut - Config.click): int(-Config.click+1)]
     shift_len = int(sr * shift_time)
     empty_sig = [0 for _ in range(shift_len)]
@@ -95,41 +99,43 @@ for user in Config.user_list:
         if count > aug_cut:
           break
         start_file_path =  start_path +"/"+file_name
-        end_path = Config.aug_dataset_path + '/' + user + '/' + type + '/'
+        if  os.path.isfile(start_file_path):
+            end_path = Config.aug_dataset_path + '/' + user + '/' + type + '/'
 
-        # 기본 노이즈 추가
-        noise_name =  'noise_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        noise_end_path = end_path + noise_name
-        adding_white_noise(start_file_path, noise_end_path)
+            # 기본 노이즈 추가
+            noise_name =  'noise_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+            noise_end_path = end_path + noise_name
+            adding_white_noise(start_file_path, noise_end_path)
 
-        #말 늘이기
-        stretch_name =  'stretch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        stretch_end_path = end_path + stretch_name
-        stretch_sound(start_file_path, stretch_end_path)
+            #말 늘이기
+            stretch_name =  'stretch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+            stretch_end_path = end_path + stretch_name
+            stretch_sound(start_file_path, stretch_end_path)
 
-        # 단순 뒤집기
-        minus_name = 'minus_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        minus_end_path = end_path + minus_name
-        minus_sound(start_file_path, minus_end_path)
+            # 단순 뒤집기
+            minus_name = 'minus_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+            minus_end_path = end_path + minus_name
+            minus_sound(start_file_path, minus_end_path)
 
-        # 음 높이기
-        pitch_name = 'pitch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        pitch_end_path = end_path + pitch_name
-        pitch_sound(start_file_path, pitch_end_path)
+            # 음 높이기
+            pitch_name = 'pitch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
+            pitch_end_path = end_path + pitch_name
+            pitch_sound(start_file_path, pitch_end_path)
 
-        #shift 해주기
-        direct_list = ["left", "right"]
-        for direct in direct_list:
-            if direct == "left":
-                shift_time = 0.6
-            else:
-                shift_time = 0.6
-            shift_name = 'shift_' + direct + '_' +user + '_' + '{0:04d}'.format(count) + '_' + type +'_' +'other.wav'
-            shift_end_path =  Config.aug_dataset_path + '/' + user + '/other/' + shift_name
-            shift_sound(start_file_path, shift_end_path, shift_time, direct)
+            #shift 해주기
+            direct_list = ["left", "right"]
+            for direct in direct_list:
+                if direct == "left":
+                    shift_time = 0.6
+                else:
+                    shift_time = 0.6
+                shift_name = 'shift_' + direct + '_' +user + '_' + '{0:04d}'.format(count) + '_' + type +'_' +'other.wav'
+                shift_end_path =  Config.aug_dataset_path + '/' + user + '/other/' + shift_name
+                shift_sound(start_file_path, shift_end_path, shift_time, direct)
 
-        ori_end_path = end_path + 'ori' + "_" + user + "_" + '{0:04d}'.format(count) + "_" + type + '.wav'
-        signal, sr = librosa.load(start_file_path, sr=Config.sample_rate)
-        sig = signal[int(-Config.sample_cut - Config.click): int(-Config.click + 1)]
-        sf.write(ori_end_path, sig, Config.sample_rate)
-        count += 1
+            ori_end_path = end_path + 'ori' + "_" + user + "_" + '{0:04d}'.format(count) + "_" + type + '.wav'
+            signal, sr = librosa.load(start_file_path, sr=Config.sample_rate)
+            signal = max_scaler(signal)
+            sig = signal[int(-Config.sample_cut - Config.click): int(-Config.click + 1)]
+            sf.write(ori_end_path, sig, Config.sample_rate)
+            count += 1
