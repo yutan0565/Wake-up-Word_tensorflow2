@@ -24,11 +24,11 @@ class Config:
     # Augmentation 종류 별, 본래 클래스 비율
     aug_rate = 0.9
 
-    # target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'other', 'other_google_speech']
-    # user_list = ['user_01', 'user_02', 'user_03', 'user_04', 'user_05']
+    target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'other', 'other_google_speech']
+    user_list = ['user_01', 'user_02', 'user_03', 'user_04', 'user_05']
 
-    target_list = ['hi_yutan', 'other_self', 'other_google_speech']
-    user_list = ['user_01']
+    # target_list = ['hi_yutan', 'other_self', 'other_google_speech']
+    # user_list = ['user_01']
 
     # [김유탄, 성우, 병현]
     # 기동어 class 이름 - 폴더이름

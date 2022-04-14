@@ -17,6 +17,13 @@ def plot_time_series(data, title):
     plt.plot(np.linspace(0, 5, len(data)), data)
     plt.show()
 
+def min_max_scaler(signal):
+    signal = np.abs(signal)
+    min_value = np.min(signal)
+    max_value = np.max(signal)
+    min_max_scale_signal =  (signal - min_value) / (max_value - min_value)
+    return min_max_scale_signal
+
 # Whit Noise
 # 기존 소리에 잡음을 넣어줌
 def adding_white_noise(data, end_path,  noise_rate=0.002):
@@ -70,11 +77,13 @@ def shift_sound(file_path, end_path, shift_time, direct):
         sf.write(end_path, shift_left_data, sr)
         return shift_left_data
 
-for user in ["user_05"]: #Config.user_list:
+for user in Config.user_list:
     print(user+ "start augmentation")
     for index, type in enumerate(Config.target_list):
+      if user != "user_01" and type == "other_google_speech":
+          continue
       # 데이터 보내줄 곳
-      start_path = '/'.join([Config.aug_dataset_path,user, type])
+      start_path = '/'.join([Config.original_dataset_path,user, type])
 
       # if not os.path.exists(start_path):
       #           os.makedirs(start_path)
@@ -85,44 +94,42 @@ for user in ["user_05"]: #Config.user_list:
       for file_name in all_file:
         if count > aug_cut:
           break
-        file_path =  start_path +"/"+file_name
-        path = Config.base_path + Config.dataset_type + '/' + user + '/' + type + '/'
+        start_file_path =  start_path +"/"+file_name
+        end_path = Config.aug_dataset_path + '/' + user + '/' + type + '/'
 
         # 기본 노이즈 추가
         noise_name =  'noise_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        noise_end_path = path + noise_name
-        adding_white_noise(file_path, noise_end_path)
+        noise_end_path = end_path + noise_name
+        adding_white_noise(start_file_path, noise_end_path)
 
         #말 늘이기
         stretch_name =  'stretch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        stretch_end_path = path + stretch_name
-        stretch_sound(file_path, stretch_end_path)
+        stretch_end_path = end_path + stretch_name
+        stretch_sound(start_file_path, stretch_end_path)
 
         # 단순 뒤집기
         minus_name = 'minus_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        minus_end_path = path + minus_name
-        minus_sound(file_path, minus_end_path)
+        minus_end_path = end_path + minus_name
+        minus_sound(start_file_path, minus_end_path)
 
         # 음 높이기
         pitch_name = 'pitch_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
-        pitch_end_path = path + pitch_name
-        pitch_sound(file_path, pitch_end_path)
+        pitch_end_path = end_path + pitch_name
+        pitch_sound(start_file_path, pitch_end_path)
 
-        # #shift 해주기
-        # direct_list = ["left", "right"]
-        # for direct in direct_list:
-        #     if direct == "left":
-        #         shift_time = 0.6
-        #     else:
-        #         shift_time = 0.6
-        #     shift_name = 'shift_' + direct + '_' +user + '_' + '{0:04d}'.format(count) + '_' + type +'_' +'other.wav'
-        #     shift_end_path =  Config.base_path + Config.dataset_type + '/' + user + '/other/' + shift_name
-        #
-        #     shift_sound(file_path, shift_end_path, shift_time, direct)
+        #shift 해주기
+        direct_list = ["left", "right"]
+        for direct in direct_list:
+            if direct == "left":
+                shift_time = 0.6
+            else:
+                shift_time = 0.6
+            shift_name = 'shift_' + direct + '_' +user + '_' + '{0:04d}'.format(count) + '_' + type +'_' +'other.wav'
+            shift_end_path =  Config.aug_dataset_path + '/' + user + '/other/' + shift_name
+            shift_sound(start_file_path, shift_end_path, shift_time, direct)
 
-        end_path = path + 'ori' + "_" + user + "_" + '{0:04d}'.format(count) + "_" + type + '.wav'
-        print(end_path)
-        signal, sr = librosa.load(file_path, sr=Config.sample_rate)
+        ori_end_path = end_path + 'ori' + "_" + user + "_" + '{0:04d}'.format(count) + "_" + type + '.wav'
+        signal, sr = librosa.load(start_file_path, sr=Config.sample_rate)
         sig = signal[int(-Config.sample_cut - Config.click): int(-Config.click + 1)]
-        sf.write(end_path, sig, Config.sample_rate)
+        sf.write(ori_end_path, sig, Config.sample_rate)
         count += 1
