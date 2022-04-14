@@ -100,9 +100,12 @@ frame.append(initiate_frame)
 
 
 print("프로그램 시작!!")
+
+low_power_flag = True
+
 while (True):
     temp_data = np.fromstring(stream_wuw.read(CHUNK), dtype=np.float32)
-    print(np.mean(np.abs(temp_data)))
+    # print(np.mean(np.abs(temp_data)))
 
     # 기동어 감지 모델을 돌리고 있지 않는 상태
     if np.mean(np.abs(temp_data)) < Config.thres_hold_low_power:
@@ -110,7 +113,9 @@ while (True):
             frame, _ = make_frame(frame, temp_data)
         else:
             frame.append(temp_data)
-        print("xx")  # 기동어 인식 안하고 있는 상태
+        if low_power_flag == True:
+            print("저전력 모드!!")  # 기동어 인식 안하고 있는 상태
+            low_power_flag = False
         continue
 
     if np.array(frame).shape[0] == Config.stride_rate:
@@ -146,23 +151,25 @@ while (True):
                 for index_recog in Config.target_user_index:
                     if val_recog[index_recog] > Config.thres_hold_recog:
                         if flag:
-                            playsound.playsound(speaker_valid_sound_path)
+                            # playsound.playsound(speaker_valid_sound_path)
                             print("검증 성공 : 안녕하세요. {} 님!!!".format(Config.user_list[index_recog]))
                             show_result_image(speaker_valid_image)
                         break
                     else:
                         if flag:
-                            playsound.playsound(speaker_invalid_sound_path)
+                            # playsound.playsound(speaker_invalid_sound_path)
                             print("검증 실패 : 사용자 등록을 해주세요")
                             show_result_image(speaker_invalid_image)
                         flag = False
                 frame = [] # frame 초기화
                 break
             else:
-                print("000000000")  # 기동어 들을 준비 완료
+                if low_power_flag == False:
+                    print("------------듣는중----------- ")  # 기동어 들을 준비 완료
+                    low_power_flag = True
     else:
         frame.append(temp_data)
-        print(np.array(frame).shape)
+
 
 
 stream_wuw.stop_stream()

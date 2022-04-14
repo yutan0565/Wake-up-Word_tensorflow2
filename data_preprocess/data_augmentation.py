@@ -70,11 +70,14 @@ def shift_sound(file_path, end_path, shift_time, direct):
         sf.write(end_path, shift_left_data, sr)
         return shift_left_data
 
-for user in ["user_05"]: #Config.user_list:
+
+
+
+for user in Config.user_list:  # ["user_05"]:
     print(user+ "start augmentation")
-    for index, type in enumerate(Config.target_list):
+    for index, type in enumerate(['hi_yutan', 'other_self']):#enumerate(Config.target_list):
       # 데이터 보내줄 곳
-      start_path = '/'.join([Config.aug_dataset_path,user, type])
+      start_path = '/'.join([Config.original_dataset_path,user, type])
 
       # if not os.path.exists(start_path):
       #           os.makedirs(start_path)
@@ -86,7 +89,7 @@ for user in ["user_05"]: #Config.user_list:
         if count > aug_cut:
           break
         file_path =  start_path +"/"+file_name
-        path = Config.base_path + Config.dataset_type + '/' + user + '/' + type + '/'
+        path = Config.aug_dataset_path + '/' + user + '/' + type + '/'
 
         # 기본 노이즈 추가
         noise_name =  'noise_' + user + '_' + '{0:04d}'.format(count) + '_' + type + '.wav'
@@ -108,18 +111,20 @@ for user in ["user_05"]: #Config.user_list:
         pitch_end_path = path + pitch_name
         pitch_sound(file_path, pitch_end_path)
 
-        # #shift 해주기
-        # direct_list = ["left", "right"]
-        # for direct in direct_list:
-        #     if direct == "left":
-        #         shift_time = 0.6
-        #     else:
-        #         shift_time = 0.6
-        #     shift_name = 'shift_' + direct + '_' +user + '_' + '{0:04d}'.format(count) + '_' + type +'_' +'other.wav'
-        #     shift_end_path =  Config.base_path + Config.dataset_type + '/' + user + '/other/' + shift_name
-        #
-        #     shift_sound(file_path, shift_end_path, shift_time, direct)
+        #shift 해주기
+        if type == "hi_yutan" :
+            direct_list = ["left", "right"]
+            for direct in direct_list:
+                if direct == "left":
+                    shift_time = 0.6
+                else:
+                    shift_time = 0.6
+                shift_name = 'shift_' + direct + '_' +user + '_' + '{0:04d}'.format(count) + '_'  +'other_self.wav'  #+ type +'_'
+                shift_end_path =  Config.base_path + Config.dataset_type + '/' + user + '/other_self/' + shift_name
 
+                shift_sound(file_path, shift_end_path, shift_time, direct)
+
+        # 원본 데이터도 같이 옮겨 주기
         end_path = path + 'ori' + "_" + user + "_" + '{0:04d}'.format(count) + "_" + type + '.wav'
         print(end_path)
         signal, sr = librosa.load(file_path, sr=Config.sample_rate)

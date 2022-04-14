@@ -3,11 +3,9 @@ from configuration import Config
 import shutil
 
 
-dataset_path = Config.base_path + 'custum_dataset' # 'custum_dataset''augmentation_dataset'
-
-for user in ["user_05"]: #Config.user_list:
+for user in Config.user_list: #  ["user_01"]:
     for type in Config.target_list:
-        file_path = dataset_path +'/' + user+ '/' + type
+        file_path = Config.original_dataset_path +'/' + user+ '/' + type
         file_names = os.listdir(file_path)
         i = 1
         for name in file_names:
@@ -18,18 +16,18 @@ for user in ["user_05"]: #Config.user_list:
             i += 1
 
 #
-google_file_path = "C:/Users/yutan/temp_audio/"
-
-for google_type in os.listdir(google_file_path):
-    folder_path = google_file_path + google_type
-    i = 1
-    for name in os.listdir(folder_path):
-        if i == 50:
-            continue
-        start = folder_path + '/' + name
-        end = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/augmentation_dataset/user_01/other_google_speech/" + name
-        shutil.move(start, end)
-        i += 1
+# google_file_path = "C:/Users/yutan/temp_audio/"
+#
+# for google_type in os.listdir(google_file_path):
+#     folder_path = google_file_path + google_type
+#     i = 1
+#     for name in os.listdir(folder_path):
+#         if i == 50:
+#             continue
+#         start = folder_path + '/' + name
+#         end = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/augmentation_dataset/user_01/other_google_speech/" + name
+#         shutil.move(start, end)
+#         i += 1
 
         # path = folder_path +'/' + name
         #

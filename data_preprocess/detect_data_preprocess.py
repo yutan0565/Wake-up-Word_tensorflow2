@@ -15,15 +15,25 @@ if not sys.warnoptions:
 filenames = []
 y = []
 
+dataset_path = Config.aug_dataset_path
+non_target_class = ["other_self", "other_google_speech"]
+target_aug = "ori"  # "stretch", "minus", "pitch",
+npz_name = Config.type
+
 for user in Config.user_list:
     for index, target in enumerate(Config.target_list):
+        if target == non_target_class[0] or target == non_target_class[1]:
+            continue
         # 폴더 추가 해야함
-        filenames.append(listdir('/'.join([Config.dataset_path, user, target])))
+        filenames.append(listdir('/'.join([dataset_path, user, target])))
         y.append(np.ones(len(filenames[index])) * index)
 
 # 하나로 쭉 나열 하기
 filenames = [item for sublist in filenames for item in sublist]
 y = [item for sublist in y for item in sublist]
+
+print(filenames )
+print(y)
 
 
 # 여기부터 분배를 잘 해줘야함
@@ -31,7 +41,6 @@ y = [item for sublist in y for item in sublist]
 filenames_y = list(zip(filenames, y))
 random.shuffle(filenames_y)
 filenames, y = zip(*filenames_y)
-
 
 
 val_set_size = int(len(filenames) * Config.val_ratio)
@@ -45,63 +54,74 @@ y_orig_val = y[:val_set_size]
 y_orig_test = y[val_set_size:(val_set_size + test_set_size)]
 y_orig_train = y[(val_set_size + test_set_size):]
 
-for i in range(10):
-    print(filenames_train[i], y_orig_train[i])
+#  기동어만 1로 바꾸고, 나머지는 0으로 만들어 주기
+wake_word_index = Config.target_list.index(Config.target_wake_word)
+y_train = np.equal(y_orig_train, wake_word_index).astype('float64')
+y_val = np.equal(y_orig_val, wake_word_index).astype('float64')
+y_test = np.equal(y_orig_test, wake_word_index).astype('float64')
 
-print(len(filenames_train), len(y_orig_train))
-print(len(filenames_val), len(y_orig_val))
-print(len(filenames_test), len(y_orig_test))
+
+
+for i in range(100):
+    print(filenames_train[i], y_train[i])
+
+print(len(filenames_train), len(y_train))
+print(filenames_val, y_val)
+print(len(filenames_test), len(y_test))
 
 # for i in range(100):
 #     print(filenames_train[i],y_orig_train[i] )
 
 
-def extract_features(in_files, in_y):
+def extract_features(in_files, in_y, y_orig):
     prob_cnt = 0
     out_x = []
     out_y = []
     for index, filename in enumerate(in_files):
         for user in Config.user_list:
-            # Create path from given filename and target item
-            #
-            if (user not in filename) or (Config.target_list[int(in_y[index])] not in filename):
-                continue
-            if Config.target_list[int(in_y[index])] != 'other_google_speech':
-                if (Config.target_list[int(in_y[index])] != 'other') and ('other' in filename ):
+                # Create path from given filename and target item
+                print(int(y_orig[index]))
+                if (user not in filename) :
+                    continue
+                if Config.target_list[int(y_orig[index])] not in filename:
+                    continue
+                if target_aug not in filename:
                     continue
 
+                path = "/".join([dataset_path, user,Config.target_list[int(in_y[index])],
+                                 filename])
+                # print(path)
+                # Check to make sure we're reading a .wav file
+                if not path.endswith('.wav'):
+                    continue
 
+                print(filename, int(in_y[index]))
+                # Create MFCCs
+                signal, sr = librosa.core.load(path, Config.sample_rate)
+                #signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
+                #mfccs = MFCC_maker.mfcc_process (signal, sr)
+                spectrogram = tool.mel_spectrogram_process(signal, sr)
+                regul_spectrogram = tool.spec_regularization(spectrogram)
+                if regul_spectrogram.shape[1] == Config.len_mfcc:
+                    out_x.append(regul_spectrogram)
+                    out_y.append(in_y[index])
+                else:
+                    print('Dropped:', index, regul_spectrogram.shape)
+                    prob_cnt += 1
 
-            path = "/".join([Config.dataset_path, user,Config.target_list[int(in_y[index])],
-                             filename])
-            # print(path)
+        return out_x, out_y, prob_cnt
 
-            # Check to make sure we're reading a .wav file
-            if not path.endswith('.wav'):
-                continue
-            print(filename, int(in_y[index]))
-            # Create MFCCs
-            signal, sr = librosa.core.load(path, Config.sample_rate)
-            #signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]
-            #mfccs = MFCC_maker.mfcc_process (signal, sr)
-            spectrogram = tool.mel_spectrogram_process(signal, sr)
-            regul_spectrogram = tool.spec_regularization(spectrogram)
-            if regul_spectrogram.shape[1] == Config.len_mfcc:
-                out_x.append(regul_spectrogram)
-                out_y.append(in_y[index])
-            else:
-                print('Dropped:', index, regul_spectrogram.shape)
-                prob_cnt += 1
+x_train, y_train, prob_train = extract_features(filenames_train, y_train, y_orig_train)
+x_val, y_val, prob_val = extract_features(filenames_val, y_val, y_orig_val)
+x_test, y_test, prob_test = extract_features(filenames_test, y_test, y_orig_test)
 
-    return out_x, out_y, prob_cnt
+print(x_train)
+print(y_train)
 
-x_train, y_train, prob_train = extract_features(filenames_train, y_orig_train)
-x_val, y_val, prob_val = extract_features(filenames_val, y_orig_val)
-x_test, y_test, prob_test = extract_features(filenames_test, y_orig_test)
-
-print("Train 잃은거{}".format(prob_train / len(y_orig_train)))
-print("Valid 잃은거{}".format(prob_val / len(y_orig_val)))
-print("Test 잃은거{}".format(prob_test / len(y_orig_test)))
+#
+# print("Train 잃은거{}".format(prob_train / len(y_train)))
+# print("Valid 잃은거{}".format(prob_val / len(y_val)))
+# print("Test 잃은거{}".format(prob_test / len(y_test)))
 
 #wake_word_index = Config.target_list.index(Config.wake_word)
 
@@ -117,8 +137,6 @@ x_val =  np.array(x_val)
 x_test =  np.array(x_test)
 
 
-for i in range(100):
-    print(x_train[i],y_train[i] )
 
 x_train = x_train.reshape(x_train.shape[0],
                           x_train.shape[1],
@@ -136,7 +154,7 @@ print(x_train.shape)
 print(x_val.shape)
 print(x_test.shape)
 
-np.savez(Config.base_path +"spec_set_multi.npz",
+np.savez(Config.base_path + npz_name,
          x_train=x_train,
          y_train=y_train,
          x_val=x_val,
