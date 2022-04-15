@@ -25,7 +25,7 @@ max_scaler = audio_tool.max_scaler
 
 # Whit Noise
 # 기존 소리에 잡음을 넣어줌
-def adding_white_noise(file_path, end_path,  noise_rate=0.05):
+def adding_white_noise(file_path, end_path,  noise_rate=0.02):
     # noise 방식으로 일반적으로 쓰는 잡음 끼게 하는 겁니다.
     signal, sr = librosa.load(file_path, sr=Config.sample_rate)
     # sig = max_scaler(signal)
@@ -80,7 +80,7 @@ def shift_sound(file_path, end_path, shift_time, direct):
         sf.write(end_path, shift_left_data, sr)
         return shift_left_data
 
-for user in ["user_06"] :#Config.user_list[5:]:
+for user in ["user_07"]:#Config.user_list:
     print(user+ "start augmentation")
     for index, type in enumerate(Config.target_list):
       if user != "user_01" and type == "other_google_speech":

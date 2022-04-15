@@ -26,7 +26,7 @@ class Config:
     aug_rate = 0.9
 
     target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'other', 'other_google_speech']
-    user_list = ['user_01', 'user_02', 'user_03', 'user_04', 'user_05', 'user_06']
+    user_list = ['user_01', 'user_02', 'user_03', 'user_04', 'user_05', 'user_06', 'user_07']
 
     # target_list = ['hi_yutan', 'other_self', 'other_google_speech']
     # user_list = ['user_01']
@@ -51,7 +51,7 @@ class Config:
 
     wav_time = 1
     sample_cut = int(sample_rate*wav_time)
-    click = int(sample_rate*0.2)
+    click = int(sample_rate*0.3)
 
     n_fft = 1024
     hop_length = 512
