@@ -93,7 +93,7 @@ while (True):
     # 기동어 감지 모델을 돌리고 있지 않는 상태
 
     # if np.mean(np.abs(temp_data)) < Config.thres_hold_low_power:
-    if np.mean(np.abs(temp_data)) <  0.03: #thres_hold_low_power:
+    if np.mean(np.abs(temp_data)) <  0.003: #thres_hold_low_power:
         if np.array(frame).shape[0] == Config.stride_rate:
             frame, _ = make_frame(frame, temp_data)
         else:
@@ -114,7 +114,7 @@ while (True):
         frame, signal = make_frame(frame, temp_data)
 
         signal = audio_tool.max_scaler(signal)
-        print(np.max(signal))
+        print(np.max(np.abs(signal)))
 
         spectrogram = tool.mel_spectrogram_process(signal, Config.sample_rate)
         regul_spectrogram = tool.spec_regularization(spectrogram)
