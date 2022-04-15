@@ -93,12 +93,17 @@ while (True):
     # 기동어 감지 모델을 돌리고 있지 않는 상태
 
     # if np.mean(np.abs(temp_data)) < Config.thres_hold_low_power:
-    if np.mean(np.abs(temp_data)) <  thres_hold_low_power:
+    if np.mean(np.abs(temp_data)) <  0.03: #thres_hold_low_power:
         if np.array(frame).shape[0] == Config.stride_rate:
             frame, _ = make_frame(frame, temp_data)
         else:
             frame.append(temp_data)
 
+        """
+        0.001
+        0.0005
+        
+        """
         if low_power_flag == True:
             #print("저전력 모드!!")  # 기동어 인식 안하고 있는 상태
             print(".")
@@ -107,8 +112,9 @@ while (True):
 
     if np.array(frame).shape[0] == Config.stride_rate:
         frame, signal = make_frame(frame, temp_data)
-        print(np.array(signal).shape)
+
         signal = audio_tool.max_scaler(signal)
+        print(np.average(signal))
 
         spectrogram = tool.mel_spectrogram_process(signal, Config.sample_rate)
         regul_spectrogram = tool.spec_regularization(spectrogram)
