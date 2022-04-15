@@ -5,7 +5,7 @@ import shutil
 
 dataset_path = Config.base_path + 'custum_dataset' # 'custum_dataset''augmentation_dataset'
 
-for user in ["user_05"]: #Config.user_list:
+for user in ["user_07"]: #Config.user_list:
     for type in Config.target_list:
         file_path = dataset_path +'/' + user+ '/' + type
         file_names = os.listdir(file_path)
@@ -17,7 +17,7 @@ for user in ["user_05"]: #Config.user_list:
             os.rename(source, dst)
             i += 1
 
-#
+"""
 google_file_path = "C:/Users/yutan/temp_audio/"
 
 for google_type in os.listdir(google_file_path):
@@ -37,3 +37,4 @@ for google_type in os.listdir(google_file_path):
         # new_name_path = folder_path + '/'+ new_name
         # os.rename(path, new_name_path)
         # i += 1
+"""

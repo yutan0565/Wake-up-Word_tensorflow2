@@ -26,7 +26,7 @@ class Config:
     aug_rate = 0.9
 
     target_list = ['hey_tantan', 'hi_byeonghyeon','hi_jeonglyul', 'hi_sungwoo', 'hi_yutan', 'other', 'other_google_speech']
-    user_list = ['user_01', 'user_02', 'user_03', 'user_04', 'user_05']
+    user_list = ['user_01', 'user_02', 'user_03', 'user_04', 'user_05', 'user_06']
 
     # target_list = ['hi_yutan', 'other_self', 'other_google_speech']
     # user_list = ['user_01']

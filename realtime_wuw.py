@@ -37,7 +37,7 @@ speaker_valid_sound_path = Config.base_path + 'show_image/검증_성공.mp3'
 speaker_invalid_sound_path = Config.base_path + 'show_image/검증_실패.mp3'
 #
 #
-# def plot_time_series(data, title):
+# def plot_time_rseries(data, title):
 #     fig = plt.figure(figsize=(7, 4))
 #     plt.title(title+'  wave')
 #     plt.ylabel('Amplitude')
@@ -114,7 +114,7 @@ while (True):
         frame, signal = make_frame(frame, temp_data)
 
         signal = audio_tool.max_scaler(signal)
-        print(np.average(signal))
+        print(np.max(signal))
 
         spectrogram = tool.mel_spectrogram_process(signal, Config.sample_rate)
         regul_spectrogram = tool.spec_regularization(spectrogram)

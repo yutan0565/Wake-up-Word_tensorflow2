@@ -80,7 +80,7 @@ def shift_sound(file_path, end_path, shift_time, direct):
         sf.write(end_path, shift_left_data, sr)
         return shift_left_data
 
-for user in Config.user_list[4:]:
+for user in ["user_06"] :#Config.user_list[5:]:
     print(user+ "start augmentation")
     for index, type in enumerate(Config.target_list):
       if user != "user_01" and type == "other_google_speech":
