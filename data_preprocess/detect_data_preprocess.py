@@ -79,7 +79,7 @@ def extract_features(in_files, in_y):
             # Create MFCCs
             signal, sr = librosa.core.load(path, Config.sample_rate)
             if len(signal) < 32000:
-                print('Dropped:', index, regul_spectrogram.shape)
+                print('Dropped:', index, signal.shape)
                 prob_cnt += 1
                 continue
             #signal = signal[int(-Config.sample_cut - Config.click): int(-Config.click)]

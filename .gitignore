@@ -1,6 +1,6 @@
 
 
-*.tflite
+#*.tflite
 *.npz
 *.pb
 *.index
