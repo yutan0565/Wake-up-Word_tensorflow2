@@ -4,8 +4,8 @@ from os.path import isdir, join
 class Config:
 
     # base_path = "/content/drive/MyDrive/"
-    #base_path = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/"
-    base_path = "C:/Users/yutankim/Desktop/Wake-up-Word_tensorflow2/"
+    base_path = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/"
+    #base_path = "C:/Users/yutankim/Desktop/Wake-up-Word_tensorflow2/"
     #base_path = "./Wake-up-Word_tensorflow2/"
 
 
