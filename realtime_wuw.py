@@ -25,7 +25,8 @@ for index in range(audio.get_device_count()):
 
 CHUNK = int(Config.sample_cut / Config.stride_rate) # 8000
 
-tflite_model_path_detect = Config.prun_08_tflite_file_path  ###
+#tflite_model_path_detect = Config.prun_08_tflite_file_path  ###
+tflite_model_path_detect = Config.tflite_file_path  ###
 interpreter_detect = tflite.Interpreter(tflite_model_path_detect)
 interpreter_detect.allocate_tensors()
 input_details_detect = interpreter_detect.get_input_details()
@@ -130,7 +131,7 @@ while (True):
         if val_detect_true > Config.thres_hold_detect:
 
             print("Hi Yutan 확률 : {:.02f}".format(val_detect_true))
-            print("{} 감지!!".format(Config.target_list[0]))
+            print("{} 감지!!".format(Config.target_list[4]))
 
             plt.figure(figsize=(12, 4))
             librosa.display.specshow(regul_spectrogram, sr=Config.sample_rate, x_axis='time', y_axis='mel')
