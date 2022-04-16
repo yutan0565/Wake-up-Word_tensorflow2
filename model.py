@@ -19,6 +19,7 @@ def detection_model_01(sample_shape):
         Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal', padding='same'),
         MaxPooling2D(pool_size=(3, 3)),
         Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal', padding='same'),
+        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal', padding='same'),
 
         # FC layer 부분
         Flatten(),

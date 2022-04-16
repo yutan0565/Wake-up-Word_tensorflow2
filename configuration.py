@@ -5,8 +5,8 @@ class Config:
 
     # base_path = "/content/drive/MyDrive/"
     #base_path = "C:/Users/yutan/Desktop/Wake-up-Word_tensorflow2/"
-    base_path = "C:/Users/yutankim/Desktop/Wake-up-Word_tensorflow2/"
-    #base_path = "./Wake-up-Word_tensorflow2/"
+    #base_path = "C:/Users/yutankim/Desktop/Wake-up-Word_tensorflow2/"
+    base_path = "./Wake-up-Word_tensorflow2/"
 
 
     original_dataset = 'custum_dataset'  #Augmentation을 적용할 폴더 이름
@@ -51,7 +51,7 @@ class Config:
 
     wav_time = 1
     sample_cut = int(sample_rate*wav_time)
-    click = int(sample_rate*0.3)
+    click = int(sample_rate*0.1)
 
     n_fft = 1024
     hop_length = 512
@@ -73,7 +73,7 @@ class Config:
 
     #Pruning 관련
     epoch_prun = 300
-    batch_size_prun = 32
+    batch_size_prun = 64
 
 
     # baes model Checkpoint 경로
