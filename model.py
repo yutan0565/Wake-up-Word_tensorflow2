@@ -9,14 +9,16 @@ from configuration import Config
 def detection_model_01(sample_shape):
     model = Sequential([
         # conv layer 부분
-        Conv2D(32, (3, 3), activation='relu', input_shape=sample_shape, kernel_initializer='he_normal'),
+        Conv2D(32, (3, 3), activation=LeakyReLU(alpha=0.3), input_shape=sample_shape, kernel_initializer='he_normal' ),
+        Conv2D(32, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal', padding="same"),
         MaxPooling2D(pool_size=(3, 3)),
-        Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_normal', padding="same"),
+        Conv2D(64, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal', padding='same'),
+        Conv2D(64, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal', padding='same'),
         MaxPooling2D(pool_size=(3, 3)),
-        Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same'),
+        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal', padding='same'),
+        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal', padding='same'),
         MaxPooling2D(pool_size=(3, 3)),
-        Conv2D(128, (3, 3), activation='relu', kernel_initializer='he_normal', padding='same'),
-        # MaxPooling2D(pool_size=(3, 3)),
+        Conv2D(128, (3, 3), activation=LeakyReLU(alpha=0.3), kernel_initializer='he_normal', padding='same'),
 
         # FC layer 부분
         Flatten(),
