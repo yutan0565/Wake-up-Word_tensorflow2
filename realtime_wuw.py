@@ -118,7 +118,7 @@ while (True):
 
         signal = audio_tool.max_scaler(signal)
         # print(np.max(np.abs(signal)))
-        sf.write("test.wav", signal, Config.sample_rate)
+        # sf.write("test.wav", signal, Config.sample_rate)
 
         spectrogram = tool.mel_spectrogram_process(signal, Config.sample_rate)
         regul_spectrogram = tool.spec_regularization(spectrogram)
@@ -133,11 +133,11 @@ while (True):
             print("Hi Yutan 확률 : {:.02f}".format(val_detect_true))
             print("{} 감지!!".format(Config.target_list[4]))
 
-            # plt.figure(figsize=(12, 4))
-            # librosa.display.specshow(regul_spectrogram, sr=Config.sample_rate, x_axis='time', y_axis='mel')
-            # plt.title('regul_spectrogram')
-            # plt.colorbar(format='%+02.0f dB')
-            # plt.tight_layout()
+            plt.figure(figsize=(12, 4))
+            librosa.display.specshow(regul_spectrogram, sr=Config.sample_rate, x_axis='time', y_axis='mel')
+            plt.title('regul_spectrogram')
+            plt.colorbar(format='%+02.0f dB')
+            plt.tight_layout()
 
             show_result_image(detection_image)
             frame = []
