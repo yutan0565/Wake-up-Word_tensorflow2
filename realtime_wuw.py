@@ -18,10 +18,10 @@ if not sys.warnoptions:
 
 audio = pyaudio.PyAudio()
 
-for index in range(audio.get_device_count()):
-    desc = audio.get_device_info_by_index(index)
-    print("DEVICE: {device}, INDEX: {index}, RATE: {rate} ".format(
-        device=desc["name"], index=index, rate=int(desc["defaultSampleRate"])))
+# for index in range(audio.get_device_count()):
+#     desc = audio.get_device_info_by_index(index)
+#     print("DEVICE: {device}, INDEX: {index}, RATE: {rate} ".format(
+#         device=desc["name"], index=index, rate=int(desc["defaultSampleRate"])))
 
 CHUNK = int(Config.sample_cut / Config.stride_rate) # 8000
 
@@ -92,11 +92,11 @@ print("프로그램 시작!!")
 
 while (True):
     temp_data = np.fromstring(stream_wuw.read(CHUNK), dtype=np.float32)
-    #print("{:.05f}".format(np.mean(np.abs(temp_data))))
+    # print("{:.05f}".format(np.mean(np.abs(temp_data))))
     # 기동어 감지 모델을 돌리고 있지 않는 상태
 
     # if np.mean(np.abs(temp_data)) < Config.thres_hold_low_power:
-    if np.mean(np.abs(temp_data)) <  0.003: #thres_hold_low_power:
+    if np.mean(np.abs(temp_data)) <  0.01: #thres_hold_low_power:
         if np.array(frame).shape[0] == Config.stride_rate:
             frame, _ = make_frame(frame, temp_data)
         else:
@@ -133,11 +133,11 @@ while (True):
             print("Hi Yutan 확률 : {:.02f}".format(val_detect_true))
             print("{} 감지!!".format(Config.target_list[4]))
 
-            plt.figure(figsize=(12, 4))
-            librosa.display.specshow(regul_spectrogram, sr=Config.sample_rate, x_axis='time', y_axis='mel')
-            plt.title('regul_spectrogram')
-            plt.colorbar(format='%+02.0f dB')
-            plt.tight_layout()
+            # plt.figure(figsize=(12, 4))
+            # librosa.display.specshow(regul_spectrogram, sr=Config.sample_rate, x_axis='time', y_axis='mel')
+            # plt.title('regul_spectrogram')
+            # plt.colorbar(format='%+02.0f dB')
+            # plt.tight_layout()
 
             show_result_image(detection_image)
             frame = []
