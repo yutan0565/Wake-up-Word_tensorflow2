@@ -44,7 +44,7 @@ image_name = ['detect_wuw_prun_06_acc_loss','detect_wuw_prun_08_acc_loss',
 initial_list =  [ 0.40, 0.60, 0.60, 0.65 , 0.68, 0.69 ]
 final_list = [ 0.60, 0.80, 0.9, 0.95 , 0.98, 0.99]
 
-for i in range( len(best_model_path_list)):
+for i in range(4,  len(best_model_path_list)):
     best_model_path = best_model_path_list[i]
     tflite_path = tflite_path_list[i]
     initial = initial_list[i]
