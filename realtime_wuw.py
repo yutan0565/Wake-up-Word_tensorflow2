@@ -38,14 +38,6 @@ detection_image = np.array(detection_image_pil)
 
 speaker_valid_sound_path = Config.base_path + 'show_image/검증_성공.mp3'
 speaker_invalid_sound_path = Config.base_path + 'show_image/검증_실패.mp3'
-#
-#
-# def plot_time_rseries(data, title):
-#     fig = plt.figure(figsize=(7, 4))
-#     plt.title(title+'  wave')
-#     plt.ylabel('Amplitude')
-#     plt.plot(np.linspace(0, 5, len(data)), data)
-#
 
 audio = pyaudio.PyAudio()
 p = pyaudio.PyAudio()
@@ -89,24 +81,15 @@ def make_frame(past_frame, input_data):
 print("프로그램 시작!!")
 
 
-
 while (True):
     temp_data = np.fromstring(stream_wuw.read(CHUNK), dtype=np.float32)
     # print("{:.05f}".format(np.mean(np.abs(temp_data))))
-    # 기동어 감지 모델을 돌리고 있지 않는 상태
 
-    # if np.mean(np.abs(temp_data)) < Config.thres_hold_low_power:
     if np.mean(np.abs(temp_data)) <  0.01: #thres_hold_low_power:
         if np.array(frame).shape[0] == Config.stride_rate:
             frame, _ = make_frame(frame, temp_data)
         else:
             frame.append(temp_data)
-
-        """
-        0.001
-        0.0005
-        
-        """
         if low_power_flag == True:
             #print("저전력 모드!!")  # 기동어 인식 안하고 있는 상태
             print(".")
@@ -117,9 +100,6 @@ while (True):
         frame, signal = make_frame(frame, temp_data)
 
         signal = audio_tool.max_scaler(signal)
-        # print(np.max(np.abs(signal)))
-        # sf.write("test.wav", signal, Config.sample_rate)
-
         spectrogram = tool.mel_spectrogram_process(signal, Config.sample_rate)
         regul_spectrogram = tool.spec_regularization(spectrogram)
         input_tensor = regul_spectrogram.reshape(1, regul_spectrogram.shape[0], regul_spectrogram.shape[1] ,1)
