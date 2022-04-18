@@ -81,16 +81,19 @@ def make_frame(past_frame, input_data):
 print("프로그램 시작!!")
 
 
+listen_count = 0
+
 while (True):
     temp_data = np.fromstring(stream_wuw.read(CHUNK), dtype=np.float32)
     # print("{:.05f}".format(np.mean(np.abs(temp_data))))
+    listen_count -= 1
 
     if np.mean(np.abs(temp_data)) <  0.01: #thres_hold_low_power:
         if np.array(frame).shape[0] == Config.stride_rate:
             frame, _ = make_frame(frame, temp_data)
         else:
             frame.append(temp_data)
-        if low_power_flag == True:
+        if low_power_flag == True and listen_count == 0:
             #print("저전력 모드!!")  # 기동어 인식 안하고 있는 상태
             print(".")
             low_power_flag = False
@@ -123,9 +126,11 @@ while (True):
             frame = []
 
         else:
+            listen_count = 15
             if low_power_flag == False:
                 print("------------듣는중----------- ")  # 기동어 들을 준비 완료
                 low_power_flag = True
+
     else:
         frame.append(temp_data)
 
