@@ -126,15 +126,12 @@ while (True):
             frame = []
 
         else:
-            listen_count = 15
+            listen_count = 10
             if low_power_flag == False:
                 print("------------듣는중----------- ")  # 기동어 들을 준비 완료
                 low_power_flag = True
-
     else:
         frame.append(temp_data)
-
-
 
 stream_wuw.stop_stream()
 stream_wuw.close()
