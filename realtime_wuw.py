@@ -88,7 +88,7 @@ while (True):
     # print("{:.05f}".format(np.mean(np.abs(temp_data))))
     listen_count -= 1
 
-    if np.mean(np.abs(temp_data)) <  0.02: #thres_hold_low_power:
+    if np.mean(np.abs(temp_data)) <  0.01: #thres_hold_low_power:
         if np.array(frame).shape[0] == Config.stride_rate:
             frame, _ = make_frame(frame, temp_data)
         else:
