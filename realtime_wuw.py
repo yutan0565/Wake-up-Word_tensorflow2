@@ -25,7 +25,7 @@ audio = pyaudio.PyAudio()
 
 CHUNK = int(Config.sample_cut / Config.stride_rate) # 8000
 
-#tflite_model_path_detect = Config.prun_08_tflite_file_path  ###
+#tflite_model_path_detect = Config.prun_06_tflite_file_path  ###
 tflite_model_path_detect = Config.tflite_file_path  ###
 interpreter_detect = tflite.Interpreter(tflite_model_path_detect)
 interpreter_detect.allocate_tensors()
